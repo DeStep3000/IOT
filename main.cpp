@@ -8,11 +8,14 @@ struct Point {
 class Polygon{
 private:
     std::vector<Point> vertices; // array of vertex
-    int num_vertices = 0; // lengt of array
+    int num_vertices = 0; // length of array
 public:
     Polygon(){} //using standart
     std::vector<Point> get_vertices(){
         return this->vertices;
+    }
+    int get_num_vertices(){
+        return this->num_vertices;
     }
     void print_vertices(){
         for(Point p: this->vertices){
@@ -35,6 +38,13 @@ public:
         }
         return result;
     }
+};
+
+Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for intersection
+    Polygon result;
+    std::vector<Point> p1_vertices = p1.get_vertices();
+    std::vector<Point> p2_vertices = p2.get_vertices();
+    return p1;
 };
 
 int main() {
