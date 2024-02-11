@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cfloat>//import machine epsilon for double
 #include <vector>
+#include "readfile.h"
 
 struct Point {
     double x, y;
@@ -13,7 +14,7 @@ private:
     std::vector<Point> vertices; // array of vertex
     int num_vertices = 0; // length of array
 public:
-    Polygon(){} //using standart
+    Polygon()= default; //using standart
     std::vector<Point> get_vertices(){
         return this->vertices;
     }
@@ -76,7 +77,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for inters
     if (check_p2_full_in) {
         return p2;
     } else if (!check_p1_full_out && !check_p2_full_out){
-        return Polygon();
+        return {};
     }
     /*for(Point p: p1_vertices){
         int j = p1.get_num_vertices() - 1;
