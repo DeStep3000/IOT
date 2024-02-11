@@ -1,9 +1,12 @@
 #include <iostream>
+#include <cfloat>//import machine epsilon for double
 #include <vector>
 
 struct Point {
     double x, y;
 };
+
+const double eps = DBL_EPSILON; //needed for comparing double
 
 class Polygon{
 private:
@@ -27,13 +30,18 @@ public:
         this->vertices.push_back(point);
         this->num_vertices += 1;
     }
-    bool is_point_in(Point point){ //checking is point in polygon (rewrite because of points on edge
+    bool is_point_in(Point point){ //checking is point inside polygon
         bool result = false;
         int j = this->num_vertices - 1;
         for(int i = 0; i < this->num_vertices - 1; i++){
-            if ( (this->vertices[i].y < point.y && this->vertices[j].y >= point.y || this->vertices[j].y < point.y && this->vertices[i].y >= point.y) &&
-                 (this->vertices[i].x + (point.y - this->vertices[i].y) / (this->vertices[j].y - this->vertices[i].y) * (this->vertices[j].x - this->vertices[i].x) < point.x) )
+            if (-eps < this->vertices[i].y - this->vertices[j].y < eps && -eps < this->vertices[i].y - point.y < eps){
+                return true;
+            }
+            bool is_between = this->vertices[i].y < point.y && this->vertices[j].y >= point.y || this->vertices[j].y < point.y && this->vertices[i].y >= point.y;
+            bool check_intersection = is_between && this->vertices[i].x + (point.y - this->vertices[i].y) / (this->vertices[j].y - this->vertices[i].y) * (this->vertices[j].x - this->vertices[i].x) < point.x;
+            if (check_intersection){
                 result = !result;
+            }
             j = i;
         }
         return result;
@@ -60,7 +68,7 @@ int main() {
     pn1.add_vertex(d);
     pn1.add_vertex(e);
     pn1.print_vertices();
-    Point check_point{9, 4};
+    Point check_point{9, 3};
     std::cout << pn1.is_point_in(check_point) << std::endl;
     return 0;
 }
