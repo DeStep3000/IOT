@@ -50,8 +50,56 @@ public:
 
 Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for intersection
     Polygon result;
+    bool check_p1_full_in = true;
+    bool check_p1_full_out = false;
+    bool check_p2_full_in = true;
+    bool check_p2_full_out = false;
     std::vector<Point> p1_vertices = p1.get_vertices();
     std::vector<Point> p2_vertices = p2.get_vertices();
+    std::vector<bool> p1_marks;
+    std::vector<bool> p2_marks;
+    for(Point p: p1_vertices){
+        bool point_in = p2.is_point_in(p);
+        p1_marks.push_back(point_in);
+        check_p1_full_in = check_p1_full_in && point_in;
+        check_p1_full_out = check_p1_full_out || point_in;
+    }
+    if (check_p1_full_in) {
+        return p1;
+    }
+    for(Point p: p2_vertices){
+        bool point_in = p1.is_point_in(p);
+        p2_marks.push_back(point_in);
+        check_p2_full_in = check_p1_full_in && point_in;
+        check_p2_full_out = check_p1_full_out || point_in;
+    }
+    if (check_p2_full_in) {
+        return p2;
+    } else if (!check_p1_full_out && !check_p2_full_out){
+        return Polygon();
+    }
+    /*for(Point p: p1_vertices){
+        int j = p1.get_num_vertices() - 1;
+        for(int i = 0; i < p1.get_num_vertices() - 1; i++){
+            if(p1_marks[i] && p1_marks[j]){
+                result.add_vertex(p1_vertices[i]);
+                result.add_vertex(p1_vertices[j]);
+                j = i;
+                continue;
+            }
+            int k = p2.get_num_vertices() - 1;
+            for(int l = 0; l < p1.get_num_vertices() - 1; l++){
+                if(p2_marks[i] && p2_marks[j]){
+                    result.add_vertex(p2_vertices[i]);
+                    result.add_vertex(p2_vertices[j]);
+                    k = l;
+                    continue;
+                }
+                k = l;
+            }
+            j = i;
+        }
+    }*/
     return p1;
 };
 
