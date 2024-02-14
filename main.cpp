@@ -179,26 +179,18 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for inters
 int main() {
     Polygon pn1;
     Polygon pn2;
-    Point a{0, 0};
-    Point b{3, 3};
-    Point c{4, 3};
-    Point d{1, 0};
-    Point a2{1, 0};
-    Point b2{1, 3};
-    Point c2{2, 3};
-    Point d2{2, 0};
-    pn1.add_vertex(a);
-    pn1.add_vertex(b);
-    pn1.add_vertex(c);
-    pn1.add_vertex(d);
-    pn2.add_vertex(a2);
-    pn2.add_vertex(b2);
-    pn2.add_vertex(c2);
-    pn2.add_vertex(d2);
-    Polygon pn3 = intersect_polygons(pn1, pn2);
-    std::vector<Point> pn3_vertices = pn3.get_vertices();
-    for(Point p: pn3_vertices){
-        std::cout << p.x << " " << p.y << "\t";
+    const std::string path = "";//полный путь к файлу
+    std::vector<double> coordinates = get_coords(path);
+    std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
+    std::vector<double> coordinates_2 = get_coords(path, index);
+    for(int i = 0; i < 6;){
+        Point a{coordinates[i], coordinates[i+1]};
+        pn1.add_vertex(a);
+        Point b{coordinates_2[i], coordinates_2[i+1]};
+        pn2.add_vertex(b);
+        i+=2;
     }
+    pn1.print_vertices();
+    pn2.print_vertices();
     return 0;
 }
