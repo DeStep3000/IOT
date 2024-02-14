@@ -27,9 +27,20 @@ public:
         }
         std::cout << "\n";
     }
-    void add_vertex(Point point){
+    void input_vertex(Point point){
         this->vertices.push_back(point);
         this->num_vertices += 1;
+    }
+    void input_from_array(std::vector<double> coordinates){
+        for(int i = 0; i < coordinates.size();){
+            Point a{coordinates[i], coordinates[i+1]};
+            this->input_vertex(a);
+            i+=2;
+        }
+    }
+    void input_from_file(const std::string path, std::size_t index=0){
+        std::vector<double> coordinates = get_coords(path, index);
+        this->input_from_array(coordinates);
     }
     bool is_point_in(Point point){ //checking is point inside polygon
         bool result = false;
@@ -171,7 +182,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for inters
     }
     std::vector<Point> res_points = convert_intersections(intersection_points);
     for(Point p: res_points){
-        result.add_vertex(p);
+        result.input_vertex(p);
     }
     return result;
 };
@@ -180,16 +191,9 @@ int main() {
     Polygon pn1;
     Polygon pn2;
     const std::string path = "";//полный путь к файлу
-    std::vector<double> coordinates = get_coords(path);
+    pn1.input_from_file(path);
     std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
-    std::vector<double> coordinates_2 = get_coords(path, index);
-    for(int i = 0; i < 6;){
-        Point a{coordinates[i], coordinates[i+1]};
-        pn1.add_vertex(a);
-        Point b{coordinates_2[i], coordinates_2[i+1]};
-        pn2.add_vertex(b);
-        i+=2;
-    }
+    pn2.input_from_file(path, index);
     pn1.print_vertices();
     pn2.print_vertices();
     return 0;
