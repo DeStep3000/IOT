@@ -59,6 +59,7 @@ public:
         return result;
     }
 };
+
 int sign(double a){
     return a < 0 ? -1 : 1;
 }
@@ -85,6 +86,7 @@ Point intersection(Point a, Point b, Point c, Point d){
         return {};
     }
 }
+
 int mult_vector(Point a, Point b, Point c){
     double ax, ay, bx, by;
     ax = b.x - a.x;
@@ -99,6 +101,7 @@ int mult_vector(Point a, Point b, Point c){
         return 1;
     }
 }
+
 std::vector<Point> convert_intersections(std::vector<Point> points) {
     Point p0 = points[0];
     Point t = p0;
@@ -185,16 +188,30 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for inters
         result.input_vertex(p);
     }
     return result;
-};
+}
 
+Polygon intersect_polygon_field(std::vector<Polygon> field){
+    return{};
+}
+//think about realization class for Point and for Polygon Field
 int main() {
     Polygon pn1;
     Polygon pn2;
+    Polygon pn3;
+    Polygon pn4;
+    std::vector<Polygon> pn_field{pn1, pn2, pn3, pn4};
     const std::string path = "";//полный путь к файлу
     pn1.input_from_file(path);
     std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
     pn2.input_from_file(path, index);
+    index = find_key(path, find_key(path, index)+3);
+    pn3.input_from_file(path, index);
+    index = find_key(path, find_key(path, index)+3);
+    pn4.input_from_file(path, index);
+    index = find_key(path, find_key(path, index)+3);
     pn1.print_vertices();
     pn2.print_vertices();
+    pn3.print_vertices();
+    pn4.print_vertices();
     return 0;
 }

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-const std::string KEY = "03";
+const std::string KEY = "03";//word that used for cutting coords
 const std::string NUMBERS = "0123456789";
 
 std::string read_file(const std::string& path);
