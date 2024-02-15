@@ -210,13 +210,22 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> &field){
     }
     return new_field;
 }
+Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//check for problems
+    std::vector<Polygon> old_field;
+    std::vector<Polygon> new_field = field;
+    while(!new_field.empty()){
+        old_field = new_field;
+        new_field = intersect_polygon_field(new_field);
+    }
+    return old_field[0];
+}
 //think about realization class for Point and for Polygon Field
 int main() {
     Polygon pn1;
     Polygon pn2;
     Polygon pn3;
     Polygon pn4;
-    const std::string path = "C:\\Users\\dabho\\CLionProjects\\IOT\\input.txt";//полный путь к файлу
+    const std::string path = "";//полный путь к файлу
     pn1.input_from_file(path);
     std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
     pn2.input_from_file(path, index);
@@ -229,10 +238,8 @@ int main() {
     for(Polygon pn: pn_field){
         pn.print_vertices();
     }
-    std::vector<Polygon> pn_field_2 = intersect_polygon_field(pn_field);
+    Polygon pn_f = intersect_polygon_field_final(pn_field);
     std::cout << std::endl;
-    for(Polygon pn: pn_field_2){
-        pn.print_vertices();
-    }
+    pn_f.print_vertices();
     return 0;
 }
