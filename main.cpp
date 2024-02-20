@@ -252,20 +252,22 @@ Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//check for p
 }
 //think about realization class for Point and for Polygon Field
 int main() {
-    Polygon pn1;
-    Polygon pn2;
-    Polygon pn3;
-    Polygon pn4;
-    const std::string path = "";//полный путь к файлу
-    pn1.input_from_file(path);
-    std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
-    pn2.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    pn3.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    pn4.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    std::vector<Polygon> pn_field{pn1, pn2, pn3, pn4};
+    std::vector <Polygon> pn;
+
+    const std::string path = "E:\\clion\\IOT3\\test2.txt";//полный путь к файлу
+
+    std::size_t index = find_key(path, 0);
+    int i=0;
+    while (index>=0){
+        pn[i].input_from_file(path,index);
+        index = find_key(path, index+3);
+        i++;
+    }
+
+    std::vector<Polygon> pn_field;
+    for (int j=0;j<pn.size();j++){
+        pn_field.push_back(pn[i]);
+    }
     for(Polygon pn: pn_field){
         pn.print_vertices();
     }
