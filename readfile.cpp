@@ -7,7 +7,7 @@ std::string read_file(const std::string& path){
     in.open(path);
     if (!in.is_open()) { // if file cannot be openned
         std::cerr << "Unable to open file: " << path << std::endl;
-        return ""; //
+        return ""; //return blank in that case
     }
     getline ( in, output, '\0' );
     in.close();
