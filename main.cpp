@@ -61,7 +61,9 @@ public:
     }
     void input_from_file(const std::string path, std::size_t index=0){
         std::vector<double> coordinates = get_coords(path, index);
-        this->input_from_array(coordinates);
+        if (!coordinates.empty()) {
+            this->input_from_array(coordinates);
+        }
     }
     bool is_point_in(Point point){ //checking is point inside polygon
         bool result = false;
@@ -169,6 +171,12 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for inters
     if(p1.is_equal_polygon(p2)){
         return p1;
     }
+    if(p1_vertices.empty()){ // added empty polygons solution
+        return p2;
+    }
+    if(p2_vertices.empty()){
+        return p1;
+    }
 
     for(Point p: p1_vertices){
         bool point_in = p2.is_point_in(p);
@@ -252,25 +260,41 @@ Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//check for p
 }
 //think about realization class for Point and for Polygon Field
 int main() {
+    std::vector <Polygon> pns;
     Polygon pn1;
-    Polygon pn2;
-    Polygon pn3;
-    Polygon pn4;
-    const std::string path = "";//полный путь к файлу
-    pn1.input_from_file(path);
-    std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
-    pn2.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    pn3.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    pn4.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    std::vector<Polygon> pn_field{pn1, pn2, pn3, pn4};
+//    Polygon pn2;
+//    Polygon pn3;
+//    Polygon pn4;
+    const std::string path = "E:\\clion\\IOT4\\test2.txt";//полный путь к файлу
+    long int index=0;
+    int i=0;
+    while(index>=0){
+        pns.push_back(pn1);
+        pns[i].input_from_file(path,index);
+        index = find_key(path, find_key(path,index)+3);
+        i++;
+    }
+
+//    pn1.input_from_file(path);
+//    std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
+//    pn2.input_from_file(path, index);
+//    index = find_key(path, find_key(path, index)+3);
+//    pn3.input_from_file(path, index);
+//    index = find_key(path, find_key(path, index)+3);
+//    pn4.input_from_file(path, index);
+//    index = find_key(path, find_key(path, index)+3);
+//    std::vector<Polygon> pn_field{pn1, pn2, pn3, pn4};
+    std::vector<Polygon> pn_field;
+    for (int j=0;j<pns.size();j++){
+        pn_field.push_back(pns[j]);
+    }
+    std::cout<<"vertices \n";
     for(Polygon pn: pn_field){
         pn.print_vertices();
     }
     Polygon pn_f = intersect_polygon_field_final(pn_field);
     std::cout << std::endl;
+    std::cout<<"intersection \n";
     pn_f.print_vertices();
     return 0;
 }

@@ -5,7 +5,7 @@ std::string read_file(const std::string& path){
     std::string output;
     std::ifstream in;
     in.open(path);
-    if (!in.is_open()) { // if file cannot be openned
+    if (!in.is_open()) { // if file cannot be opened
         std::cerr << "Unable to open file: " << path << std::endl;
         return ""; //
     }
@@ -14,21 +14,24 @@ std::string read_file(const std::string& path){
     return output;
 }
 
-std::size_t find_key(const std::string& path, std::size_t index){
+long int find_key(const std::string& path, long int index){
+    if (index<0){//changed to long int
+        return -10;
+    }
     std::string input = read_file(path);
     if (input.empty()) {
-        // file cannot be openned, return -1
-        return -1;
+        // file cannot be opened, return -1
+        return -10;
     }
-    std::size_t new_index = input.find(KEY, index);
-    return new_index == std::string::npos ? -1 : new_index;
+    long int new_index = input.find(KEY, index);
+    return new_index == std::string::npos ? -10 : new_index;
 }
 
 std::vector<double> get_coords(const std::string& path, std::size_t index){
     std::vector<double> coords;
     std::string input = read_file(path);
     if (input.empty()) {
-        // file cannot be openned, return blank vector
+        // file cannot be opened, return blank vector
         return {};
     }
     std::size_t previous_index = input.find(KEY, index)+2;
@@ -49,6 +52,9 @@ std::vector<double> get_coords(const std::string& path, std::size_t index){
                 // If we could not find the next number, we end the loop
                 break;
             }
+        }
+        if (coords.size()!=6){
+            return {};
         }
     }
     return coords;
