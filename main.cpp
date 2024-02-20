@@ -6,7 +6,7 @@
 struct Point {
     double x, y;
 };
-
+// Тут работает Андрей
 const double eps = DBL_EPSILON; //needed for comparing double
 
 class Polygon{
