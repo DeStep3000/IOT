@@ -21,6 +21,9 @@ public:
     int get_num_vertices(){
         return this->num_vertices;
     }
+    bool is_empty(){
+        return this->num_vertices == 0;
+    }
     void print_vertices(){
         for(Point p: this->vertices){
             std::cout << p.x << " " << p.y << "\t";
@@ -78,6 +81,40 @@ public:
             j = i;
         }
         return result;
+    }
+};
+
+class PolygonField{
+private:
+    std::vector<Polygon> field;
+    int num_pn = 0;
+public:
+    std::vector<Polygon> get_field(){
+        return this->field;
+    }
+    int get_num_pn(){
+        return this->num_pn;
+    }
+    bool is_empty(){
+        return num_pn == 0;
+    }
+    void print_field(){
+        for(Polygon pn: this->field){
+            pn.print_vertices();
+        }
+        std::cout << std::endl;
+    };
+    void add_polygon(Polygon pn){
+        this->field.push_back(pn);
+        this->num_pn += 1;
+    }
+    bool is_polygon_in_field(Polygon polygon){
+        for(Polygon pn: this->field){
+            if(pn.is_equal_polygon(polygon)){
+                return true;
+            }
+        }
+        return false;
     }
 };
 
