@@ -44,10 +44,12 @@ public:
         return false;
     }
     bool is_equal_polygon(Polygon pn){//func to check same Polygons or not
+        std::cout<<"is equal \n";
         if(pn.get_num_vertices() != this->num_vertices){
             return false;
         }
         for(size_t i=0; i < this->num_vertices; i++){
+            std::cout<<"is equal loop \n";
             if(pn.is_point_vertex(this->vertices[i])){
                 continue;
             } else{
@@ -192,6 +194,7 @@ std::vector<Point> convert_intersections(std::vector<Point> points) {//convert f
 }
 
 Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
+    std::cout<<"intersect_polygons \n";
     Polygon result;
     bool check_p1_full_in = true;//parameter checking if polygon inside another
     bool check_p1_full_out = false;//parameter checking if polygon outside fully
@@ -213,6 +216,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     }
 
     for(Point p: p1_vertices){//check points for their position
+        std::cout<<"intersect_polygons loop1 \n";
         bool point_in = p2.is_point_in(p);
         if (point_in){
             intersection_points.push_back(p);
@@ -224,6 +228,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
         return p1;
     }
     for(Point p: p2_vertices){//check points for their position
+        std::cout<<"intersect_polygons loop2 \n";
         bool point_in = p1.is_point_in(p);
         if (point_in){
             intersection_points.push_back(p);
@@ -236,8 +241,10 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     }
     int b = p1_length - 1;
     for(int a = 0; a < p1_length; a++){
+        std::cout<<"intersect_polygons loop3 \n";
         int d = p2_length - 1;
         for(int c = 0; c < p2_length; c++){
+            std::cout<<"intersect_polygons loop4 \n";
             if(is_intersected(p1_vertices[a], p1_vertices[b], p2_vertices[c], p2_vertices[d])) {
                 intersection_points.push_back(intersection(p1_vertices[a], p1_vertices[b], p2_vertices[c], p2_vertices[d]));
             }
@@ -250,6 +257,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     }
     std::vector<Point> res_points = convert_intersections(intersection_points);
     for(Point p: res_points){
+        std::cout<<"intersect_polygons loop5 \n";
         if(!result.is_point_vertex(p)){
             result.input_vertex(p);
         }
@@ -268,11 +276,17 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//inter
     }
     Polygon intersected_pn;
     for(std::size_t i=0; i < n; i++){
+        std::cout<<"intersect loop1************************************************************************** \n";
         for(std::size_t j=i+1; j < n; j++){
+            std::cout<<"intersect loop2--------------------------------- \n";
             intersected_pn = intersect_polygons(field[i], field[j]);
             bool check = true;
-            for(Polygon pn: new_field){
-                check = !pn.is_equal_polygon(intersected_pn);
+            for(Polygon pn: new_field){ // maybe field, not new_field?
+                std::cout<<"intersect loop3 \n";
+                if(pn.is_equal_polygon(intersected_pn)){
+                    check=false;
+                    break;
+                }
             }
             if(intersected_pn.get_num_vertices() > 0 && check){
                 new_field.push_back(intersected_pn);
@@ -284,7 +298,8 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//inter
 Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect until there is only one polygon left
     std::vector<Polygon> old_field;
     std::vector<Polygon> new_field = field;
-    while(!new_field.empty()){
+    while(new_field.size()>=4){
+        std::cout<<"intersect_final loop making \n";
         old_field = new_field;
         new_field = intersect_polygon_field(old_field);
     }
