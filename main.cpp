@@ -290,7 +290,7 @@ Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect u
         old_field = new_field;
         new_field = intersect_polygon_field(old_field);
     }
-    return old_field[0];
+    return new_field[0];// old_field -> new_field ??
 }
 
 std::vector<Polygon> input_polygons(const std::string path){
