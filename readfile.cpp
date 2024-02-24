@@ -5,33 +5,30 @@ std::string read_file(const std::string& path){
     std::string output;
     std::ifstream in;
     in.open(path);
-    if (!in.is_open()) { // if file cannot be opened
+    if (!in.is_open()) { // if file cannot be openned
         std::cerr << "Unable to open file: " << path << std::endl;
-        return ""; //
+        return ""; //return blank in that case
     }
     getline ( in, output, '\0' );
     in.close();
     return output;
 }
 
-long int find_key(const std::string& path, long int index){
-    if (index<0){//changed to long int
-        return -10;
-    }
+std::size_t find_key(const std::string& path, std::size_t index){
     std::string input = read_file(path);
     if (input.empty()) {
-        // file cannot be opened, return -1
-        return -10;
+        // file cannot be openned, return std::string::npos
+        return std::string::npos;
     }
-    long int new_index = input.find(KEY, index);
-    return new_index == std::string::npos ? -10 : new_index;
+    std::size_t new_index = input.find(KEY, index);
+    return new_index == std::string::npos ? std::string::npos : new_index;
 }
 
 std::vector<double> get_coords(const std::string& path, std::size_t index){
     std::vector<double> coords;
     std::string input = read_file(path);
     if (input.empty()) {
-        // file cannot be opened, return blank vector
+        // file cannot be openned, return blank vector
         return {};
     }
     std::size_t previous_index = input.find(KEY, index)+2;
@@ -53,9 +50,9 @@ std::vector<double> get_coords(const std::string& path, std::size_t index){
                 break;
             }
         }
-        if (coords.size()!=6){
-            return {};
-        }
+    }
+    if (coords.size()!=6){
+        return {};
     }
     return coords;
 }

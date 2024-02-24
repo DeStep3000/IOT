@@ -32,8 +32,10 @@ public:
         std::cout << std::endl;
     }
     void input_vertex(Point point){//func to add vertex in Polygon
-        this->vertices.push_back(point);
-        this->num_vertices += 1;
+        if (!is_point_vertex(point)){
+            this->vertices.push_back(point);
+            this->num_vertices += 1;
+        }
     }
     bool is_point_vertex(Point point){//func to check if Point is already in Polygon
         for(Point p: this->get_vertices()){
@@ -44,12 +46,10 @@ public:
         return false;
     }
     bool is_equal_polygon(Polygon pn){//func to check same Polygons or not
-        std::cout<<"is equal \n";
         if(pn.get_num_vertices() != this->num_vertices){
             return false;
         }
         for(size_t i=0; i < this->num_vertices; i++){
-            std::cout<<"is equal loop \n";
             if(pn.is_point_vertex(this->vertices[i])){
                 continue;
             } else{
@@ -194,7 +194,6 @@ std::vector<Point> convert_intersections(std::vector<Point> points) {//convert f
 }
 
 Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
-    std::cout<<"intersect_polygons \n";
     Polygon result;
     bool check_p1_full_in = true;//parameter checking if polygon inside another
     bool check_p1_full_out = false;//parameter checking if polygon outside fully
@@ -216,7 +215,6 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     }
 
     for(Point p: p1_vertices){//check points for their position
-        std::cout<<"intersect_polygons loop1 \n";
         bool point_in = p2.is_point_in(p);
         if (point_in){
             intersection_points.push_back(p);
@@ -228,7 +226,6 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
         return p1;
     }
     for(Point p: p2_vertices){//check points for their position
-        std::cout<<"intersect_polygons loop2 \n";
         bool point_in = p1.is_point_in(p);
         if (point_in){
             intersection_points.push_back(p);
@@ -241,10 +238,8 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     }
     int b = p1_length - 1;
     for(int a = 0; a < p1_length; a++){
-        std::cout<<"intersect_polygons loop3 \n";
         int d = p2_length - 1;
         for(int c = 0; c < p2_length; c++){
-            std::cout<<"intersect_polygons loop4 \n";
             if(is_intersected(p1_vertices[a], p1_vertices[b], p2_vertices[c], p2_vertices[d])) {
                 intersection_points.push_back(intersection(p1_vertices[a], p1_vertices[b], p2_vertices[c], p2_vertices[d]));
             }
@@ -257,7 +252,6 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     }
     std::vector<Point> res_points = convert_intersections(intersection_points);
     for(Point p: res_points){
-        std::cout<<"intersect_polygons loop5 \n";
         if(!result.is_point_vertex(p)){
             result.input_vertex(p);
         }
@@ -276,17 +270,11 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//inter
     }
     Polygon intersected_pn;
     for(std::size_t i=0; i < n; i++){
-        std::cout<<"intersect loop1************************************************************************** \n";
         for(std::size_t j=i+1; j < n; j++){
-            std::cout<<"intersect loop2--------------------------------- \n";
             intersected_pn = intersect_polygons(field[i], field[j]);
             bool check = true;
-            for(Polygon pn: new_field){ // maybe field, not new_field?
-                std::cout<<"intersect loop3 \n";
-                if(pn.is_equal_polygon(intersected_pn)){
-                    check=false;
-                    break;
-                }
+            for(Polygon pn: new_field){
+                check = !pn.is_equal_polygon(intersected_pn);
             }
             if(intersected_pn.get_num_vertices() > 0 && check){
                 new_field.push_back(intersected_pn);
@@ -298,50 +286,35 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//inter
 Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect until there is only one polygon left
     std::vector<Polygon> old_field;
     std::vector<Polygon> new_field = field;
-    while(new_field.size()>=4){
-        std::cout<<"intersect_final loop making \n";
+    while(new_field.size() > 1){ // earlier I was checking on emptyness what a mess I am dumb heheha
         old_field = new_field;
         new_field = intersect_polygon_field(old_field);
     }
     return old_field[0];
 }
+
+std::vector<Polygon> input_polygons(const std::string path){
+    std::vector<Polygon> pn_field;
+    std::size_t index;
+    while(index != std::string::npos){
+        Polygon pn;
+        pn.input_from_file(path);
+        pn_field.push_back(pn);
+        index = find_key(path, find_key(path, index)+3);
+    }
+    return pn_field;
+}
 //think about realization class for Point
 int main() {
-    std::vector <Polygon> pns;
-    Polygon pn1;
-//    Polygon pn2;
-//    Polygon pn3;
-//    Polygon pn4;
     const std::string path = "E:\\clion\\IOT4\\test2.txt";//полный путь к файлу
-    long int index=0;
-    int i=0;
-    while(index>=0){
-        pns.push_back(pn1);
-        pns[i].input_from_file(path,index);
-        index = find_key(path, find_key(path,index)+3);
-        i++;
-    }
-
-//    pn1.input_from_file(path);
-//    std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
-//    pn2.input_from_file(path, index);
-//    index = find_key(path, find_key(path, index)+3);
-//    pn3.input_from_file(path, index);
-//    index = find_key(path, find_key(path, index)+3);
-//    pn4.input_from_file(path, index);
-//    index = find_key(path, find_key(path, index)+3);
-//    std::vector<Polygon> pn_field{pn1, pn2, pn3, pn4};
-    std::vector<Polygon> pn_field;
-    for (int j=0;j<pns.size();j++){
-        pn_field.push_back(pns[j]);
-    }
-    std::cout<<"vertices \n";
+    std::vector<Polygon> pn_field = input_polygons(path);
+    std::cout << "Starting Polygons:" << std::endl;
     for(Polygon pn: pn_field){
         pn.print_vertices();
     }
     Polygon pn_f = intersect_polygon_field_final(pn_field);
     std::cout << std::endl;
-    std::cout<<"intersection \n";
+    std::cout << "Result Polygon:" << std::endl;
     pn_f.print_vertices();
     return 0;
 }
