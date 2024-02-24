@@ -32,8 +32,10 @@ public:
         std::cout << std::endl;
     }
     void input_vertex(Point point){//func to add vertex in Polygon
-        this->vertices.push_back(point);
-        this->num_vertices += 1;
+        if (!is_point_vertex(point)){
+            this->vertices.push_back(point);
+            this->num_vertices += 1;
+        }
     }
     bool is_point_vertex(Point point){//func to check if Point is already in Polygon
         for(Point p: this->get_vertices()){
@@ -278,7 +280,7 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//inter
 Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect until there is only one polygon left
     std::vector<Polygon> old_field;
     std::vector<Polygon> new_field = field;
-    while(!new_field.empty()){
+    while(new_field.size() > 1){ // earlier I was checking on emptyness what a mess I am dumb
         old_field = new_field;
         new_field = intersect_polygon_field(old_field);
     }
