@@ -286,27 +286,29 @@ Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect u
     }
     return old_field[0];
 }
+
+std::vector<Polygon> input_polygons(const std::string path){
+    std::vector<Polygon> pn_field;
+    std::size_t index;
+    while(index != std::string::npos){
+        Polygon pn;
+        pn.input_from_file(path);
+        pn_field.push_back(pn);
+        index = find_key(path, find_key(path, index)+3);
+    }
+    return pn_field;
+}
 //think about realization class for Point
 int main() {
-    Polygon pn1;
-    Polygon pn2;
-    Polygon pn3;
-    Polygon pn4;
     const std::string path = "";//полный путь к файлу
-    pn1.input_from_file(path);
-    std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения KEY после предыдущего
-    pn2.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    pn3.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    pn4.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    std::vector<Polygon> pn_field{pn1, pn2, pn3, pn4};
+    std::vector<Polygon> pn_field = input_polygons(path);
+    std::cout << "Starting Polygons:" << std::endl;
     for(Polygon pn: pn_field){
         pn.print_vertices();
     }
     Polygon pn_f = intersect_polygon_field_final(pn_field);
     std::cout << std::endl;
+    std::cout << "Result Polygon:" << std::endl;
     pn_f.print_vertices();
     return 0;
 }

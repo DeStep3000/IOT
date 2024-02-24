@@ -17,11 +17,11 @@ std::string read_file(const std::string& path){
 std::size_t find_key(const std::string& path, std::size_t index){
     std::string input = read_file(path);
     if (input.empty()) {
-        // file cannot be openned, return -1
-        return -1;
+        // file cannot be openned, return std::string::npos
+        return std::string::npos;
     }
     std::size_t new_index = input.find(KEY, index);
-    return new_index == std::string::npos ? -1 : new_index;
+    return new_index == std::string::npos ? std::string::npos : new_index;
 }
 
 std::vector<double> get_coords(const std::string& path, std::size_t index){
