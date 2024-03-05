@@ -2,6 +2,7 @@
 #include <cfloat>//import machine epsilon for double
 #include <vector>
 #include "readfile.h"
+#include <gtest/gtest.h>
 
 struct Point {
     double x, y;
