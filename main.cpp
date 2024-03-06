@@ -5,35 +5,39 @@
 
 struct Point {
     double x, y;
-};
+};//struct for points in format x and y
 
-// It's delusion to think your actions have had any consequence
-// Денис тут работает
+// Данил тут работает
 const double eps = DBL_EPSILON; //needed for comparing double
 
-class Polygon{
+class Polygon{//class for Polygons
 private:
-    std::vector<Point> vertices; // array of vertex
+    std::vector<Point> vertices; // array of vertices, all points must be in traversal order
     int num_vertices = 0; // length of array
 public:
     Polygon()= default; //using standart
-    std::vector<Point> get_vertices(){
+    std::vector<Point> get_vertices(){//func to get array of vertices
         return this->vertices;
     }
-    int get_num_vertices(){
+    int get_num_vertices(){//func to get length of array
         return this->num_vertices;
     }
-    void print_vertices(){
+    bool is_empty(){//func to check emptiness of Polygon
+        return this->num_vertices == 0;
+    }
+    void print_vertices(){//print in console all vertices
         for(Point p: this->vertices){
             std::cout << p.x << " " << p.y << "\t";
         }
         std::cout << std::endl;
     }
-    void input_vertex(Point point){
-        this->vertices.push_back(point);
-        this->num_vertices += 1;
+    void input_vertex(Point point){//func to add vertex in Polygon
+        if (!is_point_vertex(point)){
+            this->vertices.push_back(point);
+            this->num_vertices += 1;
+        }
     }
-    bool is_point_vertex(Point point){
+    bool is_point_vertex(Point point){//func to check if Point is already in Polygon
         for(Point p: this->get_vertices()){
             if(-eps < p.x - point.x && p.x - point.x < eps && -eps < p.y - point.y && p.y - point.y < eps){
                 return true;
@@ -41,7 +45,7 @@ public:
         }
         return false;
     }
-    bool is_equal_polygon(Polygon pn){
+    bool is_equal_polygon(Polygon pn){//func to check same Polygons or not
         if(pn.get_num_vertices() != this->num_vertices){
             return false;
         }
@@ -54,14 +58,14 @@ public:
         }
         return true;
     }
-    void input_from_array(std::vector<double> coordinates){
+    void input_from_array(std::vector<double> coordinates){//add vertices in Polygon from array
         for(int i = 0; i < coordinates.size();){
             Point a{coordinates[i], coordinates[i+1]};
             this->input_vertex(a);
             i+=2;
         }
     }
-    void input_from_file(const std::string path, std::size_t index=0){
+    void input_from_file(const std::string path, std::size_t index=0){//add vertices in Polygon from file using input_from_array
         std::vector<double> coordinates = get_coords(path, index);
         this->input_from_array(coordinates);
     }
@@ -83,21 +87,55 @@ public:
     }
 };
 
-int sign(double a){
+class PolygonField{//class for group of Polygons
+private:
+    std::vector<Polygon> field;//array of Polygons
+    int num_pn = 0;//length of array
+public:
+    std::vector<Polygon> get_field(){//return array of Polygon
+        return this->field;
+    }
+    int get_num_pn(){//return length of array
+        return this->num_pn;
+    }
+    bool is_empty(){//check field for emptiness
+        return num_pn == 0;
+    }
+    void print_field(){//print in console all Polygons by printing all of their points
+        for(Polygon pn: this->field){
+            pn.print_vertices();
+        }
+        std::cout << std::endl;
+    };
+    void input_polygon(Polygon pn){//add polygon in field
+        this->field.push_back(pn);
+        this->num_pn += 1;
+    }
+    bool is_polygon_in_field(Polygon polygon){//check if Polygon is already in field
+        for(Polygon pn: this->field){
+            if(pn.is_equal_polygon(polygon)){
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+int sign(double a){//func for sign of int
     return a < 0 ? -1 : 1;
 }
 
-double abs(double a){
+double abs(double a){//func for absolute value
     return a < 0 ? -1 * a : a;
 }
 
-bool is_intersected(Point a, Point b, Point c, Point d){
+bool is_intersected(Point a, Point b, Point c, Point d){//check if AB and CD is intersected? using vector multiplication for checking
     bool first = (sign((b.x - a.x) * (c.y - a.y) - (b.y - a.y)*(c.x - a.x)) != sign((b.x - a.x) * (d.y - a.y) - (b.y - a.y)*(d.x - a.x)));
     bool second = (sign((c.x - d.x) * (a.y - d.y) - (c.y - d.y)*(a.x - d.x)) != sign((c.x - d.x) * (b.y - d.y) - (c.y - d.y)*(b.x - d.x)));
     return first and second;
 }
 
-Point intersection(Point a, Point b, Point c, Point d){
+Point intersection(Point a, Point b, Point c, Point d){//func to find point of intersection of AB and CD
     Point res{0, 0};
     if(is_intersected(a, b, c, d)){
         double z1 = abs((b.x - a.x) * (c.y - a.y) - (b.y - a.y)*(c.x - a.x));
@@ -106,29 +144,29 @@ Point intersection(Point a, Point b, Point c, Point d){
         res.y = c.y + (d.y - c.y) * (z1 / z2);
         return res;
     } else {
-        return {};
+        return {};//return blank point if not intersection
     }
 }
 
-int mult_vector(Point a, Point b, Point c){
+int mult_vector(Point a, Point b, Point c){//checks the position of a point relative to A, using vector multiplication
     double ax, ay, bx, by;
     ax = b.x - a.x;
     ay = b.y - a.y;
     bx = c.x - a.x;
     by = c.y - a.y;
-    if (ax * by - ay * bx < 0) {
+    if (ax * by - ay * bx < 0) {//more to left
         return -1;
-    } else if(ax * by - ay * bx == 0 && bx*bx + by*by > ax*ax + ay*ay){
+    } else if(ax * by - ay * bx == 0 && bx*bx + by*by > ax*ax + ay*ay){//on one line
         return 0;
-    } else{
+    } else{//more to right
         return 1;
     }
 }
 
-std::vector<Point> convert_intersections(std::vector<Point> points) {
+std::vector<Point> convert_intersections(std::vector<Point> points) {//convert final intersections to convex hull (for keeping traversal order)
     Point p0 = points[0];
     Point t = p0;
-    for (Point p : points){
+    for (Point p : points){//find starting point and next point
         if (p.x < p0.x || (p.x == p0.x && p.y < p0.y)){
             p0 = p;
         }
@@ -155,45 +193,47 @@ std::vector<Point> convert_intersections(std::vector<Point> points) {
     return hull;
 }
 
-Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for intersection
+Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     Polygon result;
-    bool check_p1_full_in = true;
-    bool check_p1_full_out = false;
-    bool check_p2_full_in = true;
-    bool check_p2_full_out = false;
+    bool check_p1_full_in = true;//parameter checking if polygon inside another
+    bool check_p1_full_out = false;//parameter checking if polygon outside fully
+    bool check_p2_full_in = true;//parameter checking if polygon inside another
+    bool check_p2_full_out = false;//parameter checking if polygon outside fully
     std::vector<Point> intersection_points;
     std::vector<Point> p1_vertices = p1.get_vertices();
     std::vector<Point> p2_vertices = p2.get_vertices();
     int p1_length = p1.get_num_vertices();
     int p2_length = p2.get_num_vertices();
-    std::vector<bool> p1_marks;
-    std::vector<bool> p2_marks;
-    if(p1.is_equal_polygon(p2)){
+    if (p1_length==0){ // for blank polygons
+        return p2;
+    }
+    if (p2_length==0){
+        return p1;
+    }
+    if(p1.is_equal_polygon(p2)){//if polygons same
         return p1;
     }
 
-    for(Point p: p1_vertices){
+    for(Point p: p1_vertices){//check points for their position
         bool point_in = p2.is_point_in(p);
         if (point_in){
             intersection_points.push_back(p);
         }
-        p1_marks.push_back(point_in);
         check_p1_full_in = check_p1_full_in && point_in;
         check_p1_full_out = check_p1_full_out || point_in;
     }
-    if (check_p1_full_in){
+    if (check_p1_full_in){//return first polygon if it fully in
         return p1;
     }
-    for(Point p: p2_vertices){
+    for(Point p: p2_vertices){//check points for their position
         bool point_in = p1.is_point_in(p);
         if (point_in){
             intersection_points.push_back(p);
         }
-        p2_marks.push_back(point_in);
         check_p2_full_in = check_p1_full_in && point_in;
         check_p2_full_out = check_p1_full_out || point_in;
     }
-    if (check_p2_full_in){
+    if (check_p2_full_in){//return second polygon if it fully in
         return p2;
     }
     int b = p1_length - 1;
@@ -207,8 +247,8 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for inters
         }
         b = a;
     }
-    if (!check_p1_full_out && !check_p2_full_out && intersection_points.empty()){
-        return result;
+    if (!check_p1_full_out && !check_p2_full_out && intersection_points.empty()){//return blank in case of no intersection
+        return {};
     }
     std::vector<Point> res_points = convert_intersections(intersection_points);
     for(Point p: res_points){
@@ -219,13 +259,13 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //future function for inters
     return result;
 }
 
-std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){
+std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//intersecting polygons
     std::vector<Polygon> new_field;
     std::size_t n = field.size();
-    if (field.empty()){
+    if (field.empty()){//return blank in case of emptiness
         return{};
     }
-    if (n == 1){
+    if (n == 1){//return 1 polygon in case if it only one
         return field;
     }
     Polygon intersected_pn;
@@ -243,36 +283,38 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){
     }
     return new_field;
 }
-Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//check for problems
+Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect until there is only one polygon left
     std::vector<Polygon> old_field;
     std::vector<Polygon> new_field = field;
-    while(!new_field.empty()){
+    while(new_field.size() > 1){ // earlier I was checking on emptyness what a mess I am dumb heheha
         old_field = new_field;
         new_field = intersect_polygon_field(old_field);
     }
-    return old_field[0];
+    return new_field[0];// old_field -> new_field ??
 }
-//think about realization class for Point and for Polygon Field
+
+std::vector<Polygon> input_polygons(const std::string path){
+    std::vector<Polygon> pn_field;
+    std::size_t index;
+    while(index != std::string::npos){
+        Polygon pn;
+        pn.input_from_file(path);
+        pn_field.push_back(pn);
+        index = find_key(path, find_key(path, index)+3);
+    }
+    return pn_field;
+}
+//think about realization class for Point
 int main() {
-    Polygon pn1;
-    Polygon pn2;
-    Polygon pn3;
-    Polygon pn4;
-    const std::string path = "";//полный путь к файлу
-    pn1.input_from_file(path);
-    std::size_t index = find_key(path, find_key(path)+3);//индекс первого вхождения 03 после предыдущего
-    pn2.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    pn3.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    pn4.input_from_file(path, index);
-    index = find_key(path, find_key(path, index)+3);
-    std::vector<Polygon> pn_field{pn1, pn2, pn3, pn4};
+    const std::string path = "E:\\clion\\IOT4\\test2.txt";//полный путь к файлу
+    std::vector<Polygon> pn_field = input_polygons(path);
+    std::cout << "Starting Polygons:" << std::endl;
     for(Polygon pn: pn_field){
         pn.print_vertices();
     }
     Polygon pn_f = intersect_polygon_field_final(pn_field);
     std::cout << std::endl;
+    std::cout << "Result Polygon:" << std::endl;
     pn_f.print_vertices();
     return 0;
 }
