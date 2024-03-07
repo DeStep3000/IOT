@@ -307,7 +307,7 @@ std::vector<Polygon> input_polygons(const std::string input){
 //think about realization class for Point
 int main() {
     const std::string path = "E:\\clion\\IOT4\\test2.txt";//полный путь к файлу
-    std::string input = read_file(path);//switched here to open file only once
+    std::string input = read_file(path)+" ";//switched here to open file only once
     std::vector<Polygon> pn_field = input_polygons(input);
     std::cout << "Starting Polygons:" << std::endl;
     for(Polygon pn: pn_field){
