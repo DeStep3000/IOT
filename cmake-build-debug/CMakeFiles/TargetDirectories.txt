@@ -1,3 +1,0 @@
-C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/IOT.dir
-C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/rebuild_cache.dir

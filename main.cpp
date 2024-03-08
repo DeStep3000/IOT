@@ -65,8 +65,8 @@ public:
             i+=2;
         }
     }
-    void input_from_file(const std::string path, std::size_t index=0){//add vertices in Polygon from file using input_from_array
-        std::vector<double> coordinates = get_coords(path, index);
+    void input_from_file(const std::string input, std::size_t index=0){//add vertices in Polygon from file using input_from_array
+        std::vector<double> coordinates = get_coords(input, index);
         this->input_from_array(coordinates);
     }
     bool is_point_in(Point point){ //checking is point inside polygon
@@ -204,6 +204,12 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     std::vector<Point> p2_vertices = p2.get_vertices();
     int p1_length = p1.get_num_vertices();
     int p2_length = p2.get_num_vertices();
+    if (p1_length==0){ // for blank polygons
+        return p2;
+    }
+    if (p2_length==0){
+        return p1;
+    }
     if(p1.is_equal_polygon(p2)){//if polygons same
         return p1;
     }
@@ -280,32 +286,34 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//inter
 Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect until there is only one polygon left
     std::vector<Polygon> old_field;
     std::vector<Polygon> new_field = field;
-    while(new_field.size() > 1){ // earlier I was checking on emptyness what a mess I am dumb
+    while(new_field.size() > 1){ // earlier I was checking on emptyness what a mess I am dumb heheha
         old_field = new_field;
         new_field = intersect_polygon_field(old_field);
     }
-    return old_field[0];
+    return new_field[0];// old_field -> new_field ??
 }
 
-std::vector<Polygon> input_polygons(const std::string path){
+std::vector<Polygon> input_polygons(const std::string input){
     std::vector<Polygon> pn_field;
-    std::size_t index;
+    std::size_t index=0;
     while(index != std::string::npos){
         Polygon pn;
-        pn.input_from_file(path);
+        pn.input_from_file(input,index);
         pn_field.push_back(pn);
-        index = find_key(path, find_key(path, index)+3);
+        index = find_key(input, find_key(input, index)+1);
     }
     return pn_field;
 }
 //think about realization class for Point
 int main() {
-    const std::string path = "";//полный путь к файлу
-    std::vector<Polygon> pn_field = input_polygons(path);
+    const std::string path = "E:\\clion\\IOT4\\test2.txt";//полный путь к файлу
+    std::string input = read_file(path)+" ";//switched here to open file only once
+    std::vector<Polygon> pn_field = input_polygons(input);
     std::cout << "Starting Polygons:" << std::endl;
     for(Polygon pn: pn_field){
         pn.print_vertices();
     }
+    std::cout << "Ended Polygons" << std::endl;
     Polygon pn_f = intersect_polygon_field_final(pn_field);
     std::cout << std::endl;
     std::cout << "Result Polygon:" << std::endl;
