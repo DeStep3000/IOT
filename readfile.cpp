@@ -30,26 +30,33 @@ std::size_t find_key(const std::string& input, std::size_t index){
         // file cannot be openned, return std::string::npos
         return std::string::npos;
     }
+    if (index == 0 && input.size() >= 3 && input.substr(0, 3) >= "03 " && input.substr(0, 3) <= "09 ") {
+        return 3;
+    }
     return find_min_key(input,index);
 }
 
 std::vector<double> fill_coords_from_input(const std::string& input,std::size_t previous_index){
-std::vector<double> coords;
+    std::vector<double> coords;
     std::size_t new_index = input.find_first_of(NUMBERS, previous_index);
-    std::size_t next_index= find_key(input,previous_index);//next 0* index
+    std::size_t next_index = find_key(input,previous_index);//next 0* index
+    int s = std::stoi(input.substr(previous_index-2, 3));
     previous_index = new_index;
-    for(int i = 0; i < 20; i++){
+    if(input.find_first_of(NUMBERS, new_index) == next_index){
+        return {};
+    }
+    for(int i = 0; i < 2*s; i++){
         new_index = input.find_first_not_of(NUMBERS, previous_index);
         if (new_index == std::string::npos) {
         // If we could not find the next number, we end the loop
             break;
         }
-    coords.push_back(static_cast<double>(stod(input.substr(previous_index, new_index))));
-    previous_index = input.find_first_of(NUMBERS, new_index);
-    if (previous_index == std::string::npos or previous_index-1==next_index) {
-        // If we could not find the next number, we end the loop
-        break;
-    }
+        coords.push_back(std::stod(input.substr(previous_index, new_index - previous_index)));
+        previous_index = input.find_first_of(NUMBERS, new_index);
+        if (previous_index == std::string::npos or previous_index>next_index) {
+          // If we could not find the next number, we end the loop
+          break;
+        }
     }
     return coords;
 }
@@ -60,23 +67,11 @@ std::vector<double> get_coords(const std::string& input, std::size_t index){
         // file cannot be openned, return blank vector
         return {};
     }
-    bool is_03_in_start=false;
-    if (index==0){
-        if (input.size() >= 3 && input.substr(0, 3) >= "03 " && input.substr(0, 3) <= "09 ") {
-            is_03_in_start = true;
-        }
-        if (is_03_in_start==true){
-            std::size_t previous_index = 3;
-            coords=fill_coords_from_input(input,previous_index);
-        }
-    }
-    if (!is_03_in_start) {
-        if (find_min_key(input, index) == std::string::npos) {
-            return {};
-        } else {
-            std::size_t previous_index = find_key(input, index) + 4;// _0*_ = 4
-            coords = fill_coords_from_input(input, previous_index);
-        }
+    if (find_min_key(input, index) == std::string::npos) {
+        return {};
+    } else {
+        std::size_t previous_index = find_key(input, index) + 4;// _0*_ = 3
+        coords = fill_coords_from_input(input, previous_index);
     }
     if (coords.size() % 2 != 0 or coords.size() == 0) { //if some point have only one value
         return {};

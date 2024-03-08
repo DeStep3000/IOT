@@ -8,7 +8,7 @@ struct Point {
 };//struct for points in format x and y
 
 // Данил тут работает
-const double eps = DBL_EPSILON; //needed for comparing double
+const double eps = 0.000000001; //needed for comparing double
 
 class Polygon{//class for Polygons
 private:
@@ -50,9 +50,7 @@ public:
             return false;
         }
         for(size_t i=0; i < this->num_vertices; i++){
-            if(pn.is_point_vertex(this->vertices[i])){
-                continue;
-            } else{
+            if(!pn.is_point_vertex(this->vertices[i])){
                 return false;
             }
         }
@@ -215,7 +213,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     }
 
     for(Point p: p1_vertices){//check points for their position
-        bool point_in = p2.is_point_in(p);
+        bool point_in = p2.is_point_in(p) or p2.is_point_vertex(p);
         if (point_in){
             intersection_points.push_back(p);
         }
@@ -226,7 +224,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
         return p1;
     }
     for(Point p: p2_vertices){//check points for their position
-        bool point_in = p1.is_point_in(p);
+        bool point_in = p1.is_point_in(p) or p1.is_point_vertex(p);
         if (point_in){
             intersection_points.push_back(p);
         }
@@ -262,10 +260,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
 std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//intersecting polygons
     std::vector<Polygon> new_field;
     std::size_t n = field.size();
-    if (field.empty()){//return blank in case of emptiness
-        return{};
-    }
-    if (n == 1){//return 1 polygon in case if it only one
+    if (n <= 1){//return 1 polygon in case if it only one
         return field;
     }
     Polygon intersected_pn;
@@ -274,7 +269,7 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//inter
             intersected_pn = intersect_polygons(field[i], field[j]);
             bool check = true;
             for(Polygon pn: new_field){
-                check = !pn.is_equal_polygon(intersected_pn);
+                check = check & !pn.is_equal_polygon(intersected_pn);
             }
             if(intersected_pn.get_num_vertices() > 0 && check){
                 new_field.push_back(intersected_pn);
@@ -299,14 +294,16 @@ std::vector<Polygon> input_polygons(const std::string input){
     while(index != std::string::npos){
         Polygon pn;
         pn.input_from_file(input,index);
-        pn_field.push_back(pn);
+        if (pn.get_num_vertices() > 0){
+            pn_field.push_back(pn);
+        }
         index = find_key(input, find_key(input, index)+1);
     }
     return pn_field;
 }
 //think about realization class for Point
 int main() {
-    const std::string path = "E:\\clion\\IOT4\\test2.txt";//полный путь к файлу
+    const std::string path = "";//полный путь к файлу
     std::string input = read_file(path)+" ";//switched here to open file only once
     std::vector<Polygon> pn_field = input_polygons(input);
     std::cout << "Starting Polygons:" << std::endl;
