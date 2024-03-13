@@ -63,7 +63,7 @@ public:
             i+=2;
         }
     }
-    void input_from_file(const std::string input, std::size_t index=0){//add vertices in Polygon from file using input_from_array
+    void input_from_file(const std::string input, std::size_t index){//add vertices in Polygon from file using input_from_array
         std::vector<double> coordinates = get_coords(input, index);
         this->input_from_array(coordinates);
     }
@@ -297,14 +297,14 @@ std::vector<Polygon> input_polygons(const std::string input){
         if (pn.get_num_vertices() > 0){
             pn_field.push_back(pn);
         }
-        index = find_key(input, find_key(input, index)+1);
+        index = find_key(input, find_key(input, index)+2);
     }
     return pn_field;
 }
 //think about realization class for Point
 int main() {
-    const std::string path = "";//полный путь к файлу
-    std::string input = read_file(path)+" ";//switched here to open file only once
+    const std::string path = "E:\\clion\\IOT4\\test2.txt";//полный путь к файлу
+    std::string input = read_file(path)+"    ";//switched here to open file only once
     std::vector<Polygon> pn_field = input_polygons(input);
     std::cout << "Starting Polygons:" << std::endl;
     for(Polygon pn: pn_field){
