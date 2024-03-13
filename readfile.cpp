@@ -19,12 +19,9 @@ std::size_t find_min_key(const std::string input,std::size_t index){//because no
         return std::string::npos;
     }
     std::size_t min_index = input.find(KEY[0], index);
-    for (size_t i=1;i<KEY.size();i++){
-        std::size_t new_index = input.find(KEY[i], index);
-        if (new_index<min_index){
-            min_index=new_index;
-        }
-    }
+    std::size_t min_index_2 = input.find(KEY[1], index);
+    min_index = min_index < min_index_2 ? min_index : min_index_2;
+
     return min_index == std::string::npos ? std::string::npos : min_index+1;//ссылка на 0 в _03_
 }
 
@@ -41,7 +38,7 @@ std::size_t find_key(const std::string& input, std::size_t index){
 
 
 std::vector<double> fill_coords_from_input(const std::string& input,std::size_t previous_index){
-std::vector<double> coords;
+    std::vector<double> coords;
     std::size_t new_index = input.find_first_of(NUMBERS, previous_index+2);
     std::size_t next_index= find_key(input,previous_index+2);//next 0* index
     previous_index = new_index;
@@ -53,7 +50,7 @@ std::vector<double> coords;
         }
         coords.push_back(std::stod(input.substr(previous_index, new_index - previous_index)));
         previous_index = input.find_first_of(NUMBERS, new_index+1);
-        if (previous_index == std::string::npos || previous_index>next_index) {
+        if (previous_index == std::string::npos || previous_index>=next_index) {
             // If we could not find the next number, we end the loop
             break;
         }
@@ -63,13 +60,16 @@ std::vector<double> coords;
 
 std::vector<double> get_coords(const std::string& input, std::size_t index){
     std::vector<double> coords;
-    if (input.empty() || find_key(input, index) == std::string::npos) {
+    if (input.empty() || index == std::string::npos) {
         return {};
     } else {
-        std::size_t previous_index = find_key(input, index);// _0*_ = 3
-        coords = fill_coords_from_input(input, previous_index);
+        //std::size_t previous_index = find_key(input, index); _0*_ = 3
+        coords = fill_coords_from_input(input, index);
     }
-    if (coords.size() % 2 != 0 || coords.size() == 0) { //if some point have only one value
+    if (coords.size() % 2 != 0){
+        coords.pop_back();
+    }
+    if (coords.size() == 0) { //if some point have only one value
         return {};
     }
     return coords;

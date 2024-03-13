@@ -8,7 +8,7 @@ struct Point {
 };//struct for points in format x and y
 
 // Данил тут работает
-const double eps = 0.000000001; //needed for comparing double
+const double eps = DBL_EPSILON; //needed for comparing double
 
 class Polygon{//class for Polygons
 private:
@@ -282,8 +282,12 @@ Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect u
     std::vector<Polygon> old_field;
     std::vector<Polygon> new_field = field;
     while(new_field.size() > 1){ // earlier I was checking on emptyness what a mess I am dumb heheha
+        std::cout << "Iteration" << std::endl;
         old_field = new_field;
         new_field = intersect_polygon_field(old_field);
+        for(Polygon pn: new_field){
+            pn.print_vertices();
+        }
     }
     return new_field[0];// old_field -> new_field ??
 }
@@ -297,14 +301,14 @@ std::vector<Polygon> input_polygons(const std::string input){
         if (pn.get_num_vertices() > 0){
             pn_field.push_back(pn);
         }
-        index = find_key(input, find_key(input, index)+2);
+        index = find_key(input, index+2);
     }
     return pn_field;
 }
 //think about realization class for Point
 int main() {
-    const std::string path = "E:\\clion\\IOT4\\test2.txt";//полный путь к файлу
-    std::string input = read_file(path)+"    ";//switched here to open file only once
+    const std::string path = "";//полный путь к файлу
+    std::string input = read_file(path)+" ";//switched here to open file only once
     std::vector<Polygon> pn_field = input_polygons(input);
     std::cout << "Starting Polygons:" << std::endl;
     for(Polygon pn: pn_field){

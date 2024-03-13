@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-const std::vector<std::string> KEY = {" 03 "," 04 "," 05 "," 06 "," 07 "," 08 "," 09 ", "\n03 ","\n04 ","\n05 ","\n06 ","\n07 ","\n08 ","\n09 "};//word that used for cutting coords
+const std::vector<std::string> KEY = {" 0", "\n0"};//word that used for cutting coords
 const std::string NUMBERS = "0123456789";//numbers that used to find first number after key
 
 std::string read_file(const std::string& path);
