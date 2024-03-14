@@ -23,8 +23,7 @@ CMAKE_ADDR2LINE:FILEPATH=C:/Program Files/JetBrains/CLion 2023.2.1/bin/mingw/bin
 //Path to a program.
 CMAKE_AR:FILEPATH=C:/Program Files/JetBrains/CLion 2023.2.1/bin/mingw/bin/ar.exe
 
-//Choose the type of build, options are: None Debug Release RelWithDebInfo
-// MinSizeRel ...
+//Choose the type of build (Debug or Release)
 CMAKE_BUILD_TYPE:STRING=Debug
 
 //Enable colored diagnostics throughout.
@@ -201,6 +200,10 @@ CMAKE_OBJCOPY:FILEPATH=C:/Program Files/JetBrains/CLion 2023.2.1/bin/mingw/bin/o
 //Path to a program.
 CMAKE_OBJDUMP:FILEPATH=C:/Program Files/JetBrains/CLion 2023.2.1/bin/mingw/bin/objdump.exe
 
+//The minimal iOS version that will be able to run the built binaries.
+// Cannot be lower than 13.0
+CMAKE_OSX_DEPLOYMENT_TARGET:STRING=13.0
+
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
 
@@ -308,6 +311,71 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Enable to build 7-Zip packages
+CPACK_BINARY_7Z:BOOL=OFF
+
+//Enable to build IFW packages
+CPACK_BINARY_IFW:BOOL=OFF
+
+//Enable to build Inno Setup packages
+CPACK_BINARY_INNOSETUP:BOOL=OFF
+
+//Enable to build NSIS packages
+CPACK_BINARY_NSIS:BOOL=ON
+
+//Enable to build NuGet packages
+CPACK_BINARY_NUGET:BOOL=OFF
+
+//Enable to build WiX packages
+CPACK_BINARY_WIX:BOOL=OFF
+
+//Enable to build ZIP packages
+CPACK_BINARY_ZIP:BOOL=OFF
+
+//Enable to build 7-Zip source packages
+CPACK_SOURCE_7Z:BOOL=ON
+
+//Enable to build ZIP source packages
+CPACK_SOURCE_ZIP:BOOL=ON
+
+//Directory under which to collect all populated content
+FETCHCONTENT_BASE_DIR:PATH=C:/DeStep/HSE/C++/IOT/cmake-build-debug/_deps
+
+//Disables all attempts to download or update content and assumes
+// source dirs already exist
+FETCHCONTENT_FULLY_DISCONNECTED:BOOL=OFF
+
+//Enables QUIET option for all content population
+FETCHCONTENT_QUIET:BOOL=ON
+
+//When not empty, overrides where to find pre-populated content
+// for SFML
+FETCHCONTENT_SOURCE_DIR_SFML:PATH=
+
+//Enables UPDATE_DISCONNECTED behavior for all content population
+FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of SFML
+FETCHCONTENT_UPDATES_DISCONNECTED_SFML:BOOL=OFF
+
+//Path to a file.
+FLAC_INCLUDE_DIR:PATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers
+
+//Path to a library.
+FLAC_LIBRARY:FILEPATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libFLAC.a
+
+//Path to a file.
+FREETYPE_INCLUDE_DIR_freetype2:PATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers/freetype2
+
+//Path to a file.
+FREETYPE_INCLUDE_DIR_ft2build:PATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers/freetype2
+
+//Path to a library.
+FREETYPE_LIBRARY:FILEPATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libfreetype.a
+
+//Git command line client
+GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
+
 //Use Abseil and RE2. Requires Abseil and RE2 to be separately
 // added to the build.
 GTEST_HAS_ABSL:BOOL=OFF
@@ -325,35 +393,125 @@ IOT_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 IOT_SOURCE_DIR:STATIC=C:/DeStep/HSE/C++/IOT
 
+//Path to a file.
+OGG_INCLUDE_DIR:PATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers
+
+//Path to a library.
+OGG_LIBRARY:FILEPATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libogg.a
+
+//Path to a file.
+OPENAL_INCLUDE_DIR:PATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers/AL
+
+//Path to a library.
+OPENAL_LIBRARY:FILEPATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libopenal32.a
+
+//OpenGL library for win32
+OPENGL_gl_LIBRARY:STRING=opengl32
+
+//GLU library for win32
+OPENGL_glu_LIBRARY:STRING=glu32
+
+//The directory containing a CMake configuration file for SFML-2.6.1.
+SFML-2.6.1_DIR:PATH=SFML-2.6.1_DIR-NOTFOUND
+
 //Value Computed by CMake
-gmock_BINARY_DIR:STATIC=C:/DeStep/HSE/C++/IOT/cmake-build-debug/lib/googlemock
+SFML_BINARY_DIR:STATIC=C:/DeStep/HSE/C++/IOT/cmake-build-debug/SFML
+
+//TRUE to build SFML's Audio module.
+SFML_BUILD_AUDIO:BOOL=TRUE
+
+//TRUE to build SFML's Graphics module.
+SFML_BUILD_GRAPHICS:BOOL=TRUE
+
+//TRUE to build SFML's Network module.
+SFML_BUILD_NETWORK:BOOL=TRUE
+
+//TRUE to build SFML's Window module. This setting is ignored,
+// if the graphics module is built.
+SFML_BUILD_WINDOW:BOOL=TRUE
+
+//TRUE to configure extras, FALSE to ignore them
+SFML_CONFIGURE_EXTRAS:BOOL=OFF
+
+//The directory containing a CMake configuration file for SFML.
+SFML_DIR:PATH=SFML_DIR-NOTFOUND
+
+//TRUE to enable precompiled headers for SFML builds -- only supported
+// on Windows/Linux and for static library builds
+SFML_ENABLE_PCH:BOOL=FALSE
+
+//Enable sanitizers
+SFML_ENABLE_SANITIZERS:BOOL=OFF
+
+//TRUE to automatically install pkg-config files so other projects
+// can find SFML
+SFML_INSTALL_PKGCONFIG_FILES:BOOL=FALSE
+
+//Value Computed by CMake
+SFML_IS_TOP_LEVEL:STATIC=OFF
+
+//TRUE to use an OpenGL ES implementation, FALSE to use a desktop
+// OpenGL implementation
+SFML_OPENGL_ES:BOOL=0
+
+//Value Computed by CMake
+SFML_SOURCE_DIR:STATIC=C:/DeStep/HSE/C++/IOT/SFML
+
+//TRUE to use the Mesa 3D graphics library for rendering, FALSE
+// to use the system provided library for rendering
+SFML_USE_MESA3D:BOOL=FALSE
+
+//TRUE to statically link to the standard libraries, FALSE to use
+// them as DLLs
+SFML_USE_STATIC_STD_LIBS:BOOL=FALSE
+
+//TRUE to use system dependencies, FALSE to use the bundled ones.
+SFML_USE_SYSTEM_DEPS:BOOL=FALSE
+
+//Treat compiler warnings as errors
+SFML_WARNINGS_AS_ERRORS:BOOL=OFF
+
+//Path to a library.
+VORBISENC_LIBRARY:FILEPATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libvorbisenc.a
+
+//Path to a library.
+VORBISFILE_LIBRARY:FILEPATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libvorbisfile.a
+
+//Path to a file.
+VORBIS_INCLUDE_DIR:PATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers
+
+//Path to a library.
+VORBIS_LIBRARY:FILEPATH=C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libvorbis.a
+
+//Value Computed by CMake
+gmock_BINARY_DIR:STATIC=C:/DeStep/HSE/C++/IOT/cmake-build-debug/google/googlemock
 
 //Value Computed by CMake
 gmock_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-gmock_SOURCE_DIR:STATIC=C:/DeStep/HSE/C++/IOT/lib/googlemock
+gmock_SOURCE_DIR:STATIC=C:/DeStep/HSE/C++/IOT/google/googlemock
 
 //Build all of Google Mock's own tests.
 gmock_build_tests:BOOL=OFF
 
 //Value Computed by CMake
-googletest-distribution_BINARY_DIR:STATIC=C:/DeStep/HSE/C++/IOT/cmake-build-debug/lib
+googletest-distribution_BINARY_DIR:STATIC=C:/DeStep/HSE/C++/IOT/cmake-build-debug/google
 
 //Value Computed by CMake
 googletest-distribution_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-googletest-distribution_SOURCE_DIR:STATIC=C:/DeStep/HSE/C++/IOT/lib
+googletest-distribution_SOURCE_DIR:STATIC=C:/DeStep/HSE/C++/IOT/google
 
 //Value Computed by CMake
-gtest_BINARY_DIR:STATIC=C:/DeStep/HSE/C++/IOT/cmake-build-debug/lib/googletest
+gtest_BINARY_DIR:STATIC=C:/DeStep/HSE/C++/IOT/cmake-build-debug/google/googletest
 
 //Value Computed by CMake
 gtest_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-gtest_SOURCE_DIR:STATIC=C:/DeStep/HSE/C++/IOT/lib/googletest
+gtest_SOURCE_DIR:STATIC=C:/DeStep/HSE/C++/IOT/google/googletest
 
 //Build gtest's sample programs.
 gtest_build_samples:BOOL=OFF
@@ -379,6 +537,8 @@ qt-everywhere-src-6.6.2_DIR:PATH=qt-everywhere-src-6.6.2_DIR-NOTFOUND
 # INTERNAL cache entries
 ########################
 
+//Test ATOMIC_TEST
+ATOMIC_TEST:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -459,6 +619,8 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
+//Test CMAKE_HAVE_LIBC_PTHREAD
+CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=C:/DeStep/HSE/C++/IOT
@@ -509,7 +671,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=12
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -565,12 +727,76 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_TAPI-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_BINARY_7Z
+CPACK_BINARY_7Z-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_BINARY_IFW
+CPACK_BINARY_IFW-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_BINARY_INNOSETUP
+CPACK_BINARY_INNOSETUP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_BINARY_NSIS
+CPACK_BINARY_NSIS-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_BINARY_NUGET
+CPACK_BINARY_NUGET-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_BINARY_WIX
+CPACK_BINARY_WIX-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_BINARY_ZIP
+CPACK_BINARY_ZIP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_7Z
+CPACK_SOURCE_7Z-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_ZIP
+CPACK_SOURCE_ZIP-ADVANCED:INTERNAL=1
+//Have include dinput.h
+DINPUT_H_FOUND:INTERNAL=1
+//Details about finding FLAC
+FIND_PACKAGE_MESSAGE_DETAILS_FLAC:INTERNAL=[C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libFLAC.a][C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers][v()]
+//Details about finding Freetype
+FIND_PACKAGE_MESSAGE_DETAILS_Freetype:INTERNAL=[C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libfreetype.a][C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers/freetype2][2.5.5][v()]
+//Details about finding OpenAL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenAL:INTERNAL=[C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libopenal32.a][C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers/AL][v()]
+//Details about finding OpenGL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[opengl32][cfound components: OpenGL ][v()]
+//Details about finding Threads
+FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//Details about finding Vorbis
+FIND_PACKAGE_MESSAGE_DETAILS_Vorbis:INTERNAL=[C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers][C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libogg.a][C:/DeStep/HSE/C++/IOT/SFML/extlibs/headers][C:/DeStep/HSE/C++/IOT/SFML/extlibs/libs-mingw/x64/libvorbis.a][v()]
+//ADVANCED property for variable: FLAC_INCLUDE_DIR
+FLAC_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FLAC_LIBRARY
+FLAC_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FREETYPE_INCLUDE_DIR_freetype2
+FREETYPE_INCLUDE_DIR_freetype2-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FREETYPE_INCLUDE_DIR_ft2build
+FREETYPE_INCLUDE_DIR_ft2build-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FREETYPE_LIBRARY
+FREETYPE_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: GIT_EXECUTABLE
+GIT_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OGG_INCLUDE_DIR
+OGG_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OGG_LIBRARY
+OGG_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENAL_INCLUDE_DIR
+OPENAL_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENAL_LIBRARY
+OPENAL_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENGL_gl_LIBRARY
+OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENGL_glu_LIBRARY
+OPENGL_glu_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: VORBISENC_LIBRARY
+VORBISENC_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: VORBISFILE_LIBRARY
+VORBISFILE_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: VORBIS_INCLUDE_DIR
+VORBIS_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: VORBIS_LIBRARY
+VORBIS_LIBRARY-ADVANCED:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/IOT
 cmake_package_name:INTERNAL=GTest
-generated_dir:INTERNAL=C:/DeStep/HSE/C++/IOT/cmake-build-debug/lib/googletest/generated
+generated_dir:INTERNAL=C:/DeStep/HSE/C++/IOT/cmake-build-debug/google/googletest/generated
 //ADVANCED property for variable: gmock_build_tests
 gmock_build_tests-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: gtest_build_samples

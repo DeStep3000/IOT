@@ -415,3 +415,92 @@ events:
       
       
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/JetBrains/CLion 2023.2.1/bin/cmake/win/x64/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "C:/Program Files/JetBrains/CLion 2023.2.1/bin/cmake/win/x64/share/cmake-3.27/Modules/CheckCSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "C:/Program Files/JetBrains/CLion 2023.2.1/bin/cmake/win/x64/share/cmake-3.27/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "C:/Program Files/JetBrains/CLion 2023.2.1/bin/cmake/win/x64/share/cmake-3.27/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "SFML/src/SFML/System/CMakeLists.txt:68 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-tdvjmx"
+      binary: "C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-tdvjmx"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/DeStep/HSE/C++/IOT/SFML/cmake/Modules/"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-tdvjmx'
+        
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2023.2.1/bin/ninja/win/x64/ninja.exe" -v cmTC_703b3
+        [1/2] C:\\PROGRA~1\\JETBRA~1\\CLION2~1.1\\bin\\mingw\\bin\\gcc.exe -DCMAKE_HAVE_LIBC_PTHREAD  -fdiagnostics-color=always -o CMakeFiles/cmTC_703b3.dir/src.c.obj -c C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-tdvjmx/src.c
+        [2/2] cmd.exe /C "cd . && C:\\PROGRA~1\\JETBRA~1\\CLION2~1.1\\bin\\mingw\\bin\\gcc.exe   CMakeFiles/cmTC_703b3.dir/src.c.obj -o cmTC_703b3.exe -Wl,--out-implib,libcmTC_703b3.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/JetBrains/CLion 2023.2.1/bin/cmake/win/x64/share/cmake-3.27/Modules/CheckIncludeFileCXX.cmake:89 (try_compile)"
+      - "SFML/src/SFML/Window/CMakeLists.txt:314 (check_include_file_cxx)"
+    checks:
+      - "Looking for C++ include dinput.h"
+    directories:
+      source: "C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4eb6go"
+      binary: "C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4eb6go"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/DeStep/HSE/C++/IOT/SFML/cmake/Modules/"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+    buildResult:
+      variable: "DINPUT_H_FOUND"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4eb6go'
+        
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2023.2.1/bin/ninja/win/x64/ninja.exe" -v cmTC_c93de
+        [1/2] C:\\PROGRA~1\\JETBRA~1\\CLION2~1.1\\bin\\mingw\\bin\\g++.exe   -fdiagnostics-color=always -o CMakeFiles/cmTC_c93de.dir/CheckIncludeFile.cxx.obj -c C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4eb6go/CheckIncludeFile.cxx
+        [2/2] cmd.exe /C "cd . && C:\\PROGRA~1\\JETBRA~1\\CLION2~1.1\\bin\\mingw\\bin\\g++.exe   CMakeFiles/cmTC_c93de.dir/CheckIncludeFile.cxx.obj -o cmTC_c93de.exe -Wl,--out-implib,libcmTC_c93de.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/JetBrains/CLion 2023.2.1/bin/cmake/win/x64/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "C:/Program Files/JetBrains/CLion 2023.2.1/bin/cmake/win/x64/share/cmake-3.27/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "SFML/src/SFML/Window/CMakeLists.txt:339 (check_cxx_source_compiles)"
+    checks:
+      - "Performing Test ATOMIC_TEST"
+    directories:
+      source: "C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ye09rf"
+      binary: "C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ye09rf"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/DeStep/HSE/C++/IOT/SFML/cmake/Modules/"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+    buildResult:
+      variable: "ATOMIC_TEST"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ye09rf'
+        
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2023.2.1/bin/ninja/win/x64/ninja.exe" -v cmTC_5476c
+        [1/2] C:\\PROGRA~1\\JETBRA~1\\CLION2~1.1\\bin\\mingw\\bin\\g++.exe -DATOMIC_TEST  -fdiagnostics-color=always -o CMakeFiles/cmTC_5476c.dir/src.cxx.obj -c C:/DeStep/HSE/C++/IOT/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ye09rf/src.cxx
+        [2/2] cmd.exe /C "cd . && C:\\PROGRA~1\\JETBRA~1\\CLION2~1.1\\bin\\mingw\\bin\\g++.exe   CMakeFiles/cmTC_5476c.dir/src.cxx.obj -o cmTC_5476c.exe -Wl,--out-implib,libcmTC_5476c.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        
+      exitCode: 0
+...

@@ -39,7 +39,12 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/DeStep/HSE/C++/IOT/cmake-build-debug/lib/cmake_install.cmake")
+  include("C:/DeStep/HSE/C++/IOT/cmake-build-debug/google/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/DeStep/HSE/C++/IOT/cmake-build-debug/SFML/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
