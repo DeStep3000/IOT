@@ -306,7 +306,7 @@ std::vector<Polygon> input_polygons(const std::string input){
     return pn_field;
 }
 //think about realization class for Point
-int main() {
+/*int main() {
     const std::string path = "";//полный путь к файлу
     std::string input = read_file(path)+" ";//switched here to open file only once
     std::vector<Polygon> pn_field = input_polygons(input);
@@ -320,4 +320,4 @@ int main() {
     std::cout << "Result Polygon:" << std::endl;
     pn_f.print_vertices();
     return 0;
-}
+}/*
