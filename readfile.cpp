@@ -1,5 +1,6 @@
 #include "readfile.h"
-#include <iostream> // for mistakes
+#include <iostream>
+#include <regex>
 
 std::string read_file(const std::string& path){
     std::string output;
@@ -14,36 +15,41 @@ std::string read_file(const std::string& path){
     return output;
 }
 
-std::size_t find_min_key(const std::string input,std::size_t index){//because now we have vector of string {"03","04","05","06","07","08","09"}
+std::string edit_file(std::string input){
+    std::regex newlineRegex("\\n");
+    input = std::regex_replace(input, newlineRegex, " ");
+    input = " " + input + " ";
+    std::regex spaceRegex("\\s+");
+    input = std::regex_replace(input, spaceRegex, " ");
+    return input;
+}
+
+std::size_t find_key(const std::string& input, std::size_t index){
     if (index == std::string::npos || input.empty()) {
         return std::string::npos;
     }
     std::size_t min_index = input.find(KEY[0], index);
-    std::size_t min_index_2 = input.find(KEY[1], index);
-    min_index = min_index < min_index_2 ? min_index : min_index_2;
-
-    return min_index == std::string::npos ? std::string::npos : min_index+1;//ссылка на 0 в _03_
-}
-
-std::size_t find_key(const std::string& input, std::size_t index){
-    if (input.empty()) {
-        // file cannot be openned, return std::string::npos
-        return std::string::npos;
+    for (int i=1;i<7;i++){
+        std::size_t new_index=input.find(KEY[i], index);
+        if (new_index<min_index){
+            min_index=new_index;
+        }
     }
-    if (index == 0 && input.size() >= 3 && input.substr(0, 3) >= "03 " && input.substr(0, 3) <= "09 ") {
-        return 0;
-    }
-    return find_min_key(input,index);
+    return  min_index == std::string::npos ? std::string::npos : min_index;
 }
-
 
 std::vector<double> fill_coords_from_input(const std::string& input,std::size_t previous_index){
+    if (input.empty() || previous_index == std::string::npos) {
+        return {};
+    }
     std::vector<double> coords;
-    std::size_t new_index = input.find_first_of(NUMBERS, previous_index+2);
-    std::size_t next_index= find_key(input,previous_index+2);//next 0* index
+    std::size_t new_index = input.find_first_of(NUMBERS, previous_index+3);
+    std::size_t next_index= find_key(input,previous_index+3);//next 0* index
+    int s = std::stoi(input.substr(previous_index, 4));
     previous_index = new_index;
-    for(int i = 0; i < 20; i++){
-        new_index = input.find_first_not_of(NUMBERS, previous_index);
+
+    for(int i = 0; i < 2*s; i++){
+        new_index = input.find_first_not_of(NUMBERS, previous_index+1);
         if (new_index == std::string::npos) {
         // If we could not find the next number, we end the loop
             break;
@@ -63,13 +69,12 @@ std::vector<double> get_coords(const std::string& input, std::size_t index){
     if (input.empty() || index == std::string::npos) {
         return {};
     } else {
-        //std::size_t previous_index = find_key(input, index); _0*_ = 3
         coords = fill_coords_from_input(input, index);
     }
     if (coords.size() % 2 != 0){
         coords.pop_back();
     }
-    if (coords.size() == 0) { //if some point have only one value
+    if (coords.empty()) {
         return {};
     }
     return coords;
