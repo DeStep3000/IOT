@@ -4,12 +4,56 @@
 #include <vector>
 #include "readfile.h"
 
+// Daniel works here
+const double eps = 1000*DBL_EPSILON; //needed for comparing double about 2,2204460492503131e-013
+
 struct Point {
     double x, y;
 };//struct for points in format x and y
-
-// Daniel works here
-const double eps = 1000*DBL_EPSILON; //needed for comparing double about 2,2204460492503131e-013
+Point operator + (const Point& p1, const Point& p2){
+    return Point{p1.x + p2.x, p1.y + p2.y};
+}
+Point& operator += (Point& p1, const Point& p2){
+    p1 = Point{p1.x + p2.x, p1.y + p2.y};
+    return p1;
+}
+Point operator - (const Point& p1, const Point& p2){
+    return Point{p1.x - p2.x, p1.y - p2.y};
+}
+Point operator * (const double a, const Point& p2){
+    return Point{a * p2.x, a * p2.y};
+}
+double operator * (const Point& p1, const Point& p2){
+    return p1.x * p2.x + p1.y * p2.y;
+}
+double operator ^ (const Point& p1, const Point& p2){
+    return p1.x * p2.y + p1.y * p2.x;
+}
+Point operator - (Point p1){
+    return Point{-p1.x, -p1.y};
+}
+bool operator == (const Point& p1, const Point& p2){
+    return -eps < p1.x - p2.x && p1.x - p2.x < eps && -eps < p1.y - p2.y && p1.y - p2.y < eps;
+}
+bool operator != (const Point& p1, const Point& p2){
+    return !(p1 == p2);
+}
+bool operator > (const Point& p1, const Point& p2){ // first by x then by y
+    return (p1.x > p2.x) || (-eps < p1.x - p2.x && p1.x - p2.x < eps) && (p1.y > p2.y);
+}
+bool operator < (const Point& p1, const Point& p2){ // first by x then by y
+    return (p1.x < p2.x) || (-eps < p1.x - p2.x && p1.x - p2.x < eps) && (p1.y < p2.y);
+}
+bool operator <= (const Point& p1, const Point& p2){ // first by x then by y
+    return !(p1 > p2);
+}
+bool operator >= (const Point& p1, const Point& p2){ // first by x then by y
+    return !(p1 < p2);
+}
+std::ostream& operator << (std::ostream& stream, const Point& p){
+    stream << p.x << " " << p.y;
+    return stream;
+}
 
 class Polygon{//class for Polygons
 private:
@@ -364,4 +408,21 @@ int main() {
     std::cout << "Result Polygon:" << std::endl;
     pn_f.print_vertices();
     return 0;
+    /*Point a{2, 6};
+    Point b{3, 5};
+    Point c = a + b;
+    double s = 2.5;
+    std::cout << (a+b) << std::endl;
+    std::cout << (a-b) << std::endl;
+    std::cout << (a*b) << std::endl;
+    std::cout << (a^b) << std::endl;
+    std::cout << (s * a) << std::endl;
+    a += b;
+    std::cout << a << std::endl;
+    std::cout << "CHECKING" << std::endl;
+    std::cout << (a == c) << std::endl;
+    std::cout << (a < b) << std::endl;
+    std::cout << (a <= b) << std::endl;
+    std::cout << (a > b) << std::endl;
+    std::cout << (a >= b) << std::endl;*/
 }
