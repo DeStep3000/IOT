@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cfloat>//import machine epsilon for double
+#include <cmath>
 #include <vector>
 #include "readfile.h"
 
@@ -8,7 +9,7 @@ struct Point {
 };//struct for points in format x and y
 
 // Daniel works here
-const double eps = DBL_EPSILON; //needed for comparing double
+const double eps = 1000*DBL_EPSILON; //needed for comparing double about 2,2204460492503131e-013
 
 class Polygon{//class for Polygons
 private:
@@ -71,7 +72,7 @@ public:
         bool result = false;
         int j = this->num_vertices - 1;
         for(int i = 0; i < this->num_vertices; i++){
-            /*if (-eps < this->vertices[i].y - this->vertices[j].y < eps && -eps < this->vertices[i].y - point.y < eps){
+            /*if (-eps < this->vertices[i].y - this->vertices[j].y && this->vertices[i].y - this->vertices[j].y < eps && -eps < this->vertices[i].y - point.y && this->vertices[i].y - point.y < eps){
                 return true;
             }*/
             bool is_between = this->vertices[i].y < point.y && this->vertices[j].y > point.y || this->vertices[j].y < point.y && this->vertices[i].y > point.y;
@@ -82,6 +83,29 @@ public:
             j = i;
         }
         return result;
+    }
+
+    bool is_point_in_2(Point p){//this method use angle sum
+        double result = 0;
+        int j = this->num_vertices - 1;
+        for(int i = 0; i < this->num_vertices; i++){
+            double vec_mult = (this->vertices[i].x - p.x) * (this->vertices[j].y - p.y) - (this->vertices[i].y - p.y)*(this->vertices[j].x - p.x);
+            if(vec_mult > 0){
+                result += acos(((this->vertices[i].x - p.x) * (this->vertices[j].x - p.x) + (this->vertices[i].y - p.y)*(this->vertices[j].y - p.y)) /
+                                       sqrt(pow((this->vertices[i].x - p.x), 2)+pow((this->vertices[i].y - p.y), 2)) / sqrt(pow((this->vertices[j].x - p.x), 2)+pow((this->vertices[j].y - p.y), 2)));
+            } else if(vec_mult < 0) {
+                result -= acos(((this->vertices[i].x - p.x) * (this->vertices[j].x - p.x) + (this->vertices[i].y - p.y)*(this->vertices[j].y - p.y)) /
+                               sqrt(pow((this->vertices[i].x - p.x), 2)+pow((this->vertices[i].y - p.y), 2)) / sqrt(pow((this->vertices[j].x - p.x), 2)+pow((this->vertices[j].y - p.y), 2)));
+            }
+        }
+        /*if(!(-eps < result / M_PI && result / M_PI < eps)){
+            return true;
+        }*/
+        result = round(result / 2);
+        if (-eps < result && result < eps){
+            return false;
+        }
+        return true;
     }
 };
 
@@ -128,22 +152,27 @@ double abs(double a){//func for absolute value
 }
 
 bool is_intersected(Point a, Point b, Point c, Point d){//check if AB and CD is intersected? using vector multiplication for checking
-    bool first = (sign((b.x - a.x) * (c.y - a.y) - (b.y - a.y)*(c.x - a.x)) != sign((b.x - a.x) * (d.y - a.y) - (b.y - a.y)*(d.x - a.x)));
-    bool second = (sign((c.x - d.x) * (a.y - d.y) - (c.y - d.y)*(a.x - d.x)) != sign((c.x - d.x) * (b.y - d.y) - (c.y - d.y)*(b.x - d.x)));
-    return first and second;
+    double mult1 = (b.x - a.x) * (c.y - a.y) - (b.y - a.y)*(c.x - a.x);
+    double mult2 = (b.x - a.x) * (d.y - a.y) - (b.y - a.y)*(d.x - a.x);
+    bool first = (sign(mult1) != sign(mult2));
+    mult1 = (c.x - d.x) * (a.y - d.y) - (c.y - d.y)*(a.x - d.x);
+    mult2 = (c.x - d.x) * (b.y - d.y) - (c.y - d.y)*(b.x - d.x);
+    bool second = (sign(mult1) != sign(mult2));
+    return first && second;
 }
 
-Point intersection(Point a, Point b, Point c, Point d){//func to find point of intersection of AB and CD
+std::vector<Point> intersection(Point a, Point b, Point c, Point d){//func to find point of intersection of AB and CD
     Point res{0, 0};
+    std::vector<Point> result;
     if(is_intersected(a, b, c, d)){
         double z1 = abs((b.x - a.x) * (c.y - a.y) - (b.y - a.y)*(c.x - a.x));
         double z2 = abs((b.x - a.x) * (d.y - a.y) - (b.y - a.y)*(d.x - a.x) - (b.x - a.x) * (c.y - a.y) + (b.y - a.y)*(c.x - a.x));
         res.x = c.x + (d.x - c.x) * (z1 / z2);
         res.y = c.y + (d.y - c.y) * (z1 / z2);
-        return res;
-    } else {
-        return {};//return blank point if not intersection
+        result.push_back(res);
+        return result;
     }
+    return result;
 }
 
 int mult_vector(Point a, Point b, Point c){//checks the position of a point relative to A, using vector multiplication
@@ -213,7 +242,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     }
 
     for(Point p: p1_vertices){//check points for their position
-        bool point_in = p2.is_point_in(p) or p2.is_point_vertex(p);
+        bool point_in = p2.is_point_in(p) || p2.is_point_in(Point{p.x, p.y+eps}) || p2.is_point_in(Point{p.x, p.y-eps}) || p2.is_point_in(Point{p.x+eps, p.y}) || p2.is_point_in(Point{p.x-eps, p.y}) || p2.is_point_vertex(p);
         if (point_in){
             intersection_points.push_back(p);
         }
@@ -224,7 +253,7 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
         return p1;
     }
     for(Point p: p2_vertices){//check points for their position
-        bool point_in = p1.is_point_in(p) or p1.is_point_vertex(p);
+        bool point_in = p1.is_point_in(p) || p1.is_point_in(Point{p.x, p.y+eps}) || p1.is_point_in(Point{p.x, p.y-eps}) || p1.is_point_in(Point{p.x+eps, p.y}) || p1.is_point_in(Point{p.x-eps, p.y}) || p1.is_point_vertex(p);
         if (point_in){
             intersection_points.push_back(p);
         }
@@ -238,8 +267,8 @@ Polygon intersect_polygons(Polygon p1, Polygon p2){ //intersection of 2 Polygons
     for(int a = 0; a < p1_length; a++){
         int d = p2_length - 1;
         for(int c = 0; c < p2_length; c++){
-            if(is_intersected(p1_vertices[a], p1_vertices[b], p2_vertices[c], p2_vertices[d])) {
-                intersection_points.push_back(intersection(p1_vertices[a], p1_vertices[b], p2_vertices[c], p2_vertices[d]));
+            for(Point p: intersection(p1_vertices[a], p1_vertices[b], p2_vertices[c], p2_vertices[d])) {
+                intersection_points.push_back(p);
             }
             d = c;
         }
@@ -268,33 +297,42 @@ std::vector<Polygon> intersect_polygon_field(std::vector<Polygon> field){//inter
         for(std::size_t j=i+1; j < n; j++){
             intersected_pn = intersect_polygons(field[i], field[j]);
             bool check = true;
-            for(Polygon pn: new_field){
-                check = check & !pn.is_equal_polygon(intersected_pn);
-            }
-            if(intersected_pn.get_num_vertices() > 0 && check){
-                new_field.push_back(intersected_pn);
+            if(intersected_pn.get_num_vertices() > 0){
+                for(Polygon pn: new_field){
+                    check = check & !pn.is_equal_polygon(intersected_pn);
+                }
+                if(check){
+                    new_field.push_back(intersected_pn);
+                }
             }
         }
     }
     return new_field;
 }
 Polygon intersect_polygon_field_final(std::vector<Polygon> &field){//intersect until there is only one polygon left
+    if(field.empty()){
+        return {};
+    }
     std::vector<Polygon> old_field;
     std::vector<Polygon> new_field = field;
     while(new_field.size() > 1){ // earlier I was checking on emptyness what a mess I am dumb heheha
         old_field = new_field;
         new_field = intersect_polygon_field(old_field);
+        std::cout << "Iteration Polygons: " << new_field.size() << std::endl;
+        for(Polygon pn : new_field){
+            pn.print_vertices();
+        }
+    }
+    if(new_field.empty()){
+        return old_field[0];
     }
     return new_field[0];// old_field -> new_field ??
 }
 
 
 std::vector<Polygon> input_polygons(const std::string &input){
-    if (input.empty() ) {
-        return {};
-    }
     std::vector<Polygon> pn_field;
-    std::size_t index=0;
+    std::size_t index=find_key(input,0);
     while(index != std::string::npos){
         Polygon pn;
         pn.input_from_file(input,index);
@@ -307,17 +345,20 @@ std::vector<Polygon> input_polygons(const std::string &input){
 }
 //think about realization class for Point
 int main() {
-    const std::string path = "E:\\clion\\IOT4\\test2.txt";//Absolute file path
+    const std::string path = "C:\\Users\\dabho\\CLionProjects\\IOT\\test2.txt";//Absolute file path
     std::string input = read_file(path);
     input= edit_file(input);
 
     std::vector<Polygon> pn_field = input_polygons(input);
+    if(pn_field.empty()){
+        std::cout << "No polygons" << std::endl;
+        return -1;
+    }
     std::cout << "Starting Polygons:" << std::endl;
     for(Polygon pn: pn_field){
         pn.print_vertices();
     }
     std::cout << "Ended Polygons" << std::endl;
-
     Polygon pn_f = intersect_polygon_field_final(pn_field);
     std::cout << std::endl;
     std::cout << "Result Polygon:" << std::endl;
