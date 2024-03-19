@@ -76,45 +76,86 @@ build bin/SFMLProject.exe: CXX_EXECUTABLE_LINKER__SFMLProject_Debug CMakeFiles/S
   TARGET_PDB = SFMLProject.exe.dbg
 
 # =============================================================================
-# Object build statements for EXECUTABLE target Google_Tests_run
+# Object build statements for EXECUTABLE target Google_Test_readfile_run
 
 
 #############################################
-# Order-only phony target for Google_Tests_run
+# Order-only phony target for Google_Test_readfile_run
 
-build cmake_object_order_depends_target_Google_Tests_run: phony || cmake_object_order_depends_target_gmock cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
+build cmake_object_order_depends_target_Google_Test_readfile_run: phony || cmake_object_order_depends_target_gmock cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
 
-build CMakeFiles/Google_Tests_run.dir/tests.cpp.obj: CXX_COMPILER__Google_Tests_run_unscanned_Debug C$:/DeStep/HSE/C++/IOT/tests.cpp || cmake_object_order_depends_target_Google_Tests_run
-  DEP_FILE = CMakeFiles\Google_Tests_run.dir\tests.cpp.obj.d
+build CMakeFiles/Google_Test_readfile_run.dir/tests/test_readfile.cpp.obj: CXX_COMPILER__Google_Test_readfile_run_unscanned_Debug C$:/DeStep/HSE/C++/IOT/tests/test_readfile.cpp || cmake_object_order_depends_target_Google_Test_readfile_run
+  DEP_FILE = CMakeFiles\Google_Test_readfile_run.dir\tests\test_readfile.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   INCLUDES = -isystem C:/DeStep/HSE/C++/IOT/google/googletest/include -isystem C:/DeStep/HSE/C++/IOT/google/googletest -isystem C:/DeStep/HSE/C++/IOT/google/googlemock/include -isystem C:/DeStep/HSE/C++/IOT/google/googlemock
-  OBJECT_DIR = CMakeFiles\Google_Tests_run.dir
-  OBJECT_FILE_DIR = CMakeFiles\Google_Tests_run.dir
+  OBJECT_DIR = CMakeFiles\Google_Test_readfile_run.dir
+  OBJECT_FILE_DIR = CMakeFiles\Google_Test_readfile_run.dir\tests
 
-build CMakeFiles/Google_Tests_run.dir/readfile.cpp.obj: CXX_COMPILER__Google_Tests_run_unscanned_Debug C$:/DeStep/HSE/C++/IOT/readfile.cpp || cmake_object_order_depends_target_Google_Tests_run
-  DEP_FILE = CMakeFiles\Google_Tests_run.dir\readfile.cpp.obj.d
+build CMakeFiles/Google_Test_readfile_run.dir/readfile.cpp.obj: CXX_COMPILER__Google_Test_readfile_run_unscanned_Debug C$:/DeStep/HSE/C++/IOT/readfile.cpp || cmake_object_order_depends_target_Google_Test_readfile_run
+  DEP_FILE = CMakeFiles\Google_Test_readfile_run.dir\readfile.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   INCLUDES = -isystem C:/DeStep/HSE/C++/IOT/google/googletest/include -isystem C:/DeStep/HSE/C++/IOT/google/googletest -isystem C:/DeStep/HSE/C++/IOT/google/googlemock/include -isystem C:/DeStep/HSE/C++/IOT/google/googlemock
-  OBJECT_DIR = CMakeFiles\Google_Tests_run.dir
-  OBJECT_FILE_DIR = CMakeFiles\Google_Tests_run.dir
+  OBJECT_DIR = CMakeFiles\Google_Test_readfile_run.dir
+  OBJECT_FILE_DIR = CMakeFiles\Google_Test_readfile_run.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target Google_Tests_run
+# Link build statements for EXECUTABLE target Google_Test_readfile_run
 
 
 #############################################
-# Link the executable bin\Google_Tests_run.exe
+# Link the executable bin\Google_Test_readfile_run.exe
 
-build bin/Google_Tests_run.exe: CXX_EXECUTABLE_LINKER__Google_Tests_run_Debug CMakeFiles/Google_Tests_run.dir/tests.cpp.obj CMakeFiles/Google_Tests_run.dir/readfile.cpp.obj | lib/libgtest.a lib/libgtest_main.a lib/libgmock.a lib/libgtest.a || lib/libgmock.a lib/libgtest.a lib/libgtest_main.a
+build bin/Google_Test_readfile_run.exe: CXX_EXECUTABLE_LINKER__Google_Test_readfile_run_Debug CMakeFiles/Google_Test_readfile_run.dir/tests/test_readfile.cpp.obj CMakeFiles/Google_Test_readfile_run.dir/readfile.cpp.obj | lib/libgtest.a lib/libgtest_main.a lib/libgmock.a lib/libgtest.a || lib/libgmock.a lib/libgtest.a lib/libgtest_main.a
   FLAGS = -g
   LINK_LIBRARIES = lib/libgtest.a  lib/libgtest_main.a  lib/libgmock.a  lib/libgtest.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\Google_Tests_run.dir
+  OBJECT_DIR = CMakeFiles\Google_Test_readfile_run.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_FILE = bin\Google_Tests_run.exe
-  TARGET_IMPLIB = libGoogle_Tests_run.dll.a
-  TARGET_PDB = Google_Tests_run.exe.dbg
+  TARGET_FILE = bin\Google_Test_readfile_run.exe
+  TARGET_IMPLIB = libGoogle_Test_readfile_run.dll.a
+  TARGET_PDB = Google_Test_readfile_run.exe.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target Google_Test_main_run
+
+
+#############################################
+# Order-only phony target for Google_Test_main_run
+
+build cmake_object_order_depends_target_Google_Test_main_run: phony || cmake_object_order_depends_target_gmock cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
+
+build CMakeFiles/Google_Test_main_run.dir/tests/test_main.cpp.obj: CXX_COMPILER__Google_Test_main_run_unscanned_Debug C$:/DeStep/HSE/C++/IOT/tests/test_main.cpp || cmake_object_order_depends_target_Google_Test_main_run
+  DEP_FILE = CMakeFiles\Google_Test_main_run.dir\tests\test_main.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -isystem C:/DeStep/HSE/C++/IOT/google/googletest/include -isystem C:/DeStep/HSE/C++/IOT/google/googletest -isystem C:/DeStep/HSE/C++/IOT/google/googlemock/include -isystem C:/DeStep/HSE/C++/IOT/google/googlemock
+  OBJECT_DIR = CMakeFiles\Google_Test_main_run.dir
+  OBJECT_FILE_DIR = CMakeFiles\Google_Test_main_run.dir\tests
+
+build CMakeFiles/Google_Test_main_run.dir/readfile.cpp.obj: CXX_COMPILER__Google_Test_main_run_unscanned_Debug C$:/DeStep/HSE/C++/IOT/readfile.cpp || cmake_object_order_depends_target_Google_Test_main_run
+  DEP_FILE = CMakeFiles\Google_Test_main_run.dir\readfile.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -isystem C:/DeStep/HSE/C++/IOT/google/googletest/include -isystem C:/DeStep/HSE/C++/IOT/google/googletest -isystem C:/DeStep/HSE/C++/IOT/google/googlemock/include -isystem C:/DeStep/HSE/C++/IOT/google/googlemock
+  OBJECT_DIR = CMakeFiles\Google_Test_main_run.dir
+  OBJECT_FILE_DIR = CMakeFiles\Google_Test_main_run.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target Google_Test_main_run
+
+
+#############################################
+# Link the executable bin\Google_Test_main_run.exe
+
+build bin/Google_Test_main_run.exe: CXX_EXECUTABLE_LINKER__Google_Test_main_run_Debug CMakeFiles/Google_Test_main_run.dir/tests/test_main.cpp.obj CMakeFiles/Google_Test_main_run.dir/readfile.cpp.obj | lib/libgtest.a lib/libgtest_main.a lib/libgmock.a lib/libgtest.a || lib/libgmock.a lib/libgtest.a lib/libgtest_main.a
+  FLAGS = -g
+  LINK_LIBRARIES = lib/libgtest.a  lib/libgtest_main.a  lib/libgmock.a  lib/libgtest.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\Google_Test_main_run.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = bin\Google_Test_main_run.exe
+  TARGET_IMPLIB = libGoogle_Test_main_run.dll.a
+  TARGET_PDB = Google_Test_main_run.exe.dbg
 
 # =============================================================================
 # Object build statements for EXECUTABLE target IOT
@@ -2393,9 +2434,13 @@ build _deps/sfml-build/src/SFML/Audio/install/strip: phony _deps/sfml-build/src/
 # =============================================================================
 # Target aliases.
 
-build Google_Tests_run: phony bin/Google_Tests_run.exe
+build Google_Test_main_run: phony bin/Google_Test_main_run.exe
 
-build Google_Tests_run.exe: phony bin/Google_Tests_run.exe
+build Google_Test_main_run.exe: phony bin/Google_Test_main_run.exe
+
+build Google_Test_readfile_run: phony bin/Google_Test_readfile_run.exe
+
+build Google_Test_readfile_run.exe: phony bin/Google_Test_readfile_run.exe
 
 build IOT: phony bin/IOT.exe
 
@@ -2453,7 +2498,7 @@ build sfml-window: phony _deps/sfml-build/lib/libsfml-window-s-d.a
 #############################################
 # Folder: C:/DeStep/HSE/C++/IOT/cmake-build-debug
 
-build all: phony bin/SFMLProject.exe bin/Google_Tests_run.exe bin/IOT.exe google/all _deps/sfml-build/all
+build all: phony bin/SFMLProject.exe bin/Google_Test_readfile_run.exe bin/Google_Test_main_run.exe bin/IOT.exe google/all _deps/sfml-build/all
 
 # =============================================================================
 

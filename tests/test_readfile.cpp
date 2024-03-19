@@ -1,8 +1,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "readfile.h"
-#include "main.h"
+#include "../readfile.h"
 
 
 TEST(edit_file_test,start_end_space) {
@@ -182,16 +181,6 @@ TEST(get_coords_test,some_extreme_cases){
     result = {};
     EXPECT_EQ(get_coords(input,3),result);
 }
-
-TEST(input_polygons,test1){
-    std::string input=" 03 9 56 75259 259 25 27 03 10 567 4 23 75259 259 25 27 03 11 567 4 23 75259 259 67 47 47 57 05 12 567 4 23 75259 259 67 68 39 988 90 67 03 03 13 567 4 23 5 03 14 03 34 34 ";
-    PolygonField pn_field;
-    pn_field.input_polygons(input);
-    EXPECT_EQ(pn_field.get_num_pn(),6);
-
-    //EXPECT_EQ(pn_field.get_field()[0].get_vertices(),{9,56,75259,295,25,27});
-}
-//broken test
 
 int main(int argc, char **argv){
     ::testing::InitGoogleTest(&argc, argv);

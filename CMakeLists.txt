@@ -22,9 +22,15 @@ target_link_libraries(SFMLProject PRIVATE sfml-graphics)
 target_compile_features(SFMLProject PRIVATE cxx_std_17)
 
 # Линкуем тесты
-add_executable(Google_Tests_run tests.cpp readfile.cpp)
-target_link_libraries(Google_Tests_run gtest gtest_main)
-target_link_libraries(Google_Tests_run gmock)
+# Линкуем тесты для чтения файлов
+add_executable(Google_Test_readfile_run tests/test_readfile.cpp readfile.cpp)
+target_link_libraries(Google_Test_readfile_run gtest gtest_main)
+target_link_libraries(Google_Test_readfile_run gmock)
+
+# Линкуем тесты для main
+add_executable(Google_Test_main_run tests/test_main.cpp readfile.cpp)
+target_link_libraries(Google_Test_main_run gtest gtest_main)
+target_link_libraries(Google_Test_main_run gmock)
 
 # Линкуем мат часть
 add_executable(IOT main.cpp readfile.cpp)
