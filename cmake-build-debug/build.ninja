@@ -91,6 +91,13 @@ build CMakeFiles/Google_Tests_run.dir/tests.cpp.obj: CXX_COMPILER__Google_Tests_
   OBJECT_DIR = CMakeFiles\Google_Tests_run.dir
   OBJECT_FILE_DIR = CMakeFiles\Google_Tests_run.dir
 
+build CMakeFiles/Google_Tests_run.dir/readfile.cpp.obj: CXX_COMPILER__Google_Tests_run_unscanned_Debug C$:/DeStep/HSE/C++/IOT/readfile.cpp || cmake_object_order_depends_target_Google_Tests_run
+  DEP_FILE = CMakeFiles\Google_Tests_run.dir\readfile.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -isystem C:/DeStep/HSE/C++/IOT/google/googletest/include -isystem C:/DeStep/HSE/C++/IOT/google/googletest -isystem C:/DeStep/HSE/C++/IOT/google/googlemock/include -isystem C:/DeStep/HSE/C++/IOT/google/googlemock
+  OBJECT_DIR = CMakeFiles\Google_Tests_run.dir
+  OBJECT_FILE_DIR = CMakeFiles\Google_Tests_run.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Google_Tests_run
@@ -99,7 +106,7 @@ build CMakeFiles/Google_Tests_run.dir/tests.cpp.obj: CXX_COMPILER__Google_Tests_
 #############################################
 # Link the executable bin\Google_Tests_run.exe
 
-build bin/Google_Tests_run.exe: CXX_EXECUTABLE_LINKER__Google_Tests_run_Debug CMakeFiles/Google_Tests_run.dir/tests.cpp.obj | lib/libgtest.a lib/libgtest_main.a lib/libgmock.a lib/libgtest.a || lib/libgmock.a lib/libgtest.a lib/libgtest_main.a
+build bin/Google_Tests_run.exe: CXX_EXECUTABLE_LINKER__Google_Tests_run_Debug CMakeFiles/Google_Tests_run.dir/tests.cpp.obj CMakeFiles/Google_Tests_run.dir/readfile.cpp.obj | lib/libgtest.a lib/libgtest_main.a lib/libgmock.a lib/libgtest.a || lib/libgmock.a lib/libgtest.a lib/libgtest_main.a
   FLAGS = -g
   LINK_LIBRARIES = lib/libgtest.a  lib/libgtest_main.a  lib/libgmock.a  lib/libgtest.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Google_Tests_run.dir
