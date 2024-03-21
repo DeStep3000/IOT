@@ -37,7 +37,7 @@ TEST(input_polygons,test1){
     EXPECT_EQ(pn_field.get_field()[5].get_vertices(),pn_point);
 }
 
-TEST(intersect_polygon_field_final_test,void_space_test0){
+TEST(intersect_polygon_field_final_test,void_space_test1){
     std::string input = "";
     input= edit_file(input);
     PolygonField pn_field;
