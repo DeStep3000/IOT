@@ -17,6 +17,9 @@ TEST(edit_file_test,start_end_space) {
 
     input =" 475485 ";
     ASSERT_EQ(edit_file(input)," 475485 ");
+
+    input =" 411111 ";
+    ASSERT_EQ(edit_file(input)," 411111 ");
 }
 TEST(edit_file_test,new_line){
     std::string input="48 \n fdif 34 5885 \n 31 \n 3983 \n 494";
