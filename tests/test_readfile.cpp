@@ -1,6 +1,6 @@
 #include <iostream>
 #include <gtest/gtest.h>
-#include "../readfile.h"
+#include "../src/readfile.h"
 
 TEST(edit_file_test,start_end_space) {
     std::string input ="475485";

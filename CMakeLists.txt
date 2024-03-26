@@ -16,44 +16,43 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 # Линкуем SFML проект
-add_executable(SFMLProject sfml.cpp)
+add_executable(SFMLProject src/sfml.cpp)
 
 target_link_libraries(SFMLProject PRIVATE sfml-graphics)
 target_compile_features(SFMLProject PRIVATE cxx_std_17)
 
-## Подключаем QT через гит(хз так проще)
+
+find_package(wxWidgets REQUIRED)
+add_executable(WxWidgets src/file_manager.cpp)
+target_compile_features(WxWidgets PUBLIC cxx_std_17)
+target_link_libraries(WxWidgets ${wxWidgets_LIBRARIES})
+target_compile_definitions(WxWidgets PRIVATE ${wxWidgets_DEFINITIONS})
+target_include_directories(WxWidgets PRIVATE ${wxWidgets_INCLUDE_DIRS})
+
+# Подключаем OpenGL через гит(хз так проще)
 #include(FetchContent)
-#FetchContent_Declare(QT
-#        GIT_REPOSITORY https://github.com/qt/qt5.git
-#        GIT_TAG 6.7)
-#FetchContent_MakeAvailable(QT)
-#
-## Линкуем QT проект
+#FetchContent_Declare(OpenGL
+#        GIT_REPOSITORY https://github.com/JoeyDeVries/LearnOpenGL.git
+#        GIT_TAG master)
+#FetchContent_MakeAvailable(OpenGL)
 
-#
-#target_link_libraries(QT_Graphic PRIVATE Qt::Widgets)
-#target_compile_features(QT_Graphic PRIVATE cxx_std_17)
-
-#set(Qt5_DIR "C:\\Qt\\Qt5.12.12\\5.12.12\\mingw73_64\\lib\\cmake")
-#set(CMAKE_AUTOMOC ON)
-#find_package(Qt5Widgets REQUIRED)
-#
-#add_executable(QT_Graphic qt_files/qt_graphic.cpp)
-#target_link_libraries(QT_Graphic Qt5::Widgets)
+## Линкуем OpenGL проект
+#target_link_libraries(OpenGL_Graphic PRIVATE Qt::Widgets)
+#target_compile_features(OpenGL_Graphic PRIVATE cxx_std_17)
 
 # Линкуем тесты
 # Линкуем тесты для чтения файлов
-add_executable(Google_Test_readfile_run tests/test_readfile.cpp readfile.cpp)
+add_executable(Google_Test_readfile_run tests/test_readfile.cpp src/readfile.cpp)
 target_link_libraries(Google_Test_readfile_run gtest gtest_main)
 target_link_libraries(Google_Test_readfile_run gmock)
 
 # Линкуем тесты для main
-add_executable(Google_Test_main_run tests/test_main.cpp readfile.cpp)
+add_executable(Google_Test_main_run tests/test_main.cpp src/readfile.cpp)
 target_link_libraries(Google_Test_main_run gtest gtest_main)
 target_link_libraries(Google_Test_main_run gmock)
 
 # Линкуем мат часть
-add_executable(IOT main.cpp readfile.cpp)
+add_executable(IOT src/main.cpp src/readfile.cpp)
 if(WIN32)
     add_custom_command(
             TARGET SFMLProject
@@ -63,4 +62,3 @@ if(WIN32)
 endif()
 
 install(TARGETS SFMLProject)
-#install(TARGETS QT_Graphic)
