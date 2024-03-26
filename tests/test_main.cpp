@@ -53,7 +53,7 @@ TEST(intersect_polygon_field_final_test,void_space_test1){
     Polygon res1 = pn_field1.intersect_polygon_field_final();
     EXPECT_EQ(res1.get_vertices(),void_res.get_vertices());
 
-    input = " 48 4949 3483 0303 4848 38";
+    input = " 48 4949 3483 0303 4848 38 ";
     input= edit_file(input);
     PolygonField pn_field2;
     pn_field2.input_polygons(input);
