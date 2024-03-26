@@ -60,6 +60,37 @@ TEST(intersect_polygon_field_final_test,void_space_test1){
     Polygon res2 = pn_field2.intersect_polygon_field_final();
     EXPECT_EQ(res2.get_vertices(),void_res.get_vertices());
 }
+TEST(intersect_polygon_field_final_test,single_pn_test2){
+    std::string input = "03 1 1 2 3 3 2";
+    input= edit_file(input);
+    PolygonField pn_field;
+    pn_field.input_polygons(input);
+    Polygon res = pn_field.intersect_polygon_field_final();
+
+    std::vector<Point> pn_points{{1,1},{2,3},{3,2}};
+    EXPECT_EQ(res.get_num_vertices(),3);
+    EXPECT_EQ(res.get_vertices(),pn_points);
+
+    pn_points={{1.0+eps,1},{2,3},{3,2}};
+    for (size_t i=0;i<pn_points.size();i++){
+        EXPECT_TRUE(pn_points[i]==res.get_vertices()[i]);
+    }
+    EXPECT_EQ(res.get_vertices(),pn_points);
+
+    pn_points={{2,3},{1,1},{3,2}};
+    EXPECT_NE(res.get_vertices(),pn_points);
+}
+TEST(intersect_polygon_field_final_test,triangle_inside_test3){
+    std::string input = "03 1 1 6 2 3 6 03 2 2 4 3 3 4";
+    input= edit_file(input);
+    PolygonField pn_field;
+    pn_field.input_polygons(input);
+
+    std::vector<Point> pn_points{{2,2},{4,3},{3,4}};
+    EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
+
+}
+
 
 int main(int argc, char **argv){
     ::testing::InitGoogleTest(&argc, argv);
