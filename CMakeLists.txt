@@ -15,11 +15,31 @@ FetchContent_Declare(SFML
         GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-# Линкуем SFML файл
+# Линкуем SFML проект
 add_executable(SFMLProject sfml.cpp)
 
 target_link_libraries(SFMLProject PRIVATE sfml-graphics)
 target_compile_features(SFMLProject PRIVATE cxx_std_17)
+
+## Подключаем QT через гит(хз так проще)
+#include(FetchContent)
+#FetchContent_Declare(QT
+#        GIT_REPOSITORY https://github.com/qt/qt5.git
+#        GIT_TAG 6.7)
+#FetchContent_MakeAvailable(QT)
+#
+## Линкуем QT проект
+
+#
+#target_link_libraries(QT_Graphic PRIVATE Qt::Widgets)
+#target_compile_features(QT_Graphic PRIVATE cxx_std_17)
+
+#set(Qt5_DIR "C:\\Qt\\Qt5.12.12\\5.12.12\\mingw73_64\\lib\\cmake")
+#set(CMAKE_AUTOMOC ON)
+#find_package(Qt5Widgets REQUIRED)
+#
+#add_executable(QT_Graphic qt_files/qt_graphic.cpp)
+#target_link_libraries(QT_Graphic Qt5::Widgets)
 
 # Линкуем тесты
 # Линкуем тесты для чтения файлов
@@ -43,3 +63,4 @@ if(WIN32)
 endif()
 
 install(TARGETS SFMLProject)
+#install(TARGETS QT_Graphic)
