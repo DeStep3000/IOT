@@ -4,7 +4,7 @@
 
 
 int main() {
-    const std::string path = "C:\\DeStep\\HSE\\C++\\IOT\\test2.txt";//Absolute file path
+    const std::string path = "E:\\clion\\IOT4\\test2.txt";//Absolute file path
     std::string input = read_file(path);
     input= edit_file(input);
 
