@@ -88,7 +88,15 @@ TEST(intersect_polygon_field_final_test,triangle_inside_test3){
 
     std::vector<Point> pn_points{{2,2},{4,3},{3,4}};
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
+}
 
+TEST(is_intersected_test, intersection_test) {
+    PolygonField pn_field;
+    Point a{1, 4};
+    Point b{7, 4};
+    Point c{4, 1};
+    Point d{4, 6};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d),true);
 }
 
 
