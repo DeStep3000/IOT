@@ -1,5 +1,7 @@
 #include "polygon.h"
 
+
+//----------------------Operators----------------------------------------
 Point operator + (const Point& p1, const Point& p2){
     return Point{p1.x + p2.x, p1.y + p2.y};
 }
@@ -44,6 +46,10 @@ std::ostream& operator << (std::ostream& stream, const Point& p){
     stream << p.x << " " << p.y;
     return stream;
 }
+//----------------------------------------------------------------------------
+
+
+//--------------------Functions-----------------------------------------------
 double length (Point a){//func for length
     return sqrt(pow(a.x, 2)+pow(a.y, 2));
 }
@@ -54,6 +60,9 @@ int sign(double a){//func for sign of int
 double abs(double a){//func for absolute value
     return a < 0 ? -1 * a : a;
 }
+//----------------------------------------------------------------------------
+
+
 //-----------------------------------Polygon functions---------------------------------
 void Polygon::print_vertices(){//print in console all vertices
     for(Point p: this->vertices){
@@ -145,7 +154,7 @@ bool Polygon::is_point_in(Point point){ //checking is point inside polygon
 bool Polygon::is_point_in_f(Point p){ //checking is point inside polygon
     return is_point_in(Point{p.x, p.y+eps}) || is_point_in(Point{p.x, p.y-eps});
 }
-bool Polygon::is_point_in_2(Point p){//this method use angle sum
+/*bool Polygon::is_point_in_2(Point p){//this method use angle sum
     double result = 0;
     int j = this->num_vertices - 1;
     for(int i = 0; i < this->num_vertices; i++){
@@ -156,15 +165,15 @@ bool Polygon::is_point_in_2(Point p){//this method use angle sum
             result -= acos(((this->vertices[i] - p) * (this->vertices[j] - p)) / length(this->vertices[i] - p) / length(this->vertices[j] - p));
         }
     }
-    /*if(!(-eps < result / M_PI && result / M_PI < eps)){
+    if(!(-eps < result / M_PI && result / M_PI < eps)){
         return true;
-    }*/
+    }
     result = round(result / 2);
     if (-eps < result && result < eps){
         return false;
     }
     return true;
-}
+}*/
 //-------------------------------------------------------------------------------------
 
 

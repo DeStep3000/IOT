@@ -9,10 +9,15 @@
 
 const double eps = 1000*DBL_EPSILON; //needed for comparing double about 2,2204460492503131e-013
 
-// Point and operators
+//------------------------------Point and operators----------------------
+
+//-----------------struct for points in format x and y-------------
 struct Point {
     double x, y;
-};//struct for points in format x and y
+};
+
+
+//----------------------Operators----------------------------------------
 Point operator + (const Point& p1, const Point& p2);
 Point& operator += (Point& p1, const Point& p2);
 Point operator - (const Point& p1, const Point& p2);
@@ -30,8 +35,10 @@ std::ostream& operator << (std::ostream& stream, const Point& p);
 double length (Point a);
 int sign(double a);
 double abs(double a);
+//------------------------------------------------------------------------------------
 
 
+//-----------------------------------Polygon Class------------------------------------
 class Polygon{//class for Polygons
 private:
     std::vector<Point> vertices; // array of vertices, all points must be in traversal order
@@ -57,9 +64,12 @@ public:
     void input_from_file(const std::string &input, std::size_t index);//add vertices in Polygon from file using input_from_array
     bool is_point_in(Point point); //checking is point inside polygon
     bool is_point_in_f(Point p); //checking is point inside polygon
-    bool is_point_in_2(Point p);//this method use angle sum
+    //bool is_point_in_2(Point p);//this method use angle sum
 };
+//-----------------------------------------------------------------------------------------
 
+
+//-----------------------------------PolygonField Class------------------------------------
 class PolygonField{//class for group of Polygons
 private:
     std::vector<Polygon> field;//array of Polygons
@@ -86,5 +96,6 @@ public:
     Polygon intersect_polygon_field_final();//intersect until there is only one polygon left
     void input_polygons(const std::string &input);
 };
+//-----------------------------------------------------------------------------------------
 
 #endif
