@@ -88,6 +88,7 @@ TEST(intersect_polygon_field_final_test,triangle_inside_test3){
 
     std::vector<Point> pn_points{{2,2},{4,3},{3,4}};
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
+<<<<<<< HEAD
 
 }
 TEST(intersect_polygon_field_final_test,one_point_test4){
@@ -349,6 +350,81 @@ TEST(overloading_for_points_tests,less_eq_point_test){
     EXPECT_EQ(a<=f,false);
     EXPECT_EQ(a<=a,true);
 }
+=======
+}
+
+TEST(is_intersected_test, intersection_test) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 5}, c{2, 1}, d{4, 5};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d),true);
+}
+TEST(is_intersected_test, common_endpoint_test) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 4}, c{6, 2}, d{6, 6};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d),true);
+}
+TEST(is_intersected_test, non_intersection_test) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 5}, c{2, 1}, d{4, 3};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d), false);
+}
+TEST(is_intersected_test, parallel_test) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 4}, c{2, 3}, d{5, 3};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d),false);
+}
+TEST(is_intersected_test, horizontal_test) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 4}, c{3, 4}, d{3, 10};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d),false);
+}
+TEST(is_intersected_test, one_straight_line_test) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 4}, c{7, 4}, d{8, 4};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d),false);
+}
+TEST(is_intersected_test, lines_match_test) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 4}, c{1, 4}, d{6, 4};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d),false);
+}
+TEST(is_intersected_test, one_point_test) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 4}, c{2, 3}, d{2, 3};
+    ASSERT_EQ(pn_field.is_intersected(a,b,c,d),false);
+}
+
+TEST(intersection_test, segments_intersect) {
+    PolygonField pn_field;
+    Point a{1, 4}, b{6, 4}, c{3, 2}, d{3, 7};
+    std::vector<Point> result = pn_field.intersection(a, b, c, d);
+    ASSERT_EQ(result.size(), 1);
+    ASSERT_EQ(result[0].x, 3.0);
+    ASSERT_EQ(result[0].y, 4.0);
+}
+TEST(intersection_test, non_segments_intersect) {
+    PolygonField pn_field;
+    Point a{3, 2}, b{4, 5}, c{6, 4}, d{4, 6};
+    std::vector<Point> result = pn_field.intersection(a, b, c, d);
+    ASSERT_EQ(result.size(), 0);
+}
+
+TEST(length_test, test1) {
+    Point p{3.0, 4.0};
+    EXPECT_EQ(length(p), 5.0);
+}
+
+TEST(sign_test, positive_number) {
+    EXPECT_EQ(sign(10), 1);
+}
+TEST(SignTest, negative_number) {
+    EXPECT_EQ(sign(-7), -1);
+}
+TEST(SignTest, zero) {
+    EXPECT_EQ(sign(0.0), 1);
+}
+
+>>>>>>> vroli_sfml
 
 
 int main(int argc, char **argv){
