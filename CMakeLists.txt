@@ -27,7 +27,8 @@ target_link_libraries(Google_Tests_run gtest gtest_main)
 target_link_libraries(Google_Tests_run gmock)
 
 # Линкуем мат часть
-add_executable(IOT main.cpp readfile.cpp)
+add_executable(IOT main.cpp
+        readfile.cpp readfile.h polygon.cpp polygon.h)
 if(WIN32)
     add_custom_command(
             TARGET SFMLProject
