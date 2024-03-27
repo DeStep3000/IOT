@@ -1,6 +1,5 @@
 #include <iostream>
 #include <gtest/gtest.h>
-//#include <gmock/gmock.h>
 #include "../main.h"
 
 // test: mult_vector,intersection, is_intersected,all class polygon functions
@@ -163,6 +162,7 @@ TEST(intersect_polygon_field_final_test,six_points_test11){
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
 }
 
+//doesnt pass
 TEST(intersect_polygon_field_final_test,many_triangles_test12){
     std::string input = "03 4 8 20 8 10 2 03 6 8 18 12 19 5 03 6 6 16 6 12 12 03 6 4 14 2 14 12 03 8 4 16 4 8 12";//неверно,должно быть{ 9.25 7.25, 13.8 6.2, 12 8, 10 8 }
     //input = "03 4 8 20 8 10 2 03 4 8 18 12 19 5 03 6 6 16 6 12 12 03 6 4 14 2 14 12 03 8 4 16 4 8 12";//вообще не считает,должно быть {{9, 7},{14, 6}, {12, 8},{10,8}};
@@ -174,6 +174,24 @@ TEST(intersect_polygon_field_final_test,many_triangles_test12){
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
 }
 
+TEST(intersect_polygon_field_final_test,intersection_and_intersection3_test13){
+    std::string input = "03 2 2 5 2 3 5 03 3 1 6 1 5 3 03 8 2 13 2 10 6 03 9 1 13 1 11 6 03 11 1 15 2 14 6";
+    input= edit_file(input);
+    PolygonField pn_field;
+    pn_field.input_polygons(input);
+
+    std::vector<Point> pn_points{{11.6, 2},{12.6, 2}, {12.2, 3}};
+    EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
+}
+TEST(intersect_polygon_field_final_test,equal_triangles_test14){
+    std::string input = "03 1 1 6 2 3 6 03 1 1 6 2 3 6";
+    input = edit_file(input);
+    PolygonField pn_field;
+    pn_field.input_polygons(input);
+
+    std::vector<Point> pn_points{{1, 1},{6, 2},{3, 6}};
+    EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(), pn_points);
+}
 TEST(intersect_polygon_field_final_test,triangle_and_intersection_test15){
     std::string input = "03 2 2 6 2 4 4 03 6 4 10 4 8 6 03 7 5 9 5 8 4";
     input= edit_file(input);
@@ -183,6 +201,8 @@ TEST(intersect_polygon_field_final_test,triangle_and_intersection_test15){
     std::vector<Point> pn_points{{7, 5}, {8, 4}, {9, 5}};
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
 }
+
+//issue
 TEST(intersect_polygon_field_final_test,many_same_triangles_and_intersection_test16){
     std::string input = "03 1 1 3 1 2 3 03 1 1 3 1 2 3 03 1 1 3 1 2 3 03 5 2 8 2 6 4 03 6 1 8 1 6 3";
     input= edit_file(input);
@@ -192,9 +212,19 @@ TEST(intersect_polygon_field_final_test,many_same_triangles_and_intersection_tes
     std::vector<Point> pn_points{{6, 2},{7, 2}, {6, 3}};
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
 }
+
+TEST(intersect_polygon_field_final_test,different_polygons_test17){
+    std::string input = "04 9 2 17 2 17 6 9 6 06 10 2 12 2 13 4 12 6 10 6 9 4 05 11 2 14 2 14 4 13 6 11 4 03 8 2 12 2 8 10 ";
+    input= edit_file(input);
+    PolygonField pn_field;
+    pn_field.input_polygons(input);
+
+    std::vector<Point> pn_points{{11, 2},{12, 2}, {11, 4}};
+    EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
+}
+
 int main(int argc, char **argv){
     ::testing::InitGoogleTest(&argc, argv);
-    //::testing::InitGoogleMock(&argc, argv);
 
     return RUN_ALL_TESTS();
 }
