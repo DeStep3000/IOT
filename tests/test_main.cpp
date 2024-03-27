@@ -1,6 +1,6 @@
 #include <iostream>
 #include <gtest/gtest.h>
-#include "../main.h"
+#include "../polygon.h"
 
 // test: mult_vector,intersection, is_intersected,all class polygon functions
 // test: operator overloading, length, sign, abs
@@ -72,7 +72,7 @@ TEST(intersect_polygon_field_final_test,single_pn_test2){
 
     pn_points={{1.0+eps,1},{2,3},{3,2}};
     for (size_t i=0;i<pn_points.size();i++){
-        EXPECT_TRUE(pn_points[i]==res.get_vertices()[i]);
+        EXPECT_EQ(pn_points[i],res.get_vertices()[i]);
     }
     EXPECT_EQ(res.get_vertices(),pn_points);
 
@@ -212,7 +212,7 @@ TEST(intersect_polygon_field_final_test,many_same_triangles_and_intersection_tes
     PolygonField pn_field;
     pn_field.input_polygons(input);
 
-    std::vector<Point> pn_points{{1, 1},{3, 1}, {2, 3}};//{{6, 2},{7, 2}, {6, 3}} if we dont count same pns
+    std::vector<Point> pn_points{{1, 1},{3, 1}, {2, 3}};//{{6, 2},{7, 2}, {6, 3}} if we don't count same pns
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
 }
 TEST(intersect_polygon_field_final_test,different_polygons_test17){
@@ -232,7 +232,7 @@ TEST(intersect_polygon_field_final_test,different_polygons_test17){
     PolygonField pn_field;
     pn_field.input_polygons(input);
 
-    std::vector<Point> pn_points{{11, 2},{12, 2}, {11, 4}};
+    std::vector<Point> pn_points{};//we don't even know
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
 }*/
 

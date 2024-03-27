@@ -1,6 +1,6 @@
 #include <iostream>
 #include "readfile.h"
-#include "main.h"
+#include "polygon.h"
 
 
 int main() {
