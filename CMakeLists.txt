@@ -28,7 +28,7 @@ target_link_libraries(Google_Test_readfile_run gtest gtest_main)
 target_link_libraries(Google_Test_readfile_run gmock)
 
 # Линкуем тесты для main
-add_executable(Google_Test_main_run tests/test_main.cpp readfile.cpp)
+add_executable(Google_Test_main_run tests/test_polygon.cpp readfile.cpp)
 target_link_libraries(Google_Test_main_run gtest gtest_main)
 target_link_libraries(Google_Test_main_run gmock)
 
