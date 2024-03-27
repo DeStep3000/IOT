@@ -17,6 +17,12 @@ TEST(edit_file_test,start_end_space) {
 
     input =" 475485 ";
     ASSERT_EQ(edit_file(input)," 475485 ");
+
+    input =" 411111 ";
+    ASSERT_EQ(edit_file(input)," 411111 ");
+
+    input ="-1 -5 5";
+    ASSERT_EQ(edit_file(input)," -1 -5 5 ");
 }
 TEST(edit_file_test,new_line){
     std::string input="48 \n fdif 34 5885 \n 31 \n 3983 \n 494";
@@ -175,6 +181,10 @@ TEST(get_coords_test,some_extreme_cases){
     input = " 38 04 ";
     result = {};
     EXPECT_EQ(get_coords(input,3),result);
+
+    input = " 38 04 -1 12 -1 22 31 32 41 -2 51 52 61 62 71 72 81 82 91 92 47 38 37 37 03 ";
+    result = {-1,12,-1,22,31,32,41,-2};
+    EXPECT_NE(get_coords(input,3),result);
 }
 
 int main(int argc, char **argv){
