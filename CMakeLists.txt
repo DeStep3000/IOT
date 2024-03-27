@@ -22,12 +22,18 @@ target_link_libraries(SFMLProject PRIVATE sfml-graphics)
 target_compile_features(SFMLProject PRIVATE cxx_std_17)
 
 
-find_package(wxWidgets REQUIRED)
-add_executable(WxWidgets src/file_manager.cpp)
-target_compile_features(WxWidgets PUBLIC cxx_std_17)
-target_link_libraries(WxWidgets ${wxWidgets_LIBRARIES})
-target_compile_definitions(WxWidgets PRIVATE ${wxWidgets_DEFINITIONS})
-target_include_directories(WxWidgets PRIVATE ${wxWidgets_INCLUDE_DIRS})
+# Связываем исполняемый файл с библиотеками wxWidgets
+set(wxWidgets_ROOT_DIR "C:/wxwidgets")
+set(wxWidgets_LIB_DIR "C:/wxwidgets/lib/gcc810_x64_dll")
+
+find_package(wxWidgets REQUIRED COMPONENTS net core base)
+include(${wxWidgets_USE_FILE})
+
+add_executable(Less1
+        src/file_manager.cpp)
+
+target_link_libraries(Less1 ${wxWidgets_LIBRARIES})
+target_include_directories(Less1 PRIVATE ${wxWidgets_INCLUDE_DIRS})
 
 # Подключаем OpenGL через гит(хз так проще)
 #include(FetchContent)
