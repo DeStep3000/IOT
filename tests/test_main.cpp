@@ -223,6 +223,38 @@ TEST(intersect_polygon_field_final_test,different_polygons_test17){
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
 }
 
+TEST(overloading_for_points_tests,op_plus_test){
+    Point a{1,2};
+    Point b{3,4};
+    Point res{4,6};
+    EXPECT_EQ(a+b,res);
+}
+TEST(overloading_for_points_tests,op_plus_eq_test){
+    Point a{1,2};
+    Point b{3,4};
+    Point res{4,6};
+    EXPECT_EQ(a+=b,res);
+}
+TEST(overloading_for_points_tests,op_minus_test){
+    Point a{1,2};
+    Point b{3,4};
+    Point res{-2,-2};
+    EXPECT_EQ(a-b,res);
+}
+TEST(overloading_for_points_tests,op_mutiply_by_a_test){
+    double a=2;
+    Point b{3,4};
+    Point res{6,8};
+    EXPECT_EQ(a*b,res);
+}
+TEST(overloading_for_points_tests,op_oint_nultiply_test){
+    Point a{2,5};
+    Point b{3,4};
+    double res=26;
+    EXPECT_EQ(a*b,res);
+}
+
+
 int main(int argc, char **argv){
     ::testing::InitGoogleTest(&argc, argv);
 
