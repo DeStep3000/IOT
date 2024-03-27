@@ -1,4 +1,5 @@
 #include "polygon.h"
+#include "readfile.h"
 
 Point operator + (const Point& p1, const Point& p2){
     return Point{p1.x + p2.x, p1.y + p2.y};
@@ -51,9 +52,6 @@ int sign(double a){//func for sign of int
     return a < 0 ? -1 : 1;
 }
 
-double abs(double a){//func for absolute value
-    return a < 0 ? -1 * a : a;
-}
 //-----------------------------------Polygon functions---------------------------------
 void Polygon::print_vertices(){//print in console all vertices
     for(Point p: this->vertices){

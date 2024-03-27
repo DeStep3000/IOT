@@ -1,7 +1,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 //#include <gmock/gmock.h>
-#include "../src/main.h"
+#include "../src/polygon.h"
 
 // test: mult_vector,intersection, is_intersected,all class polygon functions
 // test: operator overloading, length, sign, abs

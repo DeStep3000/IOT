@@ -29,7 +29,6 @@ bool operator >= (const Point& p1, const Point& p2);
 std::ostream& operator << (std::ostream& stream, const Point& p);
 double length (Point a);
 int sign(double a);
-double abs(double a);
 
 
 class Polygon{//class for Polygons

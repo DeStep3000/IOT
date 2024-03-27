@@ -8,6 +8,17 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 add_subdirectory(google)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
+# Линкуем тесты
+# Линкуем тесты для чтения файлов
+add_executable(Google_Test_readfile_run tests/test_readfile.cpp src/readfile.cpp)
+target_link_libraries(Google_Test_readfile_run gtest gtest_main)
+target_link_libraries(Google_Test_readfile_run gmock)
+
+# Линкуем тесты для main
+add_executable(Google_Test_polygon_run tests/test_polygon.cpp src/polygon.cpp src/readfile.cpp)
+target_link_libraries(Google_Test_polygon_run gtest gtest_main)
+target_link_libraries(Google_Test_polygon_run gmock)
+
 # Подключаем SFML через гит(хз так проще)
 include(FetchContent)
 FetchContent_Declare(SFML
@@ -20,6 +31,16 @@ add_executable(SFMLProject src/sfml.cpp)
 
 target_link_libraries(SFMLProject PRIVATE sfml-graphics)
 target_compile_features(SFMLProject PRIVATE cxx_std_17)
+
+if(WIN32)
+    add_custom_command(
+            TARGET SFMLProject
+            COMMENT "Copy OpenAL DLL"
+            PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:SFMLProject>
+            VERBATIM)
+endif()
+
+install(TARGETS SFMLProject)
 
 
 # Связываем исполняемый файл с библиотеками wxWidgets
@@ -46,26 +67,8 @@ target_include_directories(Less1 PRIVATE ${wxWidgets_INCLUDE_DIRS})
 #target_link_libraries(OpenGL_Graphic PRIVATE Qt::Widgets)
 #target_compile_features(OpenGL_Graphic PRIVATE cxx_std_17)
 
-# Линкуем тесты
-# Линкуем тесты для чтения файлов
-add_executable(Google_Test_readfile_run tests/test_readfile.cpp src/readfile.cpp)
-target_link_libraries(Google_Test_readfile_run gtest gtest_main)
-target_link_libraries(Google_Test_readfile_run gmock)
-
-# Линкуем тесты для main
-add_executable(Google_Test_main_run tests/test_main.cpp src/readfile.cpp)
-target_link_libraries(Google_Test_main_run gtest gtest_main)
-target_link_libraries(Google_Test_main_run gmock)
 
 # Линкуем мат часть
-add_executable(IOT main.cpp
-        readfile.cpp readfile.h polygon.cpp polygon.h)
-if(WIN32)
-    add_custom_command(
-            TARGET SFMLProject
-            COMMENT "Copy OpenAL DLL"
-            PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:SFMLProject>
-            VERBATIM)
-endif()
-
-install(TARGETS SFMLProject)
+add_executable(IOT src/main.cpp
+        src/polygon.cpp
+        src/readfile.cpp)
