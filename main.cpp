@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cfloat>//import machine epsilon for double
-#include <cmath>
+#include <cmath>//use only for second method (is_point_in2), that is not used right now
 #include <vector>
 #include "readfile.h"
 
@@ -102,6 +102,35 @@ public:
         }
         return false;
     }
+    bool classify(Point p0, Point p1, Point p2)
+    {
+        Point a = p1 - p0;
+        Point b = p2 - p0;
+        double sa = a.x * b.y - b.x * a.y;
+        if (sa > eps)
+            return false;
+        if (sa < -eps)
+            return false;
+        if ((a.x * b.x < 0.0) || (a.y * b.y < 0.0))
+            return false;
+        if (length(a) < length(b))
+            return false;
+        return true;
+    }
+    bool is_point_on_edge(Point p){
+        size_t k = num_vertices - 1;
+        Point p1, p2;
+        double t = 0;
+        for(size_t i=0; i < this->num_vertices; i++){
+            p1 = this->vertices[i];
+            p2 = this->vertices[k];
+            if(classify(p1, p2, p)){
+                return true;
+            }
+            k = i;
+        }
+        return false;
+    }
     bool is_equal_polygon(Polygon pn){//func to check same Polygons or not
         if(pn.get_num_vertices() != this->num_vertices){
             return false;
@@ -142,7 +171,7 @@ public:
     }
 
     bool is_point_in_f(Point p){ //checking is point inside polygon
-        return is_point_in(Point{p.x, p.y-eps}) || is_point_in(Point{p.x, p.y+eps});
+        return is_point_in(Point{p.x, p.y-eps}) && is_point_in(Point{p.x, p.y+eps});
     }
 
     bool is_point_in_2(Point p){//this method use angle sum
@@ -226,9 +255,9 @@ public:
     }
 
     int mult_vector(Point a, Point b, Point c){//checks the position of a point relative to A, using vector multiplication
-        if (((b - a) ^ (c - a)) < 0) {//more to left
+        if (((b - a) ^ (c - a)) < -eps) {//more to left
             return -1;
-        } else if(((b - a) ^ (c - a)) == 0 && (c - a) * (c - a) > (b - a) * (b - a)){//on one line
+        } else if(((b - a) ^ (c - a)) > -eps && ((b - a) ^ (c - a)) < eps && (c - a) * (c - a) > (b - a) * (b - a)){//on one line
             return 0;
         } else{//more to right
             return 1;
@@ -287,7 +316,7 @@ public:
         }
 
         for(Point p: p1_vertices){//check points for their position
-            bool point_in = p2.is_point_in_f(p) || p2.is_point_vertex(p);
+            bool point_in = p2.is_point_in_f(p) || p2.is_point_vertex(p) || p2.is_point_on_edge(p);
             if (point_in){
                 intersection_points.push_back(p);
             }
@@ -298,7 +327,7 @@ public:
             return p1;
         }
         for(Point p: p2_vertices){//check points for their position
-            bool point_in = p1.is_point_in_f(p) || p1.is_point_vertex(p);
+            bool point_in = p1.is_point_in_f(p) || p1.is_point_vertex(p) || p1.is_point_on_edge(p);
             if (point_in){
                 intersection_points.push_back(p);
             }
@@ -362,6 +391,7 @@ public:
         while(this->num_pn > 1){
             old_field = this->field;
             this->intersect_polygon_field();
+            this->print_field();
         }
         if(this->num_pn == 0){
             return old_field[0];
@@ -385,7 +415,7 @@ public:
 
 
 int main() {
-    /*const std::string path = "";//Absolute file path
+    const std::string path = "C:\\Users\\dabho\\CLionProjects\\IOT\\test2.txt";//Absolute file path
     std::string input = read_file(path);
     input= edit_file(input);
 
@@ -393,6 +423,6 @@ int main() {
     pn_field.input_polygons(input);
     pn_field.print_field();
     Polygon res = pn_field.intersect_polygon_field_final();
-    res.print_vertices();*/
+    res.print_vertices();
     return 0;
 }
