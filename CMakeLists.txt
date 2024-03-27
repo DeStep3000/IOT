@@ -15,16 +15,47 @@ FetchContent_Declare(SFML
         GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-# Линкуем SFML файл
-add_executable(SFMLProject sfml.cpp)
+# Линкуем SFML проект
+add_executable(SFMLProject src/sfml.cpp)
 
 target_link_libraries(SFMLProject PRIVATE sfml-graphics)
 target_compile_features(SFMLProject PRIVATE cxx_std_17)
 
+
+# Связываем исполняемый файл с библиотеками wxWidgets
+set(wxWidgets_ROOT_DIR "C:/wxwidgets")
+set(wxWidgets_LIB_DIR "C:/wxwidgets/lib/gcc810_x64_dll")
+
+find_package(wxWidgets REQUIRED COMPONENTS net core base)
+include(${wxWidgets_USE_FILE})
+
+add_executable(Less1
+        src/file_manager.cpp)
+
+target_link_libraries(Less1 ${wxWidgets_LIBRARIES})
+target_include_directories(Less1 PRIVATE ${wxWidgets_INCLUDE_DIRS})
+
+# Подключаем OpenGL через гит(хз так проще)
+#include(FetchContent)
+#FetchContent_Declare(OpenGL
+#        GIT_REPOSITORY https://github.com/JoeyDeVries/LearnOpenGL.git
+#        GIT_TAG master)
+#FetchContent_MakeAvailable(OpenGL)
+
+## Линкуем OpenGL проект
+#target_link_libraries(OpenGL_Graphic PRIVATE Qt::Widgets)
+#target_compile_features(OpenGL_Graphic PRIVATE cxx_std_17)
+
 # Линкуем тесты
-add_executable(Google_Tests_run tests.cpp readfile.cpp)
-target_link_libraries(Google_Tests_run gtest gtest_main)
-target_link_libraries(Google_Tests_run gmock)
+# Линкуем тесты для чтения файлов
+add_executable(Google_Test_readfile_run tests/test_readfile.cpp src/readfile.cpp)
+target_link_libraries(Google_Test_readfile_run gtest gtest_main)
+target_link_libraries(Google_Test_readfile_run gmock)
+
+# Линкуем тесты для main
+add_executable(Google_Test_main_run tests/test_main.cpp src/readfile.cpp)
+target_link_libraries(Google_Test_main_run gtest gtest_main)
+target_link_libraries(Google_Test_main_run gmock)
 
 # Линкуем мат часть
 add_executable(IOT main.cpp

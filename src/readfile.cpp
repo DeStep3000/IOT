@@ -44,6 +44,9 @@ std::vector<double> fill_coords_from_input(const std::string& input,std::size_t 
     }
     std::vector<double> coords;
     std::size_t new_index = input.find_first_of(NUMBERS, previous_index+3);
+    if (new_index==std::string::npos){
+        return {};
+    }
     std::size_t next_index= find_key(input,previous_index+3);//next 0* index
     int s = std::stoi(input.substr(previous_index, 4));
     previous_index = new_index;
@@ -69,6 +72,7 @@ std::vector<double> get_coords(const std::string& input, std::size_t index){
     if (input.empty() || index == std::string::npos) {
         return {};
     } else {
+        index = find_key(input,index);
         coords = fill_coords_from_input(input, index);
     }
     if (coords.size() % 2 != 0){
