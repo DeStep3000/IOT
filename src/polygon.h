@@ -44,6 +44,8 @@ double length(Point a);
 
 int sign(double a);
 
+double abs_d(double a);//func for absolute value
+
 
 class Polygon {//class for Polygons
 private:

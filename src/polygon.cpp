@@ -67,6 +67,10 @@ int sign(double a) {//func for sign of int
     return a < 0 ? -1 : 1;
 }
 
+double abs_d(double a){//func for absolute value
+    return a < 0 ? -1 * a : a;
+}
+
 //-----------------------------------Polygon functions---------------------------------
 void Polygon::print_vertices() {//print in console all vertices
     for (Point p: this->vertices) {
@@ -236,8 +240,8 @@ std::vector<Point> PolygonField::intersection(Point a, Point b, Point c,
     Point res{0, 0};
     std::vector<Point> result;
     if (is_intersected(a, b, c, d)) {
-        double z1 = abs((b - a) ^ (c - a));
-        double z2 = abs(((b - a) ^ (d - a)) - ((b - a) ^ (c - a)));
+        double z1 = abs_d((b - a) ^ (c - a));
+        double z2 = abs_d(((b - a) ^ (d - a)) - ((b - a) ^ (c - a)));
         res = c + (z1 / z2) * (d - c);
         result.push_back(res);
         return result;
