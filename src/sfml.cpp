@@ -27,6 +27,7 @@ sf::VertexArray coord_grid(sf::RenderWindow &win, int rows, int cols) {
 }
 
 int main() {
+    std::cout << "Команда пидорасов" << std::endl;
     sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works!");
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
