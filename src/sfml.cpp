@@ -1,47 +1,61 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include <vector>
 
-sf::VertexArray coord_grid(sf::RenderWindow &win, int rows, int cols) {
-    // initialize values
-    int numLines = rows + cols - 2;
-    sf::VertexArray grid(sf::Lines, 2 * (numLines));
-    win.setView(win.getDefaultView());
-    auto size = win.getView().getSize();
-    float rowH = size.y / rows;
-    float colW = size.x / cols;
-    // row separators
-    for (int i = 0; i < rows - 1; i++) {
-        int r = i + 1;
-        float rowY = rowH * r;
-        grid[i * 2].position = {0, rowY};
-        grid[i * 2 + 1].position = {size.x, rowY};
+int main()
+{
+    // Создаем окно размером 800x600
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Scaled Polygon in First Quadrant");
+
+    // Произвольные координаты точек
+    std::vector<sf::Vector2f> arbitraryPoints = {
+            {0, 0},
+            {100.5f, 200.7f}, // Пример дробных координат точек
+            {300.3f, 100.9f},
+            {500.1f, 400.8f},
+            {700.4f, 300.6f},
+            {800, 600}
+    };
+
+    // Размеры окна
+    float windowWidth = static_cast<float>(window.getSize().x);
+    float windowHeight = static_cast<float>(window.getSize().y);
+
+    // Находим масштабные коэффициенты для x и y
+    float maxX = 0.0f, maxY = 0.0f;
+    for (const auto &point : arbitraryPoints)
+    {
+        maxX = std::max(maxX, point.x);
+        maxY = std::max(maxY, point.y);
     }
-    // column separators
-    for (int i = rows - 1; i < numLines; i++) {
-        int c = i - rows + 2;
-        float colX = colW * c;
-        grid[i * 2].position = {colX, 0};
-        grid[i * 2 + 1].position = {colX, size.y};
+
+    // Выбираем минимальный масштабный коэффициент
+    float scaleFactor = std::min(windowWidth / maxX, windowHeight / maxY);
+
+    // Создаем форму многоугольника
+    sf::ConvexShape polygon;
+    polygon.setPointCount(arbitraryPoints.size());
+    for (size_t i = 0; i < arbitraryPoints.size(); ++i)
+    {
+        float scaledX = arbitraryPoints[i].x * scaleFactor;
+        float scaledY = (windowHeight - arbitraryPoints[i].y) * scaleFactor;
+        polygon.setPoint(i, sf::Vector2f(scaledX, scaledY));
     }
-    return grid;
-}
+    polygon.setFillColor(sf::Color::Green); // Цвет многоугольника
 
-int main() {
-    std::cout << "Команда пидорасов" << std::endl;
-    sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    while (window.isOpen()) {
+    // Основной цикл программы
+    while (window.isOpen())
+    {
+        // Обработка событий
         sf::Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        window.clear(sf::Color::Blue);
-        window.draw(shape);
-        window.draw(coord_grid(window, 10, 10));
+        // Отрисовка
+        window.clear();
+        window.draw(polygon);
         window.display();
     }
 
