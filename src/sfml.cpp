@@ -1,36 +1,35 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
-
-sf::VertexArray coord_grid(sf::RenderWindow &win, int rows, int cols) {
-    // initialize values
-    int numLines = rows + cols - 2;
-    sf::VertexArray grid(sf::Lines, 2 * (numLines));
-    win.setView(win.getDefaultView());
-    auto size = win.getView().getSize();
-    float rowH = size.y / rows;
-    float colW = size.x / cols;
-    // row separators
-    for (int i = 0; i < rows - 1; i++) {
-        int r = i + 1;
-        float rowY = rowH * r;
-        grid[i * 2].position = {0, rowY};
-        grid[i * 2 + 1].position = {size.x, rowY};
-    }
-    // column separators
-    for (int i = rows - 1; i < numLines; i++) {
-        int c = i - rows + 2;
-        float colX = colW * c;
-        grid[i * 2].position = {colX, 0};
-        grid[i * 2 + 1].position = {colX, size.y};
-    }
-    return grid;
-}
 
 int main() {
-    std::cout << "Команда пидорасов" << std::endl;
-    sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    // Создание окна
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML");
+
+    // Создание линии для оси X
+    sf::VertexArray xAxis(sf::Lines, 2);
+    xAxis[0].position = sf::Vector2f(0, window.getSize().y);
+    xAxis[1].position = sf::Vector2f(window.getSize().x, window.getSize().y);
+    xAxis[0].color = sf::Color::Black;
+    xAxis[1].color = sf::Color::Black;
+
+    // Создание линии для оси Y
+    sf::VertexArray yAxis(sf::Lines, 2);
+    yAxis[0].position = sf::Vector2f(0, window.getSize().y);
+    yAxis[1].position = sf::Vector2f(0, 0);
+    yAxis[0].color = sf::Color::Black;
+    yAxis[1].color = sf::Color::Black;
+
+    // Создание линий для координатной сетки
+    sf::VertexArray gridLines(sf::Lines);
+    const int step = 50; // Шаг сетки
+    for (int i = step; i <= window.getSize().x; i += step) {
+        gridLines.append(sf::Vertex(sf::Vector2f(i, 0), sf::Color(200, 200, 200)));
+        gridLines.append(sf::Vertex(sf::Vector2f(i, window.getSize().y), sf::Color(200, 200, 200)));
+    }
+    for (int i = step; i <= window.getSize().y; i += step) {
+        gridLines.append(sf::Vertex(sf::Vector2f(0, i), sf::Color(200, 200, 200)));
+        gridLines.append(sf::Vertex(sf::Vector2f(window.getSize().x, i), sf::Color(200, 200, 200)));
+    }
+
 
     while (window.isOpen()) {
         sf::Event event;
@@ -39,9 +38,13 @@ int main() {
                 window.close();
         }
 
-        window.clear(sf::Color::Blue);
-        window.draw(shape);
-        window.draw(coord_grid(window, 10, 10));
+        window.clear(sf::Color::White);
+
+        window.draw(gridLines);
+
+        window.draw(xAxis);
+        window.draw(yAxis);
+
         window.display();
     }
 
