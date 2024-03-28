@@ -43,30 +43,18 @@ endif ()
 install(TARGETS SFMLProject)
 
 
-# Связываем исполняемый файл с библиотеками wxWidgets
-set(wxWidgets_ROOT_DIR "C:/wxwidgets")
-set(wxWidgets_LIB_DIR "C:/wxwidgets/lib/gcc810_x64_dll")
-
-find_package(wxWidgets REQUIRED COMPONENTS net core base)
-include(${wxWidgets_USE_FILE})
-
-add_executable(Less1
-        src/file_manager.cpp)
-
-target_link_libraries(Less1 ${wxWidgets_LIBRARIES})
-target_include_directories(Less1 PRIVATE ${wxWidgets_INCLUDE_DIRS})
-
-# Подключаем OpenGL через гит(хз так проще)
-#include(FetchContent)
-#FetchContent_Declare(OpenGL
-#        GIT_REPOSITORY https://github.com/JoeyDeVries/LearnOpenGL.git
-#        GIT_TAG master)
-#FetchContent_MakeAvailable(OpenGL)
-
-## Линкуем OpenGL проект
-#target_link_libraries(OpenGL_Graphic PRIVATE Qt::Widgets)
-#target_compile_features(OpenGL_Graphic PRIVATE cxx_std_17)
-
+## Связываем исполняемый файл с библиотеками wxWidgets
+#set(wxWidgets_ROOT_DIR "C:/wxwidgets")
+#set(wxWidgets_LIB_DIR "C:/wxwidgets/lib/gcc810_x64_dll")
+#
+#find_package(wxWidgets REQUIRED COMPONENTS net core base)
+#include(${wxWidgets_USE_FILE})
+#
+#add_executable(Less1
+#        src/file_manager.cpp)
+#
+#target_link_libraries(Less1 ${wxWidgets_LIBRARIES})
+#target_include_directories(Less1 PRIVATE ${wxWidgets_INCLUDE_DIRS})
 
 # Линкуем мат часть
 add_executable(IOT src/main.cpp
