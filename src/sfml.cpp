@@ -1,50 +1,61 @@
 #include <SFML/Graphics.hpp>
+#include <vector>
 
-int main() {
-    // Создание окна
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML");
+int main()
+{
+    // Создаем окно размером 800x600
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Scaled Polygon in First Quadrant");
 
-    // Создание линии для оси X
-    sf::VertexArray xAxis(sf::Lines, 2);
-    xAxis[0].position = sf::Vector2f(0, window.getSize().y);
-    xAxis[1].position = sf::Vector2f(window.getSize().x, window.getSize().y);
-    xAxis[0].color = sf::Color::Black;
-    xAxis[1].color = sf::Color::Black;
+    // Произвольные координаты точек
+    std::vector<sf::Vector2f> arbitraryPoints = {
+            {0, 0},
+            {100.5f, 200.7f}, // Пример дробных координат точек
+            {300.3f, 100.9f},
+            {500.1f, 400.8f},
+            {700.4f, 300.6f},
+            {800, 600}
+    };
 
-    // Создание линии для оси Y
-    sf::VertexArray yAxis(sf::Lines, 2);
-    yAxis[0].position = sf::Vector2f(0, window.getSize().y);
-    yAxis[1].position = sf::Vector2f(0, 0);
-    yAxis[0].color = sf::Color::Black;
-    yAxis[1].color = sf::Color::Black;
+    // Размеры окна
+    float windowWidth = static_cast<float>(window.getSize().x);
+    float windowHeight = static_cast<float>(window.getSize().y);
 
-    // Создание линий для координатной сетки
-    sf::VertexArray gridLines(sf::Lines);
-    const int step = 50; // Шаг сетки
-    for (int i = step; i <= window.getSize().x; i += step) {
-        gridLines.append(sf::Vertex(sf::Vector2f(i, 0), sf::Color(200, 200, 200)));
-        gridLines.append(sf::Vertex(sf::Vector2f(i, window.getSize().y), sf::Color(200, 200, 200)));
-    }
-    for (int i = step; i <= window.getSize().y; i += step) {
-        gridLines.append(sf::Vertex(sf::Vector2f(0, i), sf::Color(200, 200, 200)));
-        gridLines.append(sf::Vertex(sf::Vector2f(window.getSize().x, i), sf::Color(200, 200, 200)));
+    // Находим масштабные коэффициенты для x и y
+    float maxX = 0.0f, maxY = 0.0f;
+    for (const auto &point : arbitraryPoints)
+    {
+        maxX = std::max(maxX, point.x);
+        maxY = std::max(maxY, point.y);
     }
 
+    // Выбираем минимальный масштабный коэффициент
+    float scaleFactor = std::min(windowWidth / maxX, windowHeight / maxY);
 
-    while (window.isOpen()) {
+    // Создаем форму многоугольника
+    sf::ConvexShape polygon;
+    polygon.setPointCount(arbitraryPoints.size());
+    for (size_t i = 0; i < arbitraryPoints.size(); ++i)
+    {
+        float scaledX = arbitraryPoints[i].x * scaleFactor;
+        float scaledY = (windowHeight - arbitraryPoints[i].y) * scaleFactor;
+        polygon.setPoint(i, sf::Vector2f(scaledX, scaledY));
+    }
+    polygon.setFillColor(sf::Color::Green); // Цвет многоугольника
+
+    // Основной цикл программы
+    while (window.isOpen())
+    {
+        // Обработка событий
         sf::Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        window.clear(sf::Color::White);
-
-        window.draw(gridLines);
-
-        window.draw(xAxis);
-        window.draw(yAxis);
-
+        // Отрисовка
+        window.clear();
+        window.draw(polygon);
         window.display();
     }
 
