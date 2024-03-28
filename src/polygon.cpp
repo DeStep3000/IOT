@@ -31,7 +31,7 @@ Point operator-(Point p1) {
 }
 
 bool operator==(const Point &p1, const Point &p2) {
-    return -eps < (p1 - p2).x && (p1 - p2).x < eps && -eps < (p1 - p2).y && (p1 - p2).y < eps;
+    return -eps <= (p1 - p2).x && (p1 - p2).x <= eps && -eps <= (p1 - p2).y && (p1 - p2).y <= eps;
 }
 
 bool operator!=(const Point &p1, const Point &p2) {
