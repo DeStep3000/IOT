@@ -28,6 +28,21 @@ int main() {
         gridLines.append(sf::Vertex(sf::Vector2f(0, i), sf::Color(200, 200, 200)));
         gridLines.append(sf::Vertex(sf::Vector2f(window.getSize().x, i), sf::Color(200, 200, 200)));
     }
+// Создание первого треугольника
+    sf::ConvexShape triangle1;
+    triangle1.setPointCount(3);
+    triangle1.setPoint(0, sf::Vector2f(200, 100));
+    triangle1.setPoint(1, sf::Vector2f(100, 300));
+    triangle1.setPoint(2, sf::Vector2f(300, 300));
+    triangle1.setFillColor(sf::Color::Red);
+
+    // Создание второго треугольника
+    sf::ConvexShape triangle2;
+    triangle2.setPointCount(3);
+    triangle2.setPoint(0, sf::Vector2f(400, 400));
+    triangle2.setPoint(1, sf::Vector2f(600, 400));
+    triangle2.setPoint(2, sf::Vector2f(600, 200));
+    triangle2.setFillColor(sf::Color::Blue);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -43,7 +58,8 @@ int main() {
         window.draw(xAxis);
 
         window.draw(yAxis);
-
+        window.draw(triangle1);
+        window.draw(triangle2);
         window.display();
     }
 
