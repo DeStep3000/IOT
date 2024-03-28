@@ -67,7 +67,7 @@ int sign(double a) {//func for sign of int
     return a < 0 ? -1 : 1;
 }
 
-double abs_d(double a){//func for absolute value
+double abs_d(double a) {//func for absolute value
     return a < 0 ? -1 * a : a;
 }
 

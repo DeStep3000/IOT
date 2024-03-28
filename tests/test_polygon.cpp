@@ -298,15 +298,17 @@ TEST(intersect_polygon_field_final_test, different_polygons_test17) {
 }
 
 //infinite test
-/*TEST(intersect_polygon_field_final_test,extra_test18){
+TEST(intersect_polygon_field_final_test, extra_test18) {
     std::string input = "03 9 56 75259 259 25 27 03 10 567 4 23 75259 259 25 27 03 11 567 4 23 75259 259 03 12 567 4 23 75259 259 67 68 39 988 90 67 03 03 13 567 4 23 5 6    03 14 8 567 678 567 103 480 444";
-    input= edit_file(input);
+    input = edit_file(input);
     PolygonField pn_field;
     pn_field.input_polygons(input);
 
-    std::vector<Point> pn_points{{11, 2},{12, 2}, {11, 4}};
-    EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(),pn_points);
-}*/
+    std::vector<Point> pn_points{{11, 2},
+                                 {12, 2},
+                                 {11, 4}};
+    EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(), pn_points);
+}
 
 TEST(overloading_for_points_tests, op_plus_test) {
     Point a{1, 2};
