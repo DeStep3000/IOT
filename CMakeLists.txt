@@ -50,11 +50,11 @@ set(wxWidgets_LIB_DIR "C:/wxwidgets/lib/gcc810_x64_dll")
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
 
-add_executable(Less1
+add_executable(FileManager
         src/file_manager.cpp)
 
-target_link_libraries(Less1 ${wxWidgets_LIBRARIES})
-target_include_directories(Less1 PRIVATE ${wxWidgets_INCLUDE_DIRS})
+target_link_libraries(FileManager ${wxWidgets_LIBRARIES})
+target_include_directories(FileManager PRIVATE ${wxWidgets_INCLUDE_DIRS})
 
 # Подключаем OpenGL через гит(хз так проще)
 #include(FetchContent)
