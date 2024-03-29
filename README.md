@@ -142,6 +142,6 @@ int main(int argc, char **argv) {
 - [Алина Гайсина](https://github.com/VVroli) - Testing + Public Relations + Graphics
 
   Для обратной связи вы можете написать нашему менеджеру - [](https://t.me/VVroli)
-
+  <a href="tg://msg?text=<?php echo urlencode( '<[TEXT](https://t.me/VVroli)>' ); ?>">Telegram</a>
 ## Источники
 - Райан Гослинг
