@@ -48,7 +48,8 @@ double abs_d(double a);//func for absolute value
 
 int mult_vector(Point a, Point b, Point c);//checks the position of a point relative to A, using vector multiplication
 
-std::vector<Point> convert_intersections(std::vector<Point> points);//convert final intersections to convex hull (for keeping traversal order)
+std::vector<Point> convert_intersections(
+        std::vector<Point> points);//convert final intersections to convex hull (for keeping traversal order)
 
 
 class Polygon {//class for Polygons

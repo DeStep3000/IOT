@@ -72,7 +72,7 @@ double abs_d(double a) {//func for absolute value
 }
 
 int mult_vector(Point a, Point b,
-                              Point c) {//checks the position of a point relative to A, using vector multiplication
+                Point c) {//checks the position of a point relative to A, using vector multiplication
     if (((b - a) ^ (c - a)) < -eps) {//more to left
         return -1;
     } else if (((b - a) ^ (c - a)) > -eps && ((b - a) ^ (c - a)) < eps &&

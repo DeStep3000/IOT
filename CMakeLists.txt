@@ -26,37 +26,32 @@ FetchContent_Declare(SFML
         GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-# Линкуем SFML проект
-add_executable(SFMLProject src/sfml.cpp)
-
-target_link_libraries(SFMLProject PRIVATE sfml-graphics)
-target_compile_features(SFMLProject PRIVATE cxx_std_17)
+# Линкуем IOT проект
+add_executable(IOT src/main.cpp
+        src/polygon.cpp
+        src/readfile.cpp
+        src/file_manager.cpp
+        src/sfml.cpp
+)
 
 if (WIN32)
     add_custom_command(
-            TARGET SFMLProject
+            TARGET IOT
             COMMENT "Copy OpenAL DLL"
-            PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:SFMLProject>
+            PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:IOT>
             VERBATIM)
 endif ()
 
-install(TARGETS SFMLProject)
+target_link_libraries(IOT PRIVATE sfml-graphics)
+target_compile_features(IOT PRIVATE cxx_std_17)
+install(TARGETS IOT)
 
+# Связываем исполняемый файл IOT с библиотеками wxWidgets
+set(wxWidgets_ROOT_DIR "C:/wxwidgets") # absolute location wxwidgets
+set(wxWidgets_LIB_DIR "C:/wxwidgets/lib/gcc810_x64_dll")
 
-## Связываем исполняемый файл с библиотеками wxWidgets
-#set(wxWidgets_ROOT_DIR "C:/wxwidgets")
-#set(wxWidgets_LIB_DIR "C:/wxwidgets/lib/gcc810_x64_dll")
-#
-#find_package(wxWidgets REQUIRED COMPONENTS net core base)
-#include(${wxWidgets_USE_FILE})
-#
-#add_executable(Less1
-#        src/file_manager.cpp)
-#
-#target_link_libraries(Less1 ${wxWidgets_LIBRARIES})
-#target_include_directories(Less1 PRIVATE ${wxWidgets_INCLUDE_DIRS})
+find_package(wxWidgets REQUIRED COMPONENTS net core base)
+include(${wxWidgets_USE_FILE})
 
-# Линкуем мат часть
-add_executable(IOT src/main.cpp
-        src/polygon.cpp
-        src/readfile.cpp)
+target_link_libraries(IOT PRIVATE ${wxWidgets_LIBRARIES})
+target_include_directories(IOT PRIVATE ${wxWidgets_INCLUDE_DIRS})
