@@ -9,12 +9,15 @@ int main() {
     pn_field.input_polygons(input);
     pn_field.print_field();
 
+    std::vector<Polygon> start_vertices = pn_field.get_field();
+
     Polygon res = pn_field.intersect_polygon_field_final();
     res.print_vertices();
 
-    Picture picture;
-    int width = 800, height = 600;
-    std::vector<Point> vertices = res.get_vertices();
-    picture.draw_window(vertices, width, height);
+    int width = 800;
+    int height = 600;
+    Picture picture(width, height);
+    std::vector<Point> final_vertices = res.get_vertices();
+    picture.draw_window(start_vertices, final_vertices);
     return 0;
 }

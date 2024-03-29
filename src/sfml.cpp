@@ -7,7 +7,7 @@ sf::Vector2f Picture::convertToPoint(const Point &p) {
     return sf::Vector2f(static_cast<float>(p.x), static_cast<float>(p.y));
 }
 
-float Picture::scale(int width, int height, std::vector<sf::Vector2f> arbitraryPoints) {
+float Picture::scale(std::vector<sf::Vector2f> arbitraryPoints) {
     // Находим масштабные коэффициенты для x и y
     float maxX = 0.0f, maxY = 0.0f;
     for (const auto &point: arbitraryPoints) {
@@ -20,7 +20,7 @@ float Picture::scale(int width, int height, std::vector<sf::Vector2f> arbitraryP
     return scaleFactor;
 }
 
-sf::ConvexShape Picture::draw_polygon(int width, int height, std::vector<Point> vertices) {
+sf::ConvexShape Picture::draw_polygon(std::vector<Point> vertices, sf::Color color) {
     std::vector<sf::Vector2f> arbitraryPoints;
 
     for (const auto &point: vertices) {
@@ -32,7 +32,7 @@ sf::ConvexShape Picture::draw_polygon(int width, int height, std::vector<Point> 
     float windowHeight = static_cast<float>(height);
 
     // Выбираем минимальный масштабный коэффициент
-    float scaleFactor = Picture::scale(width, height, arbitraryPoints);
+    float scaleFactor = 1;//Picture::scale(width, height, arbitraryPoints);
 
     // Создаем форму многоугольника
     sf::ConvexShape polygon;
@@ -42,11 +42,13 @@ sf::ConvexShape Picture::draw_polygon(int width, int height, std::vector<Point> 
         float scaledY = (windowHeight - arbitraryPoints[i].y) * scaleFactor;
         polygon.setPoint(i, sf::Vector2f(scaledX, scaledY));
     }
-    polygon.setFillColor(sf::Color::Green); // Цвет многоугольника
+    polygon.setFillColor(color); // Цвет многоугольника
+    polygon.setOutlineThickness(1);
+    polygon.setOutlineColor(sf::Color::Black);
     return polygon;
 }
 
-sf::VertexArray Picture::draw_gridlines(int width, int height, int step) {
+sf::VertexArray Picture::draw_gridlines(int step) {
     sf::VertexArray gridLines(sf::Lines);
     for (int i = step; i <= width; i += step) {
         gridLines.append(sf::Vertex(sf::Vector2f(i, 0), sf::Color(200, 200, 200)));
@@ -60,15 +62,20 @@ sf::VertexArray Picture::draw_gridlines(int width, int height, int step) {
 }
 
 
-void Picture::draw_window(std::vector<Point> vertices, int x, int y) {
-    sf::RenderWindow window(sf::VideoMode(x, y), "Scaled Polygon");
+void Picture::draw_window(std::vector<Polygon> start_vertices, std::vector<Point> final_vertices) {
+    sf::RenderWindow window(sf::VideoMode(width, height), "Scaled Polygon");
 
     int width = window.getSize().x;
     int height = window.getSize().y;
     int step = 50;
 
-    sf::ConvexShape polygon = Picture::draw_polygon(width, height, vertices);
-    sf::VertexArray gridlines = Picture::draw_gridlines(width, height, step);
+    std::vector<sf::ConvexShape> start_poligons;
+    for (Polygon pol: start_vertices){
+        start_poligons.push_back(draw_polygon(pol.get_vertices(), sf::Color(172, 225, 175)));
+    }
+
+    sf::ConvexShape final_polygon = Picture::draw_polygon(final_vertices, sf::Color(255, 165, 0));
+    sf::VertexArray gridlines = Picture::draw_gridlines(step);
     // Основной цикл программы
     while (window.isOpen()) {
         // Обработка событий
@@ -81,7 +88,10 @@ void Picture::draw_window(std::vector<Point> vertices, int x, int y) {
         // Отрисовка
         window.clear(sf::Color::White);
         window.draw(gridlines);
-        window.draw(polygon);
+        for(sf::ConvexShape polygon: start_poligons){
+            window.draw(polygon);
+        }
+        window.draw(final_polygon);
         window.display();
     }
 }

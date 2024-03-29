@@ -8,14 +8,20 @@
 class Picture{
 private:
     std::vector<Point> vertices;
+    int width, height;
 public:
-    void draw_window(std::vector <Point> vertices, int x, int y);
+    Picture(int nwidth, int nheight){
+        width = nwidth;
+        height = nheight;
+    }
 
-    sf::ConvexShape draw_polygon(int width, int height, std::vector<Point> arbitraryPoints);
-    float scale(int width, int height, std::vector<sf::Vector2f> arbitraryPoints);
+    void draw_window(std::vector<Polygon> start_vertices, std::vector <Point> final_vertices);
+
+    sf::ConvexShape draw_polygon(std::vector<Point> arbitraryPoints, sf::Color);
+    float scale(std::vector<sf::Vector2f> arbitraryPoints);
     sf::Vector2f convertToPoint(const Point &p);
 
-    sf::VertexArray draw_gridlines(int width, int height, int step);
+    sf::VertexArray draw_gridlines(int step);
 
 };
 #endif
