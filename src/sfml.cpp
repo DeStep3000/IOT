@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <filesystem>
 #include <vector>
 #include "sfml.h"
 #include "polygon.h"
@@ -63,8 +64,15 @@ sf::VertexArray Picture::draw_gridlines(int step) {
 void Picture::draw_window(std::vector<Polygon> start_vertices, std::vector<Point> final_vertices) {
     sf::RenderWindow window(sf::VideoMode(width, height), "Scaled Polygon");
 
-    int width = window.getSize().x;
-    int height = window.getSize().y;
+    // Получение пути к исполняемому файлу
+    std::string executablePath = std::filesystem::path(__FILE__).parent_path().string();
+    std::string imagePath = executablePath + "/icon.png";
+
+    // Загрузка изображения из файла по относительному пути
+    sf::Image icon;
+    if (!icon.loadFromFile(imagePath)) {}
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
     int step = 50;
 
     std::vector<sf::ConvexShape> start_poligons;
