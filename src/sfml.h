@@ -15,5 +15,7 @@ public:
     float scale(int width, int height, std::vector<sf::Vector2f> arbitraryPoints);
     sf::Vector2f convertToPoint(const Point &p);
 
+    sf::VertexArray draw_gridlines(int width, int height, int step);
+
 };
 #endif

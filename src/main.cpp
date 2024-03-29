@@ -8,8 +8,10 @@ int main() {
     PolygonField pn_field;
     pn_field.input_polygons(input);
     pn_field.print_field();
+
     Polygon res = pn_field.intersect_polygon_field_final();
     res.print_vertices();
+
     Picture picture;
     int width = 800, height = 600;
     std::vector<Point> vertices = res.get_vertices();

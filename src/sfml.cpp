@@ -46,14 +46,29 @@ sf::ConvexShape Picture::draw_polygon(int width, int height, std::vector<Point> 
     return polygon;
 }
 
+sf::VertexArray Picture::draw_gridlines(int width, int height, int step) {
+    sf::VertexArray gridLines(sf::Lines);
+    for (int i = step; i <= width; i += step) {
+        gridLines.append(sf::Vertex(sf::Vector2f(i, 0), sf::Color(200, 200, 200)));
+        gridLines.append(sf::Vertex(sf::Vector2f(i, height), sf::Color(200, 200, 200)));
+    }
+    for (int i = step; i <= height; i += step) {
+        gridLines.append(sf::Vertex(sf::Vector2f(0, i), sf::Color(200, 200, 200)));
+        gridLines.append(sf::Vertex(sf::Vector2f(width, i), sf::Color(200, 200, 200)));
+    }
+    return gridLines;
+}
+
 
 void Picture::draw_window(std::vector<Point> vertices, int x, int y) {
     sf::RenderWindow window(sf::VideoMode(x, y), "Scaled Polygon");
 
     int width = window.getSize().x;
     int height = window.getSize().y;
+    int step = 50;
 
     sf::ConvexShape polygon = Picture::draw_polygon(width, height, vertices);
+    sf::VertexArray gridlines = Picture::draw_gridlines(width, height, step);
     // Основной цикл программы
     while (window.isOpen()) {
         // Обработка событий
@@ -64,7 +79,8 @@ void Picture::draw_window(std::vector<Point> vertices, int x, int y) {
         }
 
         // Отрисовка
-        window.clear();
+        window.clear(sf::Color::White);
+        window.draw(gridlines);
         window.draw(polygon);
         window.display();
     }
@@ -83,4 +99,4 @@ void Picture::draw_window(std::vector<Point> vertices, int x, int y) {
 //    };
 //    Picture picture;
 //    picture.draw_window(Points, 800, 600);
-//};
+//}

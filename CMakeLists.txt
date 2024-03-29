@@ -46,7 +46,8 @@ install(TARGETS SFMLProject)
 add_executable(IOT src/main.cpp
         src/polygon.cpp
         src/readfile.cpp
-        src/sfml.cpp)
+        src/sfml.cpp
+)
 
 target_link_libraries(IOT PRIVATE sfml-graphics)
 target_compile_features(IOT PRIVATE cxx_std_17)
