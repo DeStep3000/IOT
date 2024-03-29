@@ -71,16 +71,16 @@ void Picture::draw_window(std::vector<Point> vertices, int x, int y) {
 }
 
 
-int main() {
-    // Произвольные координаты точек
-    std::vector<Point> Points = {
-            {0,      0},
-            {100.5f, 200.7f},
-            {300.3f, 100.9f},
-            {500.1f, 400.8f},
-            {700.4f, 300.6f},
-            {800,    600}
-    };
-    Picture picture;
-    picture.draw_window(Points, 800, 600);
-};
+//int main() {
+//    // Произвольные координаты точек
+//    std::vector<Point> Points = {
+//            {0,      0},
+//            {100.5f, 200.7f},
+//            {300.3f, 100.9f},
+//            {500.1f, 400.8f},
+//            {700.4f, 300.6f},
+//            {800,    600}
+//    };
+//    Picture picture;
+//    picture.draw_window(Points, 800, 600);
+//};

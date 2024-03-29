@@ -391,7 +391,7 @@ Polygon PolygonField::intersect_polygon_field_final() {//intersect until there i
     while (this->num_pn > 1) {
         old_field = this->field;
         this->intersect_polygon_field();
-        this->print_field();
+//        this->print_field();
     }
     if (this->num_pn == 0) {
         return old_field[0];
