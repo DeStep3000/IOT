@@ -72,7 +72,43 @@ res.print_vertices();//выводим результат в консоль
 
 
 ## Тестирование
-> Какие инструменты тестирования использованы в проекте и как их запускать. 
+Для теcтирования библиотеки использовалась стороння библиотека googletest. Чтобы подключить ее, нужно соединить файлы в cmake, например:
+```c++
+add_executable(Google_Test_readfile_run tests/test_readfile.cpp src/readfile.cpp)
+target_link_libraries(Google_Test_readfile_run gtest gtest_main)
+```
+Примеры тестов можно увидеть в файлах test_polygon.cpp и test_readfile.cpp для тестирования файла polygon.cpp и readfile.cpp соответсвенно. В файле с тестами также надо подключить gtest через ```#include <gtest/gtest.h>```
+Пример одного из тестов:
+```c++
+TEST(intersect_polygon_field_final_test, single_pn_test2) {
+    std::string input = "03 1 1 2 3 3 2";
+    input = edit_file(input);
+    PolygonField pn_field;
+    pn_field.input_polygons(input);
+    Polygon res = pn_field.intersect_polygon_field_final();
+
+    std::vector<Point> pn_points{{1, 1}, {2, 3}, {3, 2}};
+    EXPECT_EQ(res.get_num_vertices(), 3);
+    EXPECT_EQ(res.get_vertices(), pn_points);
+
+    pn_points = {{1.0 + eps, 1}, {2, 3}, {3, 2}};
+    for (size_t i = 0; i < pn_points.size(); i++) {
+        EXPECT_TRUE(pn_points[i] == res.get_vertices()[i]);
+    }
+    EXPECT_EQ(res.get_vertices(), pn_points);
+
+    pn_points = {{2, 3}, {1, 1}, {3, 2}};
+    EXPECT_NE(res.get_vertices(), pn_points);
+}
+```
+После объвления всех тестов необходимо вызвать функцию main следующим образом:
+```c++
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}
+```
 
 ## Deploy и CI/CD
 > Расскажите, как развернуть приложение. Как запустить пайплайны и т.д.
