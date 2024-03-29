@@ -46,6 +46,10 @@ int sign(double a);
 
 double abs_d(double a);//func for absolute value
 
+int mult_vector(Point a, Point b, Point c);//checks the position of a point relative to A, using vector multiplication
+
+std::vector<Point> convert_intersections(std::vector<Point> points);//convert final intersections to convex hull (for keeping traversal order)
+
 
 class Polygon {//class for Polygons
 private:
@@ -105,10 +109,6 @@ public:
                         Point d);//check if AB and CD is intersected? using vector multiplication for checking
     std::vector<Point>
     intersection(Point a, Point b, Point c, Point d);//func to find point of intersection of AB and CD
-    int
-    mult_vector(Point a, Point b, Point c);//checks the position of a point relative to A, using vector multiplication
-    std::vector<Point> convert_intersections(
-            std::vector<Point> points);//convert final intersections to convex hull (for keeping traversal order)
     Polygon intersect_polygons(Polygon &p1, Polygon &p2);//intersection of 2 Polygons
     void intersect_polygon_field();//intersecting polygons
     Polygon intersect_polygon_field_final();//intersect until there is only one polygon left
