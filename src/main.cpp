@@ -1,4 +1,5 @@
 #include "polygon.h"
+#include "sfml.h"
 
 int main() {
     const std::string path = "C:\\DeStep\\HSE\\C++\\IOT\\src\\test2.txt";//Absolute file path
@@ -9,5 +10,6 @@ int main() {
     pn_field.print_field();
     Polygon res = pn_field.intersect_polygon_field_final();
     res.print_vertices();
+    draw_window(res.get_num_vertices());
     return 0;
 }

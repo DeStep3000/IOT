@@ -1,93 +1,86 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include <vector>
+#include "sfml.h"
+#include "polygon.h"
 
-class CoordinateSystem {
-private:
-    sf::RenderWindow window;
-    sf::View view;
-    sf::Font font;
-    float scale;
-    sf::Vector2f offset;
-public:
-    CoordinateSystem() : window(sf::VideoMode(800, 600), "SFML Coordinate System"), scale(20.0f), offset(0.0f, 0.0f) {
-        font.loadFromFile("arial.ttf");
-        view = window.getDefaultView();
+sf::Vector2f Picture::convertToPoint(const Point &p) {
+    return sf::Vector2f(static_cast<float>(p.x), static_cast<float>(p.y));
+}
+
+float Picture::scale(int width, int height, std::vector<sf::Vector2f> arbitraryPoints) {
+    // Находим масштабные коэффициенты для x и y
+    float maxX = 0.0f, maxY = 0.0f;
+    for (const auto &point: arbitraryPoints) {
+        maxX = std::max(maxX, point.x);
+        maxY = std::max(maxY, point.y);
     }
 
-    void drawAxes() {
-        sf::VertexArray x_axis(sf::Lines, 2);
-        x_axis[0].position = sf::Vector2f(-view.getSize().x / 2, 0);
-        x_axis[1].position = sf::Vector2f(view.getSize().x / 2, 0);
-        x_axis[0].color = sf::Color::Black;
-        x_axis[1].color = sf::Color::Black;
-        window.draw(x_axis);
+    // Выбираем минимальный масштабный коэффициент
+    float scaleFactor = std::min(width / maxX, height / maxY);
+    return scaleFactor;
+}
 
-        sf::VertexArray y_axis(sf::Lines, 2);
-        y_axis[0].position = sf::Vector2f(0, -view.getSize().y / 2);
-        y_axis[1].position = sf::Vector2f(0, view.getSize().y / 2);
-        y_axis[0].color = sf::Color::Black;
-        y_axis[1].color = sf::Color::Black;
-        window.draw(y_axis);
+sf::ConvexShape Picture::draw_polygon(int width, int height, std::vector<Point> vertices) {
+    std::vector<sf::Vector2f> arbitraryPoints;
 
-        drawAxisLabels();
+    for (const auto &point: vertices) {
+        arbitraryPoints.push_back(Picture::convertToPoint(point));
     }
 
-    void drawAxisLabels() {
-        sf::Text zero("0", font, 12);
-        zero.setPosition(-view.getSize().x / 2 + 5, view.getSize().y / 2 - 15);
-        window.draw(zero);
+    // Размеры окна
+    float windowWidth = static_cast<float>(width);
+    float windowHeight = static_cast<float>(height);
 
-        for (int i = -view.getSize().x / 2 + scale; i < view.getSize().x / 2; i += scale) {
-            sf::Text label(std::to_string(i / scale), font, 12);
-            label.setPosition(i + 5, view.getSize().y / 2 - 15);
-            window.draw(label);
-        }
+    // Выбираем минимальный масштабный коэффициент
+    float scaleFactor = Picture::scale(width, height, arbitraryPoints);
 
-        for (int i = -view.getSize().y / 2 + scale; i < view.getSize().y / 2; i += scale) {
-            if (i != 0) {
-                sf::Text label(std::to_string(-i / scale), font, 12);
-                label.setPosition(-view.getSize().x / 2 + 5, i - 15);
-                window.draw(label);
-            }
-        }
+    // Создаем форму многоугольника
+    sf::ConvexShape polygon;
+    polygon.setPointCount(arbitraryPoints.size());
+    for (size_t i = 0; i < arbitraryPoints.size(); ++i) {
+        float scaledX = arbitraryPoints[i].x * scaleFactor;
+        float scaledY = (windowHeight - arbitraryPoints[i].y) * scaleFactor;
+        polygon.setPoint(i, sf::Vector2f(scaledX, scaledY));
     }
+    polygon.setFillColor(sf::Color::Green); // Цвет многоугольника
+    return polygon;
+}
 
-    void handleEvents() {
+
+void Picture::draw_window(std::vector<Point> vertices, int x, int y) {
+    sf::RenderWindow window(sf::VideoMode(x, y), "Scaled Polygon");
+
+    int width = window.getSize().x;
+    int height = window.getSize().y;
+
+    sf::ConvexShape polygon = Picture::draw_polygon(width, height, vertices);
+    // Основной цикл программы
+    while (window.isOpen()) {
+        // Обработка событий
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-            else if (event.type == sf::Event::MouseWheelScrolled) {
-                if (event.mouseWheelScroll.delta > 0)
-                    scale *= 1.1f;
-                else if (event.mouseWheelScroll.delta < 0)
-                    scale *= 0.9f;
-            }
         }
+
+        // Отрисовка
+        window.clear();
+        window.draw(polygon);
+        window.display();
     }
+}
 
-    void update() {
-        view.setCenter(offset);
-        view.setSize(sf::Vector2f(window.getSize().x * scale, window.getSize().y * scale));
-        window.setView(view);
-    }
-
-    void run() {
-        while (window.isOpen()) {
-            window.clear(sf::Color::White);
-
-            handleEvents();
-            update();
-            drawAxes();
-
-            window.display();
-        }
-    }
-};
 
 int main() {
-    CoordinateSystem cs;
-    cs.run();
-
-    return 0;
-}
+    // Произвольные координаты точек
+    std::vector<Point> Points = {
+            {0,      0},
+            {100.5f, 200.7f},
+            {300.3f, 100.9f},
+            {500.1f, 400.8f},
+            {700.4f, 300.6f},
+            {800,    600}
+    };
+    Picture picture;
+    picture.draw_window(Points, 800, 600);
+};
