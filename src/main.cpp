@@ -1,8 +1,15 @@
 #include "polygon.h"
 #include "sfml.h"
+#include "file_manager.h"
 
 int main() {
-    const std::string path = "C:\\DeStep\\HSE\\C++\\IOT\\src\\test2.txt";//Absolute file path
+    const std::string path = FileManager::OpenFile();
+    if (!path.empty()) {
+        std::cout << "Selected file path: " << path << std::endl;
+    } else {
+        std::cout << "File selection canceled." << std::endl;
+    }
+//    const std::string path = "C:\\DeStep\\HSE\\C++\\IOT\\src\\test2.txt";//Absolute file path
     std::string input = read_file(path);
     input = edit_file(input);
     PolygonField pn_field;

@@ -42,37 +42,33 @@ endif ()
 
 install(TARGETS SFMLProject)
 
+# Связываем исполняемый файл SFMLProject с библиотеками SFML
+target_link_libraries(SFMLProject PRIVATE sfml-graphics)
+
+# Линкуем ОБЩИЙ проект
+add_executable(Math_part src/main.cpp
+        src/polygon.cpp
+        src/readfile.cpp
+        src/file_manager.cpp
+)
+
 # Линкуем мат часть
 add_executable(IOT src/main.cpp
         src/polygon.cpp
         src/readfile.cpp
         src/sfml.cpp
+        src/file_manager.cpp
 )
 
 target_link_libraries(IOT PRIVATE sfml-graphics)
 target_compile_features(IOT PRIVATE cxx_std_17)
 
-if (WIN32)
-    add_custom_command(
-            TARGET SFMLProject
-            COMMENT "Copy OpenAL DLL"
-            PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:IOT>
-            VERBATIM)
-endif ()
-
-install(TARGETS SFMLProject)
-
-
-# Связываем исполняемый файл с библиотеками wxWidgets
+# Связываем исполняемый файл IOT с библиотеками wxWidgets
 set(wxWidgets_ROOT_DIR "C:/wxwidgets") # absolute location wxwidgets
 set(wxWidgets_LIB_DIR "C:/wxwidgets/lib/gcc810_x64_dll")
 
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
 
-add_executable(FileManager
-        src/file_manager.cpp)
-
-target_link_libraries(FileManager ${wxWidgets_LIBRARIES})
-target_include_directories(FileManager PRIVATE ${wxWidgets_INCLUDE_DIRS})
-
+target_link_libraries(IOT PRIVATE ${wxWidgets_LIBRARIES})
+target_include_directories(IOT PRIVATE ${wxWidgets_INCLUDE_DIRS})
