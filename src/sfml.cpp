@@ -8,12 +8,19 @@ sf::Vector2f Picture::convertToPoint(const Point &p) {
     return sf::Vector2f(static_cast<float>(p.x), static_cast<float>(p.y));
 }
 
-float Picture::scale(std::vector<sf::Vector2f> arbitraryPoints) {
+float Picture::scale(std::vector<Polygon> start_vertices, std::vector<Point> final_vertices) {
     // Находим масштабные коэффициенты для x и y
     float maxX = 0.0f, maxY = 0.0f;
-    for (const auto &point: arbitraryPoints) {
-        maxX = std::max(maxX, point.x);
-        maxY = std::max(maxY, point.y);
+    for (Polygon pol: start_vertices){
+        std::vector<Point> points = pol.get_vertices();
+        for (const auto &point: points) {
+            maxX = point.x > maxX ? point.x : maxX;
+            maxY = point.y > maxX ? point.y : maxX;
+        }
+    }
+    for (const auto &point: final_vertices) {
+        maxX = point.x > maxX ? point.x : maxX;
+        maxY = point.y > maxX ? point.y : maxX;
     }
 
     // Выбираем минимальный масштабный коэффициент
@@ -32,15 +39,13 @@ sf::ConvexShape Picture::draw_polygon(std::vector<Point> vertices, sf::Color col
     float windowWidth = static_cast<float>(width);
     float windowHeight = static_cast<float>(height);
 
-    // Выбираем минимальный масштабный коэффициент
-    float scaleFactor = 100; // Picture::scale(arbitraryPoints);
 
     // Создаем форму многоугольника
     sf::ConvexShape polygon;
     polygon.setPointCount(arbitraryPoints.size());
     for (size_t i = 0; i < arbitraryPoints.size(); ++i) {
-        float scaledX = arbitraryPoints[i].x * scaleFactor;
-        float scaledY = windowHeight - arbitraryPoints[i].y * scaleFactor;
+        float scaledX = arbitraryPoints[i].x * all_scale;
+        float scaledY = windowHeight - arbitraryPoints[i].y * all_scale;
         polygon.setPoint(i, sf::Vector2f(scaledX, scaledY));
     }
     polygon.setFillColor(color); // Цвет многоугольника
@@ -74,6 +79,8 @@ void Picture::draw_window(std::vector<Polygon> start_vertices, std::vector<Point
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     int step = 50;
+
+    this->all_scale = Picture::scale(start_vertices, final_vertices);
 
     std::vector<sf::ConvexShape> start_poligons;
     for (Polygon pol: start_vertices) {
