@@ -71,6 +71,49 @@ double abs_d(double a) {//func for absolute value
     return a < 0 ? -1 * a : a;
 }
 
+int mult_vector(Point a, Point b,
+                              Point c) {//checks the position of a point relative to A, using vector multiplication
+    if (((b - a) ^ (c - a)) < -eps) {//more to left
+        return -1;
+    } else if (((b - a) ^ (c - a)) > -eps && ((b - a) ^ (c - a)) < eps &&
+               (c - a) * (c - a) > (b - a) * (b - a)) {//on one line
+        return 0;
+    } else {//more to right
+        return 1;
+    }
+}
+
+std::vector<Point> convert_intersections(
+        std::vector<Point> points) {//convert final intersections to convex hull (for keeping traversal order)
+    Point p0 = points[0];
+    Point t = p0;
+    for (Point p: points) {//find starting point and next point
+        if (p < p0) {
+            p0 = p;
+        }
+        if (p > t) {
+            t = p;
+        }
+    }
+    std::vector<Point> hull;
+    hull.push_back(p0);
+    while (true) {
+        for (Point p: points) {
+            if (mult_vector(p0, t, p) <= 0) {
+                t = p;
+            }
+        }
+        if (t == hull[0])
+            break;
+        else {
+            p0 = t;
+            hull.push_back(t);
+        }
+        t = p0;
+    }
+    return hull;
+}
+
 //-----------------------------------Polygon functions---------------------------------
 void Polygon::print_vertices() {//print in console all vertices
     for (Point p: this->vertices) {
@@ -143,6 +186,8 @@ void Polygon::input_from_array(std::vector<double> coordinates) {//add vertices 
         this->input_vertex(a);
         i += 2;
     }
+    this->vertices = convert_intersections(this->vertices);
+    this->num_vertices = this->vertices.size();
 }
 
 void Polygon::input_from_file(const std::string &input,
@@ -247,49 +292,6 @@ std::vector<Point> PolygonField::intersection(Point a, Point b, Point c,
         return result;
     }
     return result;
-}
-
-int PolygonField::mult_vector(Point a, Point b,
-                              Point c) {//checks the position of a point relative to A, using vector multiplication
-    if (((b - a) ^ (c - a)) < -eps) {//more to left
-        return -1;
-    } else if (((b - a) ^ (c - a)) > -eps && ((b - a) ^ (c - a)) < eps &&
-               (c - a) * (c - a) > (b - a) * (b - a)) {//on one line
-        return 0;
-    } else {//more to right
-        return 1;
-    }
-}
-
-std::vector<Point> PolygonField::convert_intersections(
-        std::vector<Point> points) {//convert final intersections to convex hull (for keeping traversal order)
-    Point p0 = points[0];
-    Point t = p0;
-    for (Point p: points) {//find starting point and next point
-        if (p < p0) {
-            p0 = p;
-        }
-        if (p > t) {
-            t = p;
-        }
-    }
-    std::vector<Point> hull;
-    hull.push_back(p0);
-    while (true) {
-        for (Point p: points) {
-            if (mult_vector(p0, t, p) <= 0) {
-                t = p;
-            }
-        }
-        if (t == hull[0])
-            break;
-        else {
-            p0 = t;
-            hull.push_back(t);
-        }
-        t = p0;
-    }
-    return hull;
 }
 
 Polygon PolygonField::intersect_polygons(Polygon &p1, Polygon &p2) { //intersection of 2 Polygons
