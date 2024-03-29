@@ -140,6 +140,7 @@ int main(int argc, char **argv) {
 - [Андрей Подвигин](https://github.com/dragonpuffle) - Testing + File decoding (работа с GoogleTest) 
 - [Денис Степанов](https://github.com/DeStep3000) - Code Organization + Graphics (CMake, Github)
 - [Алина Гайсина](https://github.com/VVroli) - Testing + Public Relations + Graphics
+
   Для обратной связи вы можете написать нашему менеджеру - [](https://t.me/VVroli)
 
 ## Источники
