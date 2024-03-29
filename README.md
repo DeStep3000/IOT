@@ -72,7 +72,7 @@ res.print_vertices();//выводим результат в консоль
 
 
 ## Тестирование
-Для теcтирования библиотеки использовалась стороння библиотека googletest. Чтобы подключить ее, нужно соединить файлы в cmake, например:
+Для теcтирования библиотеки использовалась сторонняя библиотека googletest. Чтобы подключить ее, нужно соединить файлы в cmake, например:
 ```c++
 add_executable(Google_Test_readfile_run tests/test_readfile.cpp src/readfile.cpp)
 target_link_libraries(Google_Test_readfile_run gtest gtest_main)
@@ -137,9 +137,10 @@ int main(int argc, char **argv) {
 ## Команда проекта
 
 - [Даниил Холяк](https://github.com/limoncatGod) - Backend (основная структура математического кода) + Team leader 
-- Андрей Подвигин - Testing + File decoding (работа с GoogleTest) 
-- Денис Степанов - Code Organization + Graphics (CMake, Github)
-- Алина Гайсина - Testing + Public Relations + Graphics
+- [Андрей Подвигин](https://github.com/dragonpuffle) - Testing + File decoding (работа с GoogleTest) 
+- [Денис Степанов](https://github.com/DeStep3000) - Code Organization + Graphics (CMake, Github)
+- [Алина Гайсина](https://github.com/VVroli) - Testing + Public Relations + Graphics
+  Для обратной связи вы можете написать нашему менеджеру - [](https://t.me/VVroli)
 
 ## Источники
 - Райан Гослинг
