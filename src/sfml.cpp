@@ -32,19 +32,17 @@ sf::ConvexShape Picture::draw_polygon(std::vector<Point> vertices, sf::Color col
     float windowHeight = static_cast<float>(height);
 
     // Выбираем минимальный масштабный коэффициент
-    float scaleFactor = 1;//Picture::scale(width, height, arbitraryPoints);
+    float scaleFactor = 100; // Picture::scale(arbitraryPoints);
 
     // Создаем форму многоугольника
     sf::ConvexShape polygon;
     polygon.setPointCount(arbitraryPoints.size());
     for (size_t i = 0; i < arbitraryPoints.size(); ++i) {
         float scaledX = arbitraryPoints[i].x * scaleFactor;
-        float scaledY = (windowHeight - arbitraryPoints[i].y) * scaleFactor;
+        float scaledY = windowHeight - arbitraryPoints[i].y * scaleFactor;
         polygon.setPoint(i, sf::Vector2f(scaledX, scaledY));
     }
     polygon.setFillColor(color); // Цвет многоугольника
-    polygon.setOutlineThickness(1);
-    polygon.setOutlineColor(sf::Color::Black);
     return polygon;
 }
 
@@ -70,11 +68,13 @@ void Picture::draw_window(std::vector<Polygon> start_vertices, std::vector<Point
     int step = 50;
 
     std::vector<sf::ConvexShape> start_poligons;
-    for (Polygon pol: start_vertices){
+    for (Polygon pol: start_vertices) {
         start_poligons.push_back(draw_polygon(pol.get_vertices(), sf::Color(172, 225, 175)));
     }
 
     sf::ConvexShape final_polygon = Picture::draw_polygon(final_vertices, sf::Color(255, 165, 0));
+    final_polygon.setOutlineThickness(1);
+    final_polygon.setOutlineColor(sf::Color::Black);
     sf::VertexArray gridlines = Picture::draw_gridlines(step);
     // Основной цикл программы
     while (window.isOpen()) {
@@ -88,7 +88,7 @@ void Picture::draw_window(std::vector<Polygon> start_vertices, std::vector<Point
         // Отрисовка
         window.clear(sf::Color::White);
         window.draw(gridlines);
-        for(sf::ConvexShape polygon: start_poligons){
+        for (sf::ConvexShape polygon: start_poligons) {
             window.draw(polygon);
         }
         window.draw(final_polygon);
