@@ -141,7 +141,6 @@ int main(int argc, char **argv) {
 - [Денис Степанов](https://github.com/DeStep3000) - Code Organization + Graphics (CMake, Github)
 - [Алина Гайсина](https://github.com/VVroli) - Testing + Public Relations + Graphics
 
-  Для обратной связи вы можете написать нашему менеджеру - [](https://t.me/VVroli)
-  <a href="tg://msg?text=<?php echo urlencode( '<[TEXT](https://t.me/VVroli)>' ); ?>">Telegram</a>
+  Для обратной связи вы можете написать нашему менеджеру - 
 ## Источники
 - Райан Гослинг
