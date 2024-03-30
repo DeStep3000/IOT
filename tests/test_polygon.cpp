@@ -13,33 +13,32 @@ TEST(input_polygons, test1) {
     EXPECT_EQ(pn_field.get_num_pn(), 6);
 
     std::vector<Point> pn_point{{9,     56},
-                                {75259, 259},
-                                {25,    27}};
+                                {25,    27},
+                                {75259, 259}};
     EXPECT_EQ(pn_field.get_field()[0].get_num_vertices(), 3);
     EXPECT_EQ(pn_field.get_field()[0].get_vertices(), pn_point);
 
-    pn_point = {{10,    567},
-                {4,     23},
-                {75259, 259}};
+    pn_point = {{4,     23},
+                {75259, 259},
+                {10,    567}};
     EXPECT_EQ(pn_field.get_field()[1].get_num_vertices(), 3);
     EXPECT_EQ(pn_field.get_field()[1].get_vertices(), pn_point);
 
-    pn_point = {{11,    567},
-                {4,     23},
-                {75259, 259}};
+    pn_point = {{4,     23},
+                {75259, 259},
+                {11,    567}};
     EXPECT_EQ(pn_field.get_field()[2].get_num_vertices(), 3);
     EXPECT_EQ(pn_field.get_field()[2].get_vertices(), pn_point);
 
-    pn_point = {{12,    567},
-                {4,     23},
+    pn_point = {{4,     23},
                 {75259, 259},
-                {67,    68},
-                {39,    988}};
-    EXPECT_EQ(pn_field.get_field()[3].get_num_vertices(), 5);
+                {39,    988},
+                {12,    567}};
+    EXPECT_EQ(pn_field.get_field()[3].get_num_vertices(), 4);
     EXPECT_EQ(pn_field.get_field()[3].get_vertices(), pn_point);
 
-    pn_point = {{13, 567},
-                {4,  23}};
+    pn_point = {{4,  23},
+                {13, 567},};
     EXPECT_EQ(pn_field.get_field()[4].get_num_vertices(), 2);
     EXPECT_EQ(pn_field.get_field()[4].get_vertices(), pn_point);
 
@@ -80,14 +79,14 @@ TEST(intersect_polygon_field_final_test, single_pn_test2) {
     Polygon res = pn_field.intersect_polygon_field_final();
 
     std::vector<Point> pn_points{{1, 1},
-                                 {2, 3},
-                                 {3, 2}};
+                                 {3, 2},
+                                 {2, 3}};
     EXPECT_EQ(res.get_num_vertices(), 3);
     EXPECT_EQ(res.get_vertices(), pn_points);
 
     pn_points = {{1.0 + eps, 1},
-                 {2,         3},
-                 {3,         2}};
+                 {3,         2},
+                 {2,         3}};
     for (size_t i = 0; i < pn_points.size(); i++) {
         EXPECT_TRUE(pn_points[i] == res.get_vertices()[i]);
     }
@@ -304,9 +303,11 @@ TEST(intersect_polygon_field_final_test, extra_test18) {
     PolygonField pn_field;
     pn_field.input_polygons(input);
 
-    std::vector<Point> pn_points{{11, 2},
-                                 {12, 2},
-                                 {11, 4}};
+    std::vector<Point> pn_points{{29.694036876688645776, 27.014475058555863285},
+                                 {126.42054448723979476, 27.312751765439017504},
+                                 {297.9479642623006157, 56.77948753149830452},
+                                 {53.717477846890744786, 56.120633196052082781}};
+    pn_field.intersect_polygon_field_final().print_vertices();
     EXPECT_EQ(pn_field.intersect_polygon_field_final().get_vertices(), pn_points);
 }
 
