@@ -29,7 +29,7 @@ float Picture::scale(std::vector<Polygon> start_vertices, std::vector<Point> fin
     return scaleFactor;
 }
 
-sf::ConvexShape Picture::draw_polygon(std::vector<Point> vertices, sf::Color color) {
+sf::ConvexShape Picture::draw_polygon(std::vector<Point> vertices, sf::Color color, sf::Color tick) {
     std::vector<sf::Vector2f> arbitraryPoints;
 
     for (const auto &point: vertices) {
@@ -49,7 +49,9 @@ sf::ConvexShape Picture::draw_polygon(std::vector<Point> vertices, sf::Color col
         float scaledY = windowHeight - arbitraryPoints[i].y * all_scale - ScaleMove;
         polygon.setPoint(i, sf::Vector2f(scaledX, scaledY));
     }
-    polygon.setFillColor(color); // Цвет многоугольника
+    polygon.setFillColor(color);
+    polygon.setOutlineThickness(2);
+    polygon.setOutlineColor(tick);// Цвет многоугольника
     return polygon;
 }
 
@@ -85,12 +87,12 @@ void Picture::draw_window(std::vector<Polygon> start_vertices, std::vector<Point
 
     std::vector<sf::ConvexShape> start_poligons;
     for (Polygon pol: start_vertices) {
-        start_poligons.push_back(draw_polygon(pol.get_vertices(), sf::Color(172, 225, 175)));
+        start_poligons.push_back(draw_polygon(pol.get_vertices(), sf::Color(172, 225, 175), sf::Color::Blue));
     }
 
-    sf::ConvexShape final_polygon = Picture::draw_polygon(final_vertices, sf::Color(255, 165, 0));
-    final_polygon.setOutlineThickness(2);
-    final_polygon.setOutlineColor(sf::Color::Black);
+    sf::ConvexShape final_polygon = Picture::draw_polygon(final_vertices, sf::Color(255, 165, 0), sf::Color::Black);
+//    final_polygon.setOutlineThickness(2);
+//    final_polygon.setOutlineColor(sf::Color::Black);
     sf::VertexArray gridlines = Picture::draw_gridlines(step);
     // Основной цикл программы
     while (window.isOpen()) {
