@@ -8,6 +8,8 @@
 - - [Класс Polygon](#класс-polygon)
 - - [Класс PolygonField](#класс-polygonfield)
 - [Работа с файлами](#работа-с-файлами)
+- [Графическая часть](#графическая_часть)
+- - [Picture](#picture)
 
 # Математическая часть
 Эта часть описывает работу с  Polygon.cpp, Polygon.h.
@@ -200,3 +202,16 @@ std::vector<double> fill_coords_from_input(const std::string &input, std::size_t
 ```c++
 std::vector<double> get_coords(const std::string &path, std::size_t index = 0);//второй параметр- индекс ключа
 ```
+# Графическая часть
+Эта часть описывает работу с  sfml.cpp, sfml.h.
+
+# Библиотеки
+В графической части были использованы ```SFML``` для отрисовки окон и многоугольников на нём и ```wxWidgets``` для использования файлового менеджера.
+
+# Picture
+Picture - это класс, который имеет реализацию для отрисовки экрана, сетки, многоугольников и иконки приложения.
+
+# Функции
+- ```void draw_window(std::vector<Polygon> start_vertices, std::vector <Point> final_vertices)``` - отрисовка окна и всех фигур. Принмает вектор многоугольников и вектор точек получившегося прямоугольника
+- ```sf::ConvexShape draw_polygon(std::vector<Point> arbitraryPoints, sf::Color color_pol, sf::Color tick);``` - отрисовка многоугольгика. На вход подается вектор точек, цвет многоугольника и цвет оконтовки
+- ```float scale(std::vector<Polygon> start_vertices, std::vector<Point> final_vertices);``` - вычисление масштаба для многоугольников
