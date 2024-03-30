@@ -16,7 +16,7 @@
 
 **Цель:** Найти область пересечения многоугольников.
 
-![result](C:\DeStep\HSE\C++\IOT\results2.png)
+![result](https://github.com/DeStep3000/IOT/blob/master/results2.png)
 
 ## Содержание
 - [Технологии](#технологии)
