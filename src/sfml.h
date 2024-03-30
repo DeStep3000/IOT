@@ -4,12 +4,13 @@
 #include <vector>
 #include "polygon.h"
 
+const double ScaleMove = 50;
 
 class Picture{
 private:
     std::vector<Point> vertices;
     int width, height;
-    float all_scale;
+    double all_scale;
 public:
     Picture(int nwidth, int nheight){
         width = nwidth;

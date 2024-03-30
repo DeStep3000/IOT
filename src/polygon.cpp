@@ -186,8 +186,10 @@ void Polygon::input_from_array(std::vector<double> coordinates) {//add vertices 
         this->input_vertex(a);
         i += 2;
     }
-    this->vertices = convert_intersections(this->vertices);
-    this->num_vertices = this->vertices.size();
+    if(!this->is_empty()){
+        this->vertices = convert_intersections(this->vertices);
+        this->num_vertices = this->vertices.size();
+    }
 }
 
 void Polygon::input_from_file(const std::string &input,
@@ -393,7 +395,7 @@ Polygon PolygonField::intersect_polygon_field_final() {//intersect until there i
     while (this->num_pn > 1) {
         old_field = this->field;
         this->intersect_polygon_field();
-        this->print_field();
+//        this->print_field();
     }
     if (this->num_pn == 0) {
         return old_field[0];
